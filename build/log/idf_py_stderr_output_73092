@@ -1,0 +1,6 @@
+Compiler supported targets: xtensa-esp32-elf
+
+CMake Error at D:/esp/v5.1.3/esp-idf/CMakeLists.txt:234 (message):
+  Failed to determine sizeof(time_t)
+
+
