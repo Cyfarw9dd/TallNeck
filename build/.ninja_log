@@ -1021,3 +1021,5 @@
 10373	10927	7367733327770254	D:/CodeField_C/tcp_server/build/.bin_timestamp	609a18b20ffd2e26
 10927	11057	0	esp-idf/esptool_py/CMakeFiles/app_check_size	792e519272473c82
 10927	11057	0	D:/CodeField_C/tcp_server/build/esp-idf/esptool_py/CMakeFiles/app_check_size	792e519272473c82
+0	17194659	0	CMakeFiles/confserver	6623fb02e76bbcc
+0	17194659	0	D:/CodeField_C/tcp_server/build/CMakeFiles/confserver	6623fb02e76bbcc
