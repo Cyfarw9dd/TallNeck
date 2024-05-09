@@ -7,6 +7,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <string.h>
+#include <stdlib.h>
 #include <sys/param.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -29,6 +30,8 @@
 #define KEEPALIVE_INTERVAL CONFIG_EXAMPLE_KEEPALIVE_INTERVAL
 #define KEEPALIVE_COUNT CONFIG_EXAMPLE_KEEPALIVE_COUNT
 
+#define MY_DEBUG_TEST 1
+
 static const char *TAG = "example";
 
 typedef struct
@@ -39,14 +42,16 @@ typedef struct
 
 Antena_rot rot_data;
 
-static void do_retransmit(const int sock)
+static void do_retransmit(const int sock, QueueHandle_t pvParameters)
 {
+    QueueHandle_t Qhandle = pvParameters;   // create queue handler
+    BaseType_t TXStatus;                    // create queue status variable
     int len;
     char rx_buffer[128];
 
     do
     {
-        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // get the length of the buffer
         if (len < 0)
         {
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);
@@ -55,11 +60,15 @@ static void do_retransmit(const int sock)
         {
             ESP_LOGW(TAG, "Connection closed");
         }
+        // receive data successfully
         else
         {
             rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
-            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);
-
+            // use ESP_LOGI() to print out a not very important message
+            // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
+#if MY_DEBUG_TEST
+            TXStatus = xQueueSend(Qhandle, rx_buffer, 0);      // send a message to a queue
+#endif
             // send() can return less bytes than supplied length.
             // Walk-around for robust implementation.
             int to_write = len;
@@ -80,6 +89,8 @@ static void do_retransmit(const int sock)
 
 static void tcp_server_task(void *pvParameters)
 {
+    QueueHandle_t Qhandle;
+    Qhandle = (QueueHandle_t)pvParameters;
     char addr_str[128];
     int addr_family = (int)AF_INET;
     int ip_protocol = 0;
@@ -177,7 +188,7 @@ static void tcp_server_task(void *pvParameters)
 #endif
         ESP_LOGI(TAG, "Socket accepted ip address: %s", addr_str);
 
-        do_retransmit(sock);
+        do_retransmit(sock, Qhandle);
 
         shutdown(sock, 0);
         close(sock);
@@ -190,10 +201,37 @@ CLEAN_UP:
 
 static void rotator_controller(void *pvParameters)
 {
+    // try to receive data from the queue, then print it out.
+    QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
+    BaseType_t RXStatus;
+    char rx_buffer[128] = {0};
+    char len = 0;
     while (1)
     {
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        RXStatus = xQueueReceive(Qhandle, rx_buffer, 0);
+        if (RXStatus == pdPASS)
+        {
+            // get the length of the buffer
+            while (1)
+            {
+                int i = 0;
+                if (rx_buffer[i] == 0)
+                {
+                    len = i;
+                    break;
+                }   
+                i++;
+            }
+            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+        }
+        // not receive the data, use delay to block the task, in order not to trigger the wdt
+        else
+        {
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+        }
     }
+
 }
 
 void app_main(void)
@@ -204,7 +242,7 @@ void app_main(void)
 
     ESP_ERROR_CHECK(example_connect());
 
-    // need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling
+    // need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
 
     QueueHandle_t RotQueueHandler;                          // create rotator queue handler
     RotQueueHandler = xQueueCreate(5, sizeof(Antena_rot));  // create message queue
