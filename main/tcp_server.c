@@ -44,10 +44,10 @@ Antena_rot rot_data;
 
 static void do_retransmit(const int sock, QueueHandle_t pvParameters)
 {
-    QueueHandle_t Qhandle = pvParameters;   // create queue handler
-    BaseType_t TXStatus;                    // create queue status variable
+    QueueHandle_t Qhandle = pvParameters;   // Create queue handler
+    BaseType_t TXStatus;                    // Create queue status variable
     int len;
-    char rx_buffer[128];
+    char rx_buffer[128];                    // Create the tx buffer(rx buffer)
 
     do
     {
@@ -249,6 +249,7 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
+    // Connect default AP 
     ESP_ERROR_CHECK(example_connect());
 
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
@@ -258,6 +259,7 @@ void app_main(void)
     
     if (RotQueueHandler != NULL)
     {
+        // Create task "rotator_controller", if the stack size too small, it make cause overflow.
         xTaskCreate(rotator_controller, "rotator_controller", 4096, (void *)RotQueueHandler, 3, NULL);
         
 #ifdef CONFIG_EXAMPLE_IPV4
