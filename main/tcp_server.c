@@ -38,12 +38,13 @@ typedef struct
 {
     float az; // Azimuth
     float el; // Elevation
-} Antena_rot;
+} Antenna_rot;
 
-Antena_rot rot_data;
+char test_buffer[128];
 
 static void do_retransmit(const int sock, QueueHandle_t pvParameters)
 {
+    Antenna_rot *sat_data;
     QueueHandle_t Qhandle = pvParameters;   // Create queue handler
     BaseType_t TXStatus;                    // Create queue status variable
     int len;
@@ -65,7 +66,7 @@ static void do_retransmit(const int sock, QueueHandle_t pvParameters)
         {
             rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
             // Use ESP_LOGI() to print out a not very important message
-            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
+            // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
 #if MY_DEBUG_TEST
             TXStatus = xQueueSend(Qhandle, rx_buffer, 0);      // Send a message to a queue
             if (TXStatus == pdPASS)
@@ -212,25 +213,14 @@ static void rotator_controller(void *pvParameters)
     // Try to receive data from the queue, then print it out.
     QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
     BaseType_t RXStatus;
-    char rx_buffer[128] = {0};
+    char rx_buffer[128];
     char len = 0;
     while (1)
     {
-        RXStatus = xQueueReceive(Qhandle, rx_buffer, 0);
+        RXStatus = xQueueReceive(Qhandle, rx_buffer, portMAX_DELAY);
         if (RXStatus == pdPASS)
         {
-            // Get the length of the buffer
-            while (1)
-            {
-                int i = 0;
-                if (rx_buffer[i] == 0)
-                {
-                    len = i;
-                    break;
-                }   
-                i++;
-            }
-            ESP_LOGI(TAG, "Queue received %d bytes: %s", len, rx_buffer);
+            ESP_LOGI(TAG, "recv done, %s\n", rx_buffer);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
         // Not receive the data, use delay to block the task, in order not to trigger the wdt
@@ -255,7 +245,7 @@ void app_main(void)
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
 
     QueueHandle_t RotQueueHandler;                          // create rotator queue handler
-    RotQueueHandler = xQueueCreate(5, sizeof(Antena_rot));  // create message queue
+    RotQueueHandler = xQueueCreate(5, sizeof(test_buffer));  // create message queue
     
     if (RotQueueHandler != NULL)
     {
