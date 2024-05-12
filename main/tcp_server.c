@@ -60,14 +60,22 @@ static void do_retransmit(const int sock, QueueHandle_t pvParameters)
         {
             ESP_LOGW(TAG, "Connection closed");
         }
-        // receive data successfully
+        // Receive data successfully
         else
         {
             rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
-            // use ESP_LOGI() to print out a not very important message
-            // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
+            // Use ESP_LOGI() to print out a not very important message
+            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
 #if MY_DEBUG_TEST
-            TXStatus = xQueueSend(Qhandle, rx_buffer, 0);      // send a message to a queue
+            TXStatus = xQueueSend(Qhandle, rx_buffer, 0);      // Send a message to a queue
+            if (TXStatus == pdPASS)
+            {
+                ESP_LOGI(TAG, "send done");
+            }
+            else
+            {
+                ESP_LOGI(TAG, "send failed");
+            }
 #endif
             // send() can return less bytes than supplied length.
             // Walk-around for robust implementation.
@@ -201,7 +209,7 @@ CLEAN_UP:
 
 static void rotator_controller(void *pvParameters)
 {
-    // try to receive data from the queue, then print it out.
+    // Try to receive data from the queue, then print it out.
     QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
     BaseType_t RXStatus;
     char rx_buffer[128] = {0};
@@ -211,7 +219,7 @@ static void rotator_controller(void *pvParameters)
         RXStatus = xQueueReceive(Qhandle, rx_buffer, 0);
         if (RXStatus == pdPASS)
         {
-            // get the length of the buffer
+            // Get the length of the buffer
             while (1)
             {
                 int i = 0;
@@ -222,12 +230,13 @@ static void rotator_controller(void *pvParameters)
                 }   
                 i++;
             }
-            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);
+            ESP_LOGI(TAG, "Queue received %d bytes: %s", len, rx_buffer);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
-        // not receive the data, use delay to block the task, in order not to trigger the wdt
+        // Not receive the data, use delay to block the task, in order not to trigger the wdt
         else
         {
+            ESP_LOGI(TAG, "didnt receive");
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
     }
@@ -242,14 +251,14 @@ void app_main(void)
 
     ESP_ERROR_CHECK(example_connect());
 
-    // need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
+    // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
 
     QueueHandle_t RotQueueHandler;                          // create rotator queue handler
     RotQueueHandler = xQueueCreate(5, sizeof(Antena_rot));  // create message queue
     
     if (RotQueueHandler != NULL)
     {
-        xTaskCreate(rotator_controller, "rotator_controller", 1024, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(rotator_controller, "rotator_controller", 4096, (void *)RotQueueHandler, 3, NULL);
         
 #ifdef CONFIG_EXAMPLE_IPV4
     xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
