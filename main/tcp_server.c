@@ -7,6 +7,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/param.h>
 #include "freertos/FreeRTOS.h"
@@ -38,17 +39,19 @@ typedef struct
 {
     float az; // Azimuth
     float el; // Elevation
-} Antenna_rot;
+}AntennaRot;
+
+AntennaRot sat_req;
 
 char test_buffer[128];
 
 static void do_retransmit(const int sock, QueueHandle_t pvParameters)
 {
-    Antenna_rot *sat_data;
-    QueueHandle_t Qhandle = pvParameters;   // Create queue handler
-    BaseType_t TXStatus;                    // Create queue status variable
+    AntennaRot *pr = (AntennaRot *) malloc(sizeof(AntennaRot));
+    QueueHandle_t Qhandle = pvParameters;   // queue handler
+    BaseType_t TXStatus;                    // queue status variable
     int len;
-    char rx_buffer[128];                    // Create the tx buffer(rx buffer)
+    char rx_buffer[128];                    // the tx buffer(rx buffer)
 
     do
     {
@@ -68,10 +71,11 @@ static void do_retransmit(const int sock, QueueHandle_t pvParameters)
             // Use ESP_LOGI() to print out a not very important message
             // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
 #if MY_DEBUG_TEST
-            TXStatus = xQueueSend(Qhandle, rx_buffer, 0);      // Send a message to a queue
+            sscanf(rx_buffer, "/P %f %f", &(pr->az), &(pr->el));           // transform data in to type float
+            TXStatus = xQueueSend(Qhandle, pr, 0);      // Send a message to a queue
             if (TXStatus == pdPASS)
             {
-                ESP_LOGI(TAG, "send done");
+                ESP_LOGI(TAG, "send done");    
             }
             else
             {
@@ -210,18 +214,19 @@ CLEAN_UP:
 
 static void rotator_controller(void *pvParameters)
 {
+    AntennaRot *pr;
     // Try to receive data from the queue, then print it out.
     QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
     BaseType_t RXStatus;
-    char rx_buffer[128];
     char len = 0;
     while (1)
     {
-        RXStatus = xQueueReceive(Qhandle, rx_buffer, portMAX_DELAY);
+        RXStatus = xQueueReceive(Qhandle, &pr, portMAX_DELAY);
         if (RXStatus == pdPASS)
         {
-            ESP_LOGI(TAG, "recv done, %s\n", rx_buffer);
+            ESP_LOGI(TAG, "recv done, az: %f el: %f", pr->az, pr->el);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
+            free(pr);
         }
         // Not receive the data, use delay to block the task, in order not to trigger the wdt
         else
@@ -245,7 +250,7 @@ void app_main(void)
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
 
     QueueHandle_t RotQueueHandler;                          // create rotator queue handler
-    RotQueueHandler = xQueueCreate(5, sizeof(test_buffer));  // create message queue
+    RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // create message queue
     
     if (RotQueueHandler != NULL)
     {

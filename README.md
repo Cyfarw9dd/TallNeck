@@ -6,3 +6,5 @@ use two esp32 chips to establish communication, one playe the role of the tcp se
 
 base on the lwip protocol.
 
+my yagi antenna
+![Local Image](./image/yagi%20antenna.jpg)
