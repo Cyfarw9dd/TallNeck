@@ -47,7 +47,8 @@ char test_buffer[128];
 
 static void do_retransmit(const int sock, QueueHandle_t pvParameters)
 {
-    AntennaRot *pr = (AntennaRot *) malloc(sizeof(AntennaRot));
+    AntennaRot *pr;
+    pr = (AntennaRot *) malloc(sizeof(AntennaRot));     // Alloc a new memory for the pr
     QueueHandle_t Qhandle = pvParameters;   // queue handler
     BaseType_t TXStatus;                    // queue status variable
     int len;
@@ -72,7 +73,7 @@ static void do_retransmit(const int sock, QueueHandle_t pvParameters)
             // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
 #if MY_DEBUG_TEST
             sscanf(rx_buffer, "/P %f %f", &(pr->az), &(pr->el));           // transform data in to type float
-            TXStatus = xQueueSend(Qhandle, pr, 0);      // Send a message to a queue
+            TXStatus = xQueueSend(Qhandle, &pr, 0);      // Send a message to a queue
             if (TXStatus == pdPASS)
             {
                 ESP_LOGI(TAG, "send done");    
@@ -221,12 +222,12 @@ static void rotator_controller(void *pvParameters)
     char len = 0;
     while (1)
     {
-        RXStatus = xQueueReceive(Qhandle, &pr, portMAX_DELAY);
+        RXStatus = xQueueReceive(Qhandle, &pr, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
         if (RXStatus == pdPASS)
         {
             ESP_LOGI(TAG, "recv done, az: %f el: %f", pr->az, pr->el);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
             free(pr);
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
         // Not receive the data, use delay to block the task, in order not to trigger the wdt
         else
@@ -249,8 +250,8 @@ void app_main(void)
 
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
 
-    QueueHandle_t RotQueueHandler;                          // create rotator queue handler
-    RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // create message queue
+    QueueHandle_t RotQueueHandler;                          // Create rotator queue handler
+    RotQueueHandler = xQueueCreate(256, sizeof(AntennaRot *));  // Create message queue
     
     if (RotQueueHandler != NULL)
     {
@@ -258,10 +259,10 @@ void app_main(void)
         xTaskCreate(rotator_controller, "rotator_controller", 4096, (void *)RotQueueHandler, 3, NULL);
         
 #ifdef CONFIG_EXAMPLE_IPV4
-    xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
 #endif
 #ifdef CONFIG_EXAMPLE_IPV6
-    xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)AF_INET6, 5, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)AF_INET6, 5, NULL);
 #endif
     }
 }

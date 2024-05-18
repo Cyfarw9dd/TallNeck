@@ -1,7 +1,7 @@
 {
     "version":            "1",
     "project_name":       "tcp_server",
-    "project_version":    "cf5cd5c-dirty",
+    "project_version":    "7387022-dirty",
     "project_path":       "D:/CodeField_C/tcp_server",
     "idf_path":           "D:/esp/v5.1.3/esp-idf",
     "build_dir":          "D:/CodeField_C/tcp_server/build",
