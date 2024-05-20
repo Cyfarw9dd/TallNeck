@@ -219,7 +219,6 @@ static void rotator_controller(void *pvParameters)
     // Try to receive data from the queue, then print it out.
     QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
     BaseType_t RXStatus;
-    char len = 0;
     while (1)
     {
         RXStatus = xQueueReceive(Qhandle, &pr, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
