@@ -45,66 +45,91 @@ AntennaRot sat_req;
 
 char test_buffer[128];
 
-static void do_retransmit(const int sock, QueueHandle_t pvParameters)
+QueueHandle_t RotQueueHandler;                          // Create rotator queue handler
+
+static void do_retransmit(const int sock)
 {
-    AntennaRot *pr;
-    pr = (AntennaRot *) malloc(sizeof(AntennaRot));     // Alloc a new memory for the pr
-    QueueHandle_t Qhandle = pvParameters;   // queue handler
+    AntennaRot *rot_ptr;
     BaseType_t TXStatus;                    // queue status variable
     int len;
     char rx_buffer[128];                    // the tx buffer(rx buffer)
 
-    do
+    float prev_az = 0, prev_el = 0;
+    float curr_az = 0, curr_el = 0;
+
+    float delta_az, delta_el;
+
+    if (uxQueueMessagesWaiting(RotQueueHandler) == 0)
     {
-        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // get the length of the buffer
-        if (len < 0)
+
+        rot_ptr = (AntennaRot *) malloc(sizeof(AntennaRot));     // Alloc a new memory for the pr
+
+        do
         {
-            ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);
-        }
-        else if (len == 0)
-        {
-            ESP_LOGW(TAG, "Connection closed");
-        }
-        // Receive data successfully
-        else
-        {
-            rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
-            // Use ESP_LOGI() to print out a not very important message
-            // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
-#if MY_DEBUG_TEST
-            sscanf(rx_buffer, "/P %f %f", &(pr->az), &(pr->el));           // transform data in to type float
-            TXStatus = xQueueSend(Qhandle, &pr, 0);      // Send a message to a queue
+            len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // get the length of the buffer
+            if (len < 0)
+            {
+                ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);
+            }
+            else if (len == 0)
+            {
+                ESP_LOGW(TAG, "Connection closed");
+            }
+            // Receive data successfully
+            else
+            {
+                rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
+                // Use ESP_LOGI() to print out a not very important message
+                // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
+    #if MY_DEBUG_TEST
+
+                
+            sscanf(rx_buffer, "\\P %f %f", &curr_az, &curr_el);           // transform data in to type float
+            
+            delta_az = curr_az > prev_az ? (curr_az - prev_az) : (prev_az - curr_az);
+            delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
+            
+            ESP_LOGI(TAG, "prev_az:  %.3f; prev_el:  %.3f", prev_az,  prev_el);
+            ESP_LOGI(TAG, "curr_az:  %.3f; curr_el:  %.3f", curr_az,  curr_el);
+            ESP_LOGI(TAG, "delta_az: %.3f; delta_el: %.3f", delta_az, delta_el);
+
+            // test 
+            rot_ptr->az = curr_az;
+            rot_ptr->el = curr_el;
+            
+            TXStatus = xQueueSend(RotQueueHandler, &rot_ptr, 0);      // Send a message to a queue
             if (TXStatus == pdPASS)
             {
-                ESP_LOGI(TAG, "send done");    
+                ESP_LOGI(TAG, "send done");
+                free(rot_ptr);      // Free the alloced memory
             }
             else
             {
                 ESP_LOGI(TAG, "send failed");
+                free(rot_ptr); 
             }
-#endif
-            // send() can return less bytes than supplied length.
-            // Walk-around for robust implementation.
-            int to_write = len;
-            while (to_write > 0)
-            {
-                int written = send(sock, rx_buffer + (len - to_write), to_write, 0);
-                if (written < 0)
-                {
-                    ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
-                    // Failed to retransmit, giving up
-                    return;
-                }
-                to_write -= written;
+    #endif
+                // send() can return less bytes than supplied length.
+                // Walk-around for robust implementation.
+                // int to_write = len;
+                // while (to_write > 0)
+                // {
+                //     int written = send(sock, rx_buffer + (len - to_write), to_write, 0);
+                //     if (written < 0)
+                //     {
+                //         ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
+                //         // Failed to retransmit, giving up
+                //         return;
+                //     }
+                //     to_write -= written;
+                // }
             }
-        }
-    } while (len > 0);
+        } while (len > 0);
+    }
 }
 
 static void tcp_server_task(void *pvParameters)
 {
-    QueueHandle_t Qhandle;
-    Qhandle = (QueueHandle_t)pvParameters;
     char addr_str[128];
     int addr_family = (int)AF_INET;
     int ip_protocol = 0;
@@ -202,7 +227,7 @@ static void tcp_server_task(void *pvParameters)
 #endif
         ESP_LOGI(TAG, "Socket accepted ip address: %s", addr_str);
 
-        do_retransmit(sock, Qhandle);
+        do_retransmit(sock);
 
         shutdown(sock, 0);
         close(sock);
@@ -215,24 +240,30 @@ CLEAN_UP:
 
 static void rotator_controller(void *pvParameters)
 {
-    AntennaRot *pr;
+    AntennaRot *rot_ptr;
     // Try to receive data from the queue, then print it out.
-    QueueHandle_t Qhandle = (QueueHandle_t)pvParameters;
     BaseType_t RXStatus;
     while (1)
     {
-        RXStatus = xQueueReceive(Qhandle, &pr, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
-        if (RXStatus == pdPASS)
+        if (uxQueueMessagesWaiting(RotQueueHandler) != 0)
         {
-            ESP_LOGI(TAG, "recv done, az: %f el: %f", pr->az, pr->el);
-            free(pr);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-        }
-        // Not receive the data, use delay to block the task, in order not to trigger the wdt
-        else
-        {
-            ESP_LOGI(TAG, "didnt receive");
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            rot_ptr = (AntennaRot *) malloc (sizeof(AntennaRot));
+            RXStatus = xQueueReceive(RotQueueHandler, &rot_ptr, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
+            if (RXStatus == pdPASS)
+            {
+                ESP_LOGI(TAG, "recv done, az: %f el: %f", rot_ptr->az, rot_ptr->el);
+                free(rot_ptr);
+                vTaskDelay(1000 / portTICK_PERIOD_MS);
+            }
+
+            // Not receive the data, use delay to block the task, in order not to trigger the wdt
+            else
+            {
+                ESP_LOGI(TAG, "didnt receive");
+                free(rot_ptr);
+                vTaskDelay(1000 / portTICK_PERIOD_MS);
+            }
+
         }
     }
 
@@ -248,14 +279,12 @@ void app_main(void)
     ESP_ERROR_CHECK(example_connect());
 
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
-
-    QueueHandle_t RotQueueHandler;                          // Create rotator queue handler
     RotQueueHandler = xQueueCreate(256, sizeof(AntennaRot *));  // Create message queue
     
     if (RotQueueHandler != NULL)
     {
         // Create task "rotator_controller", if the stack size too small, it make cause overflow.
-        xTaskCreate(rotator_controller, "rotator_controller", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(rotator_controller, "rotator_contr1111111", 4096, (void *)RotQueueHandler, 3, NULL);
         
 #ifdef CONFIG_EXAMPLE_IPV4
         xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
