@@ -32,6 +32,7 @@
 #define KEEPALIVE_COUNT CONFIG_EXAMPLE_KEEPALIVE_COUNT
 
 #define MY_DEBUG_TEST 1
+#define DELTA_VALUE   0.01
 
 static const char *TAG = "example";
 
@@ -61,7 +62,7 @@ static void do_retransmit(const int sock)
 
     do
     {
-        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // get the length of the buffer
+        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // Get the length of the buffer
         if (len < 0)
         {
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);
@@ -74,6 +75,7 @@ static void do_retransmit(const int sock)
         else
         {
             // If the queue is empty, then send the rotator data
+            // -> When the queue is empty, then recv data from tcp port
             if (uxQueueMessagesWaiting(RotQueueHandler) == 0)
             {
                 rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
@@ -89,25 +91,34 @@ static void do_retransmit(const int sock)
                 // ESP_LOGI(TAG, "curr_az:  %.3f; curr_el:  %.3f", curr_az,  curr_el);
                 // ESP_LOGI(TAG, "delta_az: %.3f; delta_el: %.3f", delta_az, delta_el);
 
-                rot_ptr = (AntennaRot *)malloc(sizeof(AntennaRot));
-                if (rot_ptr != NULL)
+                // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
+                if (curr_el >= 0 && prev_el >= 0)
                 {
-                    rot_ptr->az = curr_az;
-                    rot_ptr->el = curr_el;
-                    
-                    TXStatus = xQueueSend(RotQueueHandler, &rot_ptr, 0);      // Send a message to a queue
-                    if (TXStatus == pdPASS)
+                    if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
                     {
-                        ESP_LOGI(TAG, "send done");
-                    }
-                    else
-                    {
-                        ESP_LOGI(TAG, "send failed");
-                        free(rot_ptr);      // Send failed, free the alloced memory
+                        rot_ptr = (AntennaRot *)malloc(sizeof(AntennaRot));
+                        if (rot_ptr != NULL)
+                        {
+                            rot_ptr->az = curr_az;
+                            rot_ptr->el = curr_el;
+                            
+                            TXStatus = xQueueSend(RotQueueHandler, &rot_ptr, 0);      // Send a message to a queue
+                            if (TXStatus == pdPASS)
+                            {
+                                ESP_LOGI(TAG, "send done");
+                                prev_az = curr_az;
+                                prev_el = curr_el;
+                            }
+                            else
+                            {
+                                ESP_LOGI(TAG, "send failed");
+                                free(rot_ptr);      // Send failed, free the alloced memory
+                            }
+                        }
+                        else
+                            ESP_LOGI(TAG, "alloc failed.\n");
                     }
                 }
-                else
-                    ESP_LOGI(TAG, "alloc failed.\n");
             }
         }
 
@@ -224,6 +235,11 @@ CLEAN_UP:
     vTaskDelete(NULL);
 }
 
+/*
+    Rotator control task, only output a group of data in the same time.
+    Recv one and output one.
+    Real-Time control.
+*/
 static void rotator_controller(void *pvParameters)
 {
     AntennaRot *rot_ptr;
@@ -268,12 +284,12 @@ void app_main(void)
     ESP_ERROR_CHECK(example_connect());
 
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
-    RotQueueHandler = xQueueCreate(256, sizeof(AntennaRot *));  // Create message queue
+    RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
     
     if (RotQueueHandler != NULL)
     {
         // Create task "rotator_controller", if the stack size too small, it make cause overflow.
-        xTaskCreate(rotator_controller, "rotator_contr1111111", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
         
 #ifdef CONFIG_EXAMPLE_IPV4
         xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
