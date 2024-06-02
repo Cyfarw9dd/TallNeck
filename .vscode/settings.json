@@ -5,5 +5,8 @@
     "board/esp32-bridge.cfg"
   ],
   "idf.portWin": "COM6",
-  "idf.flashType": "UART"
+  "idf.flashType": "UART",
+  "files.associations": {
+    "timers.h": "c"
+  }
 }

@@ -13,6 +13,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
+#include "freertos/timers.h"
 #include "esp_system.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
@@ -26,6 +27,8 @@
 #include "lwip/sys.h"
 #include <lwip/netdb.h>
 
+#include "driver/gpio.h"
+
 #define PORT CONFIG_EXAMPLE_PORT
 #define KEEPALIVE_IDLE CONFIG_EXAMPLE_KEEPALIVE_IDLE
 #define KEEPALIVE_INTERVAL CONFIG_EXAMPLE_KEEPALIVE_INTERVAL
@@ -33,6 +36,9 @@
 
 #define MY_DEBUG_TEST 1
 #define DELTA_VALUE   0.01
+#define NOTCONN_PERIOD  pdMS_TO_TICKS(500)
+#define CONN_PERIOD     pdMS_TO_TICKS(10000)
+#define RECV_PERIOD     pdMS_TO_TICKS(250)
 
 static const char *TAG = "example";
 
@@ -42,11 +48,30 @@ typedef struct
     float el; // Elevation
 }AntennaRot;
 
+typedef enum
+{
+    NOTCONNECTED = 1,
+    CONNECTED,
+    RECVIVING,
+}Connect_Status;
+
 AntennaRot sat_req;
 
 char test_buffer[128];
 
-QueueHandle_t RotQueueHandler;                          // Create rotator queue handler
+QueueHandle_t RotQueueHandler;               // Create rotator queue handler
+TimerHandle_t LedTimerHandle;
+
+gpio_num_t gpio_led_num = GPIO_NUM_2;       // The IO connected to the Led
+int LedCounter = 0;     // Led counter
+unsigned char LedStatus = NOTCONNECTED;     // Initialize the status of the Led
+BaseType_t LedTimerStarted;
+
+// Use the timer to create a counter, when the counter reach a certain number then toggle the level of the Led.
+void Led_Init(void)
+{
+    gpio_set_direction(gpio_led_num, GPIO_MODE_OUTPUT);     // Set the mode of the GPIO
+}
 
 static void do_retransmit(const int sock)
 {
@@ -74,6 +99,7 @@ static void do_retransmit(const int sock)
         // Receive data successfully
         else
         {
+            LedStatus = RECVIVING;
             // If the queue is empty, then send the rotator data
             // -> When the queue is empty, then recv data from tcp port
             if (uxQueueMessagesWaiting(RotQueueHandler) == 0)
@@ -86,10 +112,6 @@ static void do_retransmit(const int sock)
                 
                 delta_az = curr_az > prev_az ? (curr_az - prev_az) : (prev_az - curr_az);
                 delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
-                
-                // ESP_LOGI(TAG, "prev_az:  %.3f; prev_el:  %.3f", prev_az,  prev_el);
-                // ESP_LOGI(TAG, "curr_az:  %.3f; curr_el:  %.3f", curr_az,  curr_el);
-                // ESP_LOGI(TAG, "delta_az: %.3f; delta_el: %.3f", delta_az, delta_el);
 
                 // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
                 if (curr_el >= 0 && prev_el >= 0)
@@ -274,14 +296,40 @@ static void rotator_controller(void *pvParameters)
 
 }
 
+/*
+    have a try
+    first time to toggle in a certain time
+*/
+static void LedTimerCallback(TimerHandle_t xTimer)
+{
+    LedCounter++;
+    gpio_set_level(gpio_led_num, LedCounter % 2);
+    if (LedStatus == CONNECTED)
+    {
+        LedCounter = 2;
+    }
+    else if (LedStatus == RECVIVING)
+    {
+        xTimerChangePeriod(xTimer, RECV_PERIOD, 0);
+    }
+    else
+    {
+        ;
+    }
+}
+
 void app_main(void)
 {
+    Led_Init();
+
+    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, LedTimerCallback);  // Create the led control timer.
+    LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    // Connect default AP 
-    ESP_ERROR_CHECK(example_connect());
+    ESP_ERROR_CHECK(example_connect());  // Connect default AP
+    LedStatus = CONNECTED;
 
     // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
     RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
