@@ -258,6 +258,7 @@ CLEAN_UP:
 }
 
 /*
+@brief
     Rotator control task, only output a group of data in the same time.
     Recv one and output one.
     Real-Time control.
@@ -297,8 +298,14 @@ static void rotator_controller(void *pvParameters)
 }
 
 /*
-    have a try
-    first time to toggle in a certain time
+@brief 
+    Led timer callback function.
+    When not connected, blink the led slow.
+    When is connected, always blowing up.
+    When is recviving the az and the el or the some other thing, blink the led really quick.
+
+    prepare to add:
+    Check the break up status, then reset the status of the led.
 */
 static void LedTimerCallback(TimerHandle_t xTimer)
 {
@@ -320,7 +327,7 @@ static void LedTimerCallback(TimerHandle_t xTimer)
 
 void app_main(void)
 {
-    Led_Init();
+    Led_Init();     // Initialize function
 
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, LedTimerCallback);  // Create the led control timer.
     LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
