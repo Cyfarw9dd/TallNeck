@@ -114,10 +114,10 @@ static void do_retransmit(const int sock)
                 delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
 
                 // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
-                if (curr_el >= 0 && prev_el >= 0)
-                {
-                    if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
-                    {
+                // if (curr_el >= 0 && prev_el >= 0)
+                // {
+                //     if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
+                //     {
                         rot_ptr = (AntennaRot *)malloc(sizeof(AntennaRot));
                         if (rot_ptr != NULL)
                         {
@@ -139,8 +139,8 @@ static void do_retransmit(const int sock)
                         }
                         else
                             ESP_LOGI(TAG, "alloc failed.\n");
-                    }
-                }
+                //     }
+                // }
             }
         }
 
