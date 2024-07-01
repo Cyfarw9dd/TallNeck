@@ -10,6 +10,9 @@ D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/bootloader.elf.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/size.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/size-files.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/size-components.dir
+D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/dfu.dir
+D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/dfu-list.dir
+D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/dfu-flash.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/uf2-app.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/uf2.dir
 D:/CodeField_C/tcp_server/build/bootloader/CMakeFiles/edit_cache.dir
@@ -55,8 +58,8 @@ D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_system/CMakeFiles/rebuild
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/CMakeFiles/edit_cache.dir
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/CMakeFiles/rebuild_cache.dir
-D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/port/esp32/CMakeFiles/edit_cache.dir
-D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/port/esp32/CMakeFiles/rebuild_cache.dir
+D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/port/esp32s3/CMakeFiles/edit_cache.dir
+D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_hw_support/port/esp32s3/CMakeFiles/rebuild_cache.dir
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_common/CMakeFiles/__idf_esp_common.dir
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_common/CMakeFiles/edit_cache.dir
 D:/CodeField_C/tcp_server/build/bootloader/esp-idf/esp_common/CMakeFiles/rebuild_cache.dir

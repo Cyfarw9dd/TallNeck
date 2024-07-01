@@ -1,10 +1,10 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "idf.adapterTargetName": "esp32",
+  "idf.adapterTargetName": "esp32s3",
   "idf.openOcdConfigs": [
-    "board/esp32-bridge.cfg"
+    "board/esp32s3-bridge.cfg"
   ],
-  "idf.portWin": "COM6",
+  "idf.portWin": "COM9",
   "idf.flashType": "UART",
   "files.associations": {
     "timers.h": "c"

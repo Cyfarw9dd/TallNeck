@@ -34,11 +34,11 @@
 #define KEEPALIVE_INTERVAL CONFIG_EXAMPLE_KEEPALIVE_INTERVAL
 #define KEEPALIVE_COUNT CONFIG_EXAMPLE_KEEPALIVE_COUNT
 
-#define MY_DEBUG_TEST 1
+#define MY_DEBUG_TEST 0
 #define DELTA_VALUE   0.01
 #define NOTCONN_PERIOD  pdMS_TO_TICKS(500)
 #define CONN_PERIOD     pdMS_TO_TICKS(10000)
-#define RECV_PERIOD     pdMS_TO_TICKS(250)
+#define RECV_PERIOD     pdMS_TO_TICKS(50)
 
 static const char *TAG = "example";
 
@@ -90,16 +90,17 @@ static void do_retransmit(const int sock)
         len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // Get the length of the buffer
         if (len < 0)
         {
+            LedStatus = CONNECTED;
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);
         }
         else if (len == 0)
         {
+            LedStatus = CONNECTED;
             ESP_LOGW(TAG, "Connection closed");
         }
         // Receive data successfully
         else
         {
-            LedStatus = RECVIVING;
             // If the queue is empty, then send the rotator data
             // -> When the queue is empty, then recv data from tcp port
             if (uxQueueMessagesWaiting(RotQueueHandler) == 0)
@@ -114,10 +115,12 @@ static void do_retransmit(const int sock)
                 delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
 
                 // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
-                // if (curr_el >= 0 && prev_el >= 0)
-                // {
-                //     if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
-                //     {
+#if MY_DEBUG_TEST
+                if (curr_el >= 0 && prev_el >= 0)
+                {
+                    if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
+                    {
+#endif
                         rot_ptr = (AntennaRot *)malloc(sizeof(AntennaRot));
                         if (rot_ptr != NULL)
                         {
@@ -139,8 +142,10 @@ static void do_retransmit(const int sock)
                         }
                         else
                             ESP_LOGI(TAG, "alloc failed.\n");
-                //     }
-                // }
+#if MY_DEBUG_TEST
+                    }
+                }
+#endif
             }
         }
 
@@ -178,7 +183,7 @@ static void tcp_server_task(void *pvParameters)
         ip_protocol = IPPROTO_IPV6;
     }
 #endif
-
+    // Create a socket?
     int listen_sock = socket(addr_family, SOCK_STREAM, ip_protocol);
     if (listen_sock < 0)
     {
@@ -195,7 +200,7 @@ static void tcp_server_task(void *pvParameters)
 #endif
 
     ESP_LOGI(TAG, "Socket created");
-
+    // Bind
     int err = bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
     if (err != 0)
     {
@@ -204,7 +209,7 @@ static void tcp_server_task(void *pvParameters)
         goto CLEAN_UP;
     }
     ESP_LOGI(TAG, "Socket bound, port %d", PORT);
-
+    // Listen
     err = listen(listen_sock, 1);
     if (err != 0)
     {
@@ -216,10 +221,10 @@ static void tcp_server_task(void *pvParameters)
     {
 
         ESP_LOGI(TAG, "Socket listening");
-
+        
         struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
         socklen_t addr_len = sizeof(source_addr);
-        int sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
+        int sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len); // Accept, recving data
         if (sock < 0)
         {
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
@@ -247,7 +252,7 @@ static void tcp_server_task(void *pvParameters)
         ESP_LOGI(TAG, "Socket accepted ip address: %s", addr_str);
 
         do_retransmit(sock);
-
+        // After transmision is over, close the socket and free the memory.
         shutdown(sock, 0);
         close(sock);
     }
@@ -276,6 +281,7 @@ static void rotator_controller(void *pvParameters)
             RXStatus = xQueueReceive(RotQueueHandler, &rot_ptr, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
             if (RXStatus == pdPASS && rot_ptr != NULL)
             {
+                LedStatus = RECVIVING;
                 ESP_LOGI(TAG, "recv done, az: %f el: %f", rot_ptr->az, rot_ptr->el);
                 free(rot_ptr);
                 vTaskDelay(1000 / portTICK_PERIOD_MS);

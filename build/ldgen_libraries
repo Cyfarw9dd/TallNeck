@@ -58,6 +58,9 @@ D:/CodeField_C/tcp_server/build/esp-idf/json/libjson.a
 D:/CodeField_C/tcp_server/build/esp-idf/mqtt/libmqtt.a
 D:/CodeField_C/tcp_server/build/esp-idf/perfmon/libperfmon.a
 D:/CodeField_C/tcp_server/build/esp-idf/spiffs/libspiffs.a
+D:/CodeField_C/tcp_server/build/esp-idf/touch_element/libtouch_element.a
+D:/CodeField_C/tcp_server/build/esp-idf/ulp/libulp.a
+D:/CodeField_C/tcp_server/build/esp-idf/usb/libusb.a
 D:/CodeField_C/tcp_server/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
 D:/CodeField_C/tcp_server/build/esp-idf/main/libmain.a
 D:/CodeField_C/tcp_server/build/esp-idf/protocol_examples_common/libprotocol_examples_common.a
