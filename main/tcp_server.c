@@ -21,6 +21,8 @@
 #include "nvs_flash.h"
 #include "esp_netif.h"
 #include "protocol_examples_common.h"
+#include "driver/rmt_tx.h"
+#include "driver/gpio.h"
 
 #include "lwip/err.h"
 #include "lwip/sockets.h"
@@ -34,11 +36,11 @@
 #define KEEPALIVE_INTERVAL CONFIG_EXAMPLE_KEEPALIVE_INTERVAL
 #define KEEPALIVE_COUNT CONFIG_EXAMPLE_KEEPALIVE_COUNT
 
-#define MY_DEBUG_TEST 0
-#define DELTA_VALUE   0.01
-#define NOTCONN_PERIOD  pdMS_TO_TICKS(500)
-#define CONN_PERIOD     pdMS_TO_TICKS(10000)
-#define RECV_PERIOD     pdMS_TO_TICKS(50)
+#define NOT_TRACKING_FARSIDE    0
+#define DELTA_VALUE             0.01
+#define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
+#define CONN_PERIOD             pdMS_TO_TICKS(10000)
+#define RECV_PERIOD             pdMS_TO_TICKS(50)
 
 static const char *TAG = "example";
 
@@ -110,7 +112,7 @@ static void do_retransmit(const int sock)
                 delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
 
                 // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
-#if MY_DEBUG_TEST
+#if (NOT_TRACKING_FARSIDE)
                 if (curr_el >= 0 && prev_el >= 0)
                 {
                     if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
@@ -137,7 +139,7 @@ static void do_retransmit(const int sock)
                         }
                         else
                             ESP_LOGI(TAG, "alloc failed.\n");
-#if MY_DEBUG_TEST
+#if (NOT_TRACKING_FARSIDE)
                     }
                 }
 #endif
@@ -349,6 +351,6 @@ void app_main(void)
 
     while (1)
     {
-        vTaskDelay(portMAX_DELAY);  // Hold the main thread if the connection error occur.
+        vTaskDelay(portMAX_DELAY);  // TODO:Hold the main thread if the connection error occur.
     }
 }
