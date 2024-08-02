@@ -207,7 +207,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=tcp_server
+CMAKE_PROJECT_NAME:STATIC=TallNeck
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=3.6.0
@@ -343,6 +343,15 @@ Mbed TLS_SOURCE_DIR:STATIC=/root/esp/v5.3/esp-idf/components/mbedtls/mbedtls
 //No help, variable specified on the command line.
 PYTHON_DEPS_CHECKED:UNINITIALIZED=1
 
+//Value Computed by CMake
+TallNeck_BINARY_DIR:STATIC=/root/TallNeck/build
+
+//Value Computed by CMake
+TallNeck_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+TallNeck_SOURCE_DIR:STATIC=/root/TallNeck
+
 //Allow unsafe builds. These builds ARE NOT SECURE.
 UNSAFE_BUILD:BOOL=OFF
 
@@ -375,15 +384,6 @@ mbedx509_LIB_DEPENDS:STATIC=general;__idf_cxx;general;__idf_newlib;general;__idf
 
 //Dependencies for the target
 p256m_LIB_DEPENDS:STATIC=general;__idf_cxx;general;__idf_newlib;general;__idf_freertos;general;__idf_esp_hw_support;general;__idf_heap;general;__idf_log;general;__idf_soc;general;__idf_hal;general;__idf_esp_rom;general;__idf_esp_common;general;__idf_esp_system;general;__idf_xtensa;
-
-//Value Computed by CMake
-tcp_server_BINARY_DIR:STATIC=/root/TallNeck/build
-
-//Value Computed by CMake
-tcp_server_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-tcp_server_SOURCE_DIR:STATIC=/root/TallNeck
 
 
 ########################

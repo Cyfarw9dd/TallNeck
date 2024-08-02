@@ -12,7 +12,7 @@
 /root/TallNeck/build/CMakeFiles/flash.dir
 /root/TallNeck/build/CMakeFiles/encrypted-flash.dir
 /root/TallNeck/build/CMakeFiles/_project_elf_src.dir
-/root/TallNeck/build/CMakeFiles/tcp_server.elf.dir
+/root/TallNeck/build/CMakeFiles/TallNeck.elf.dir
 /root/TallNeck/build/CMakeFiles/size.dir
 /root/TallNeck/build/CMakeFiles/size-files.dir
 /root/TallNeck/build/CMakeFiles/size-components.dir

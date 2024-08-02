@@ -8,6 +8,8 @@
   "idf.flashType": "UART",
   "files.associations": {
     "timers.h": "c",
-    "rmt_tx.h": "c"
+    "rmt_tx.h": "c",
+    "tcp_server.h": "c",
+    "queue.h": "c"
   }
 }

@@ -1,15 +1,15 @@
 {
     "version":            "1.1",
-    "project_name":       "tcp_server",
-    "project_version":    "2685edc-dirty",
+    "project_name":       "TallNeck",
+    "project_version":    "4b97788-dirty",
     "project_path":       "/root/TallNeck",
     "idf_path":           "/root/esp/v5.3/esp-idf",
     "build_dir":          "/root/TallNeck/build",
     "config_file":        "/root/TallNeck/sdkconfig",
     "config_defaults":    "",
     "bootloader_elf":     "/root/TallNeck/build/bootloader/bootloader.elf",
-    "app_elf":            "tcp_server.elf",
-    "app_bin":            "tcp_server.bin",
+    "app_elf":            "TallNeck.elf",
+    "app_bin":            "TallNeck.bin",
     "build_type":         "flash_app",
     "git_revision":       "v5.3-dirty",
     "target":             "esp32s3",
@@ -1165,8 +1165,8 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "/root/TallNeck/build/esp-idf/main/libmain.a",
-            "sources": [ "/root/TallNeck/main/tcp_server.c" ],
-            "include_dirs": [ "." ]
+            "sources": [ "/root/TallNeck/main/src/main.c", "/root/TallNeck/main/src/tcp_server.c" ],
+            "include_dirs": [ "include" ]
         },
         "mbedtls": {
             "alias": "idf::mbedtls",
@@ -2794,7 +2794,7 @@
             "priv_reqs": [],
             "managed_reqs": [],
             "managed_priv_reqs": [],
-            "include_dirs": [ "." ]
+            "include_dirs": [ "include" ]
         },
         "protocol_examples_common": {
             "alias": "idf::protocol_examples_common",
