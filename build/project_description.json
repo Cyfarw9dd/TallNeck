@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "TallNeck",
-    "project_version":    "4b97788-dirty",
+    "project_version":    "4c4f2ce-dirty",
     "project_path":       "/root/TallNeck",
     "idf_path":           "/root/esp/v5.3/esp-idf",
     "build_dir":          "/root/TallNeck/build",
@@ -1165,7 +1165,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "/root/TallNeck/build/esp-idf/main/libmain.a",
-            "sources": [ "/root/TallNeck/main/src/main.c", "/root/TallNeck/main/src/tcp_server.c" ],
+            "sources": [ "/root/TallNeck/main/src/main.c", "/root/TallNeck/main/src/tcp_server.c", "/root/TallNeck/main/src/stepper_motor_encoder.c" ],
             "include_dirs": [ "include" ]
         },
         "mbedtls": {
