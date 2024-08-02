@@ -115,3 +115,5 @@
 1516	1813	1722571288306724686	/root/TallNeck/build/bootloader/.bin_timestamp	249bb707b7953e53
 1814	1917	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	ed2bc5ea36f4bb0d
 1814	1917	0	/root/TallNeck/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	ed2bc5ea36f4bb0d
+2	27	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	ed2bc5ea36f4bb0d
+2	27	0	/root/TallNeck/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	ed2bc5ea36f4bb0d

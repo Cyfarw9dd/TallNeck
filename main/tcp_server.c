@@ -59,26 +59,26 @@ AntennaRot sat_req;
 
 char test_buffer[128];
 
-QueueHandle_t RotQueueHandler;               // Create rotator queue handler
+QueueHandle_t RotQueueHandler;               
 TimerHandle_t LedTimerHandle;
 
-gpio_num_t gpio_led_num = GPIO_NUM_2;       // The IO connected to the Led
-int LedCounter = 0;     // Led counter
-unsigned char LedStatus = NOTCONNECTED;     // Initialize the status of the Led
+gpio_num_t gpio_led_num = GPIO_NUM_2;       
+int LedCounter = 0;     
+unsigned char LedStatus = NOTCONNECTED;     
 BaseType_t LedTimerStarted;
 
-// Use the timer to create a counter, when the counter reach a certain number then toggle the level of the Led.
+
 void Led_Init(void)
 {
-    gpio_set_direction(gpio_led_num, GPIO_MODE_OUTPUT);     // Set the mode of the GPIO
+    gpio_set_direction(gpio_led_num, GPIO_MODE_OUTPUT);     
 }
 
 static void do_retransmit(const int sock)
 {
     AntennaRot *rot_ptr;
-    BaseType_t TXStatus;                    // queue status variable
+    BaseType_t TXStatus;                    
     int len;
-    char rx_buffer[128];                    // the tx buffer(rx buffer)
+    char rx_buffer[128];                    
 
     float prev_az = 0, prev_el = 0;
     float curr_az = 0, curr_el = 0;
@@ -87,7 +87,7 @@ static void do_retransmit(const int sock)
 
     do
     {
-        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      // Get the length of the buffer
+        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);      
         if (len < 0)
         {
             LedStatus = CONNECTED;
@@ -98,16 +98,11 @@ static void do_retransmit(const int sock)
             LedStatus = CONNECTED;
             ESP_LOGW(TAG, "Connection closed");
         }
-        // Receive data successfully
         else
         {
-            // If the queue is empty, then send the rotator data
-            // -> When the queue is empty, then recv data from tcp port
             if (uxQueueMessagesWaiting(RotQueueHandler) == 0)
             {
                 rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
-                // Use ESP_LOGI() to print out a not very important message
-                // ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);     // print data and treate it like a string
 
                 sscanf(rx_buffer, "\\P %f %f", &curr_az, &curr_el);           // transform data in to type float
                 
@@ -271,7 +266,6 @@ CLEAN_UP:
 static void rotator_controller(void *pvParameters)
 {
     AntennaRot *rot_ptr;
-    // Try to receive data from the queue, then print it out.
     BaseType_t RXStatus;
     while (1)
     {
@@ -336,27 +330,25 @@ void app_main(void)
     Led_Init();     // Initialize function
 
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, LedTimerCallback);  // Create the led control timer.
-    LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
+    RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
+
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
 
     ESP_ERROR_CHECK(example_connect());  // Connect default AP
-    LedStatus = CONNECTED;
-
-    // Need two task, one part take charge recviving data from Look4sat, the other in charge rotator controlling.
-    RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
     
-    if (RotQueueHandler != NULL)
+    if (RotQueueHandler != NULL && LedTimerHandle != NULL)
     {
-        // Create task "rotator_controller", if the stack size too small, it make cause overflow.
         xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
-        
-#ifdef CONFIG_EXAMPLE_IPV4
         xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
-#endif
-#ifdef CONFIG_EXAMPLE_IPV6
-        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)AF_INET6, 5, NULL);
-#endif
+
+        LedStatus = CONNECTED;
+        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
+    }
+
+    while (1)
+    {
+        vTaskDelay(portMAX_DELAY);  // Hold the main thread if the connection error occur.
     }
 }
