@@ -94,6 +94,7 @@ void do_retransmit(const int sock)
                         }
                         else
                             ESP_LOGI(TAG, "alloc failed.\n");
+                        vTaskDelay(1000 / portTICK_PERIOD_MS);
 #if (NOT_TRACKING_FARSIDE)
                     }
                 }

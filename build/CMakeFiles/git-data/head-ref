@@ -1,1 +1,9 @@
-685e103719ed651535d9f56b0e705a5cc4b9bc5a
+0000000000000000000000000000000000000000 476dd1d7b4865476d4f9da4d3b8c209536fb17d9 Cyfarwydd <Cyfarw9dd@outlook.com> 1722570953 +0800	clone: from github.com:Cyfarw9dd/TallNeck.git
+476dd1d7b4865476d4f9da4d3b8c209536fb17d9 080a59f13289fb55d59142df954f652e83eaade3 Cyfarwydd <Cyfarw9dd@outlook.com> 1722578532 +0800	commit: an ubuntu compilable version
+080a59f13289fb55d59142df954f652e83eaade3 2685edc7b1d4db5723b556338d629a6b52e6ea3a Cyfarwydd <Cyfarw9dd@outlook.com> 1722580348 +0800	commit: add connection error handler
+2685edc7b1d4db5723b556338d629a6b52e6ea3a 4b97788c9029d9ffde609a3e6979e13047d4622b Cyfarwydd <Cyfarw9dd@outlook.com> 1722584619 +0800	commit: curr
+4b97788c9029d9ffde609a3e6979e13047d4622b 4c4f2ce4252e0c9a35f7b41b7eec4547ff5a05e5 Cyfarwydd <Cyfarw9dd@outlook.com> 1722585799 +0800	commit: change the file structure
+4c4f2ce4252e0c9a35f7b41b7eec4547ff5a05e5 254e9bfcdbc5f8579871587440859b71af5627f2 Cyfarwydd <Cyfarw9dd@outlook.com> 1722585975 +0800	commit: add stepper_motor_encoder.c
+254e9bfcdbc5f8579871587440859b71af5627f2 685e103719ed651535d9f56b0e705a5cc4b9bc5a Cyfarwydd <Cyfarw9dd@outlook.com> 1722586224 +0800	commit (merge): before merge
+685e103719ed651535d9f56b0e705a5cc4b9bc5a 8349b5ea70258c8b614cbb7fab1cd9d6a4cfd005 Cyfarwydd <Cyfarw9dd@outlook.com> 1722846201 +0800	commit: add encoder config
+8349b5ea70258c8b614cbb7fab1cd9d6a4cfd005 0e05fbb7e0f97f66ca3bd83d969f56ace34fdb8f Cyfarwydd <Cyfarw9dd@outlook.com> 1722859369 +0800	commit: curr

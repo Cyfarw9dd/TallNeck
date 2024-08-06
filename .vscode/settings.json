@@ -11,5 +11,6 @@
     "rmt_tx.h": "c",
     "tcp_server.h": "c",
     "queue.h": "c"
-  }
+  },
+  "idf.port": "/dev/ttyACM0"
 }

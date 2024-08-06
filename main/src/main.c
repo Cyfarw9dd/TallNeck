@@ -146,6 +146,7 @@ static void rotator_controller(void *pvParameters)
             // Not receive the data, use delay to block the task, in order not to trigger the wdt
             else
             {
+                // free(rot_ptr);
                 ESP_LOGI(TAG, "didnt receive");
                 vTaskDelay(1000 / portTICK_PERIOD_MS);
             }
@@ -194,23 +195,22 @@ void app_main(void)
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, LedTimerCallback);  // Create the led control timer.
     RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
 
+    if (LedTimerHandle != NULL)
+    {
+        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
+    }
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
 
     ESP_ERROR_CHECK(example_connect());  // Connect default AP
     
-    if (RotQueueHandler != NULL && LedTimerHandle != NULL)
+    if (RotQueueHandler != NULL)
     {
-        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
-        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
+        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 5, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 3, NULL);
 
         LedStatus = CONNECTED;
-        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
     }
 
-    while (1)
-    {
-        vTaskDelay(portMAX_DELAY);  // TODO:Hold the main thread if the connection error occur.
-    }
 }
