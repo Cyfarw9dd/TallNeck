@@ -10,7 +10,10 @@
     "timers.h": "c",
     "rmt_tx.h": "c",
     "tcp_server.h": "c",
-    "queue.h": "c"
+    "queue.h": "c",
+    "freertosconfig.h": "c",
+    "cstdint": "c",
+    "sdkconfig.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

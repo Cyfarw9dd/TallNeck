@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <sys/param.h>
 #include "freertos/FreeRTOS.h"
+#include "freertos/FreeRTOSConfig.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include "freertos/timers.h"
@@ -32,6 +33,9 @@
 #include "driver/gpio.h"
 #include "tcp_server.h"
 #include "stepper_motor_encoder.h"
+#include "esp_system.h"
+#include "esp_task_wdt.h"
+#include "wifi_sta.h"
 
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
@@ -49,6 +53,7 @@ unsigned char LedStatus = NOTCONNECTED;
 BaseType_t LedTimerStarted;
 
 static const char *TAG = "example";
+
 
 // const static uint32_t accel_samples = 500;
 // const static uint32_t uniform_speed_hz = 1500;
@@ -188,6 +193,7 @@ static void LedTimerCallback(TimerHandle_t xTimer)
     }
 }
 
+
 void app_main(void)
 {
     Led_Init();     // Initialize function
@@ -203,7 +209,8 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
 
-    ESP_ERROR_CHECK(example_connect());  // Connect default AP
+    // ESP_ERROR_CHECK(example_connect());  // Connect default AP
+    wifi_init_sta();
     
     if (RotQueueHandler != NULL)
     {
