@@ -6,6 +6,8 @@
    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
    CONDITIONS OF ANY KIND, either express or implied.
 */
+#pragma once
+
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -70,5 +72,4 @@ static EventGroupHandle_t s_wifi_event_group;
 static void event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
 
 void wifi_init_sta(void);
-
 

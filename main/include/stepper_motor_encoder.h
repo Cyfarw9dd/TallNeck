@@ -7,12 +7,13 @@
 
 #include <stdint.h>
 #include "driver/rmt_encoder.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "driver/gpio.h"
+#include "driver/rmt_tx.h"
+#include "tcp_server.h"
 
 ///////////////////////////////Change the following configurations according to your board//////////////////////////////
+
+// TODO: Need two stepper motor
 #define STEP_MOTOR_GPIO_EN       0
 #define STEP_MOTOR_GPIO_DIR      2
 #define STEP_MOTOR_GPIO_STEP     4
@@ -21,6 +22,8 @@ extern "C" {
 #define STEP_MOTOR_SPIN_DIR_COUNTERCLOCKWISE !STEP_MOTOR_SPIN_DIR_CLOCKWISE
 
 #define STEP_MOTOR_RESOLUTION_HZ 1000000 // 1MHz resolution
+
+extern QueueHandle_t RotQueueHandler;
 
 /**
  * @brief Stepper motor curve encoder configuration
@@ -63,6 +66,8 @@ esp_err_t rmt_new_stepper_motor_curve_encoder(const stepper_motor_curve_encoder_
  */
 esp_err_t rmt_new_stepper_motor_uniform_encoder(const stepper_motor_uniform_encoder_config_t *config, rmt_encoder_handle_t *ret_encoder);
 
-#ifdef __cplusplus
-}
-#endif
+void stepper_motor_encoder_init(void);
+
+void rotator_controller(void *pvParameters);
+
+

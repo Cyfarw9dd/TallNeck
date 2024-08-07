@@ -13,7 +13,11 @@
     "queue.h": "c",
     "freertosconfig.h": "c",
     "cstdint": "c",
-    "sdkconfig.h": "c"
+    "sdkconfig.h": "c",
+    "err.h": "c",
+    "stepper_motor_encoder.h": "c",
+    "stdint.h": "c",
+    "string.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

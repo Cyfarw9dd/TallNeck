@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,18 +37,19 @@
 
 typedef struct
 {
-    float az; // Azimuth
-    float el; // Elevation
-}AntennaRot;
+    float Azimuth; 
+    float Elevation; 
+}Tcp_Sentence;
 
 typedef enum
 {
     NOTCONNECTED = 1,
     CONNECTED,
     RECVIVING,
-}Connect_Status;
+}Connection_Status;
 
 void do_retransmit(const int sock);
 
 void tcp_server_task(void *pvParameters);
+
 

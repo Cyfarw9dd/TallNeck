@@ -24,15 +24,15 @@
 #include "driver/gpio.h"
 #include "esp_task_wdt.h"
 #include "tcp_server.h"
+#include "stepper_motor_encoder.h"
 
-extern QueueHandle_t RotQueueHandler;
 extern unsigned char LedStatus;
 
 static const char *TAG = "TCP SERVER";
 
 void do_retransmit(const int sock)
 {
-    AntennaRot *rot_ptr;
+    Tcp_Sentence *Tcp_Sentence_p;
     BaseType_t TXStatus;                    
     int len;
     char rx_buffer[128];                    
@@ -73,13 +73,13 @@ void do_retransmit(const int sock)
                     if (delta_az > DELTA_VALUE || delta_el > DELTA_VALUE)
                     {
 #endif
-                        rot_ptr = (AntennaRot *)malloc(sizeof(AntennaRot));
-                        if (rot_ptr != NULL)
+                        Tcp_Sentence_p = (Tcp_Sentence *)malloc(sizeof(Tcp_Sentence));
+                        if (Tcp_Sentence_p != NULL)
                         {
-                            rot_ptr->az = curr_az;
-                            rot_ptr->el = curr_el;
+                            Tcp_Sentence_p->Azimuth = curr_az;
+                            Tcp_Sentence_p->Elevation = curr_el;
                             
-                            TXStatus = xQueueSend(RotQueueHandler, &rot_ptr, 0);      // Send a message to a queue
+                            TXStatus = xQueueSend(RotQueueHandler, &Tcp_Sentence_p, 0);      // Send a message to a queue
                             if (TXStatus == pdPASS)
                             {
                                 ESP_LOGI(TAG, "send done");
@@ -89,7 +89,7 @@ void do_retransmit(const int sock)
                             else
                             {
                                 ESP_LOGI(TAG, "send failed");
-                                free(rot_ptr);      // Send failed, free the alloced memory
+                                free(Tcp_Sentence_p);      // Send failed, free the alloced memory
                             }
                         }
                         else
