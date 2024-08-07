@@ -22,13 +22,13 @@
 #include <lwip/netdb.h>
 
 #include "driver/gpio.h"
-
+#include "esp_task_wdt.h"
 #include "tcp_server.h"
 
 extern QueueHandle_t RotQueueHandler;
 extern unsigned char LedStatus;
 
-static const char *TAG = "example";
+static const char *TAG = "TCP SERVER";
 
 void do_retransmit(const int sock)
 {
@@ -172,7 +172,7 @@ void tcp_server_task(void *pvParameters)
 
     while (1)
     {
-
+        // esp_task_wdt_reset();   // Feed the twdt
         ESP_LOGI(TAG, "Socket listening");
         
         struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
@@ -183,7 +183,6 @@ void tcp_server_task(void *pvParameters)
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
             break;
         }
-
         // Set tcp keepalive option
         setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &keepAlive, sizeof(int));
         setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE, &keepIdle, sizeof(int));

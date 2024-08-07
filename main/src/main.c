@@ -134,8 +134,12 @@ static void rotator_controller(void *pvParameters)
 {
     AntennaRot *rot_ptr;
     BaseType_t RXStatus;
+
+    // ESP_ERROR_CHECK(esp_task_wdt_add(NULL));    // Add task wdt
+    // ESP_ERROR_CHECK(esp_task_wdt_status(NULL)); // Check the status of the twdt
     while (1)
     {
+        // esp_task_wdt_reset();   // Feed the wdt
         if (uxQueueMessagesWaiting(RotQueueHandler) != 0)
         {
             rot_ptr = (AntennaRot *) malloc (sizeof(AntennaRot));
@@ -175,7 +179,7 @@ static void rotator_controller(void *pvParameters)
     prepare to add:
     Check the break up status, then reset the status of the led.
 */
-static void LedTimerCallback(TimerHandle_t xTimer)
+static void led_timer_callback(TimerHandle_t xTimer)
 {
     LedCounter++;
     gpio_set_level(gpio_led_num, LedCounter % 2);
@@ -198,7 +202,7 @@ void app_main(void)
 {
     Led_Init();     // Initialize function
 
-    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, LedTimerCallback);  // Create the led control timer.
+    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // Create the led control timer.
     RotQueueHandler = xQueueCreate(5, sizeof(AntennaRot *));  // Create message queue
 
     if (LedTimerHandle != NULL)
@@ -214,8 +218,8 @@ void app_main(void)
     
     if (RotQueueHandler != NULL)
     {
-        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 5, NULL);
-        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
 
         LedStatus = CONNECTED;
     }

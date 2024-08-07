@@ -58,7 +58,7 @@ void wifi_init_sta(void)
              * WIFI_AUTH_WEP/WIFI_AUTH_WPA_PSK standards.
              */
 
-            //TODO: perhaps something went wrong without those configuring codes 
+            // TODO: perhaps something went wrong without those configuring codes 
         },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
