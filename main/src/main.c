@@ -41,7 +41,7 @@
 #define RECV_PERIOD             pdMS_TO_TICKS(50)
 
 char test_buffer[128];
-               
+
 TimerHandle_t LedTimerHandle;
 
 gpio_num_t gpio_led_num = GPIO_NUM_2;       
@@ -63,9 +63,6 @@ void Led_Init(void)
     When not connected, blink the led slow.
     When is connected, always blowing up.
     When is recviving the Azimuth and the Elevation or the some other thing, blink the led really quick.
-
-    prepare to add:
-    Check the break up status, then reset the status of the led.
 */
 static void led_timer_callback(TimerHandle_t xTimer)
 {
@@ -108,7 +105,7 @@ void app_main(void)
         xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
         xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
 
-        LedStatus = CONNECTED;
+        LedStatus = NOTCONNECTED;
     }
 
 }
