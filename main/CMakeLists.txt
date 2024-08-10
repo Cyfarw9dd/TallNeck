@@ -5,3 +5,6 @@ idf_component_register(SRCS "src/main.c"
                     INCLUDE_DIRS "include")
 
 include_directories(${CMAKE_SOURCE_DIR}/build/config)
+
+set(EXTRA_COMPONENT_DIRS ${PROJECT_DIR}/../components/esp32-wifi-manager)
+

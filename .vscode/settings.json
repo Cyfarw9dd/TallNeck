@@ -17,7 +17,9 @@
     "err.h": "c",
     "stepper_motor_encoder.h": "c",
     "stdint.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "protocol_examples_common.h": "c",
+    "gpio.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

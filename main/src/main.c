@@ -35,6 +35,8 @@
 #include "esp_task_wdt.h"
 #include "wifi_sta.h"
 
+#include "wifi_manager.h"
+
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
 #define CONN_PERIOD             pdMS_TO_TICKS(10000)
