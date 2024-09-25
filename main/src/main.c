@@ -59,8 +59,8 @@ void Led_Init(void)
 }
 
 
-/*
-@brief 
+/** 
+*@brief 
     Led timer callback function.
     When not connected, blink the led slow.
     When is connected, always blowing up.
@@ -84,6 +84,32 @@ static void led_timer_callback(TimerHandle_t xTimer)
     }
 }
 
+/**
+ * @brief RTOS task that periodically prints the heap memory available.
+ * @note Pure debug information, should not be ever started on production code! This is an example on how you can integrate your code with wifi-manager
+ */
+void monitoring_task(void *pvParameter)
+{
+	for(;;){
+		ESP_LOGI(TAG, "free heap: %d",esp_get_free_heap_size());
+		vTaskDelay( pdMS_TO_TICKS(10000) );
+	}
+}
+
+
+/**
+ * @brief this is an exemple of a callback that you can setup in your own app to get notified of wifi manager event.
+ */
+void cb_connection_ok(void *pvParameter){
+	ip_event_got_ip_t* param = (ip_event_got_ip_t*)pvParameter;
+
+	/* transform IP to human readable string */
+	char str_ip[16];
+	esp_ip4addr_ntoa(&param->ip_info.ip, str_ip, IP4ADDR_STRLEN_MAX);
+
+	ESP_LOGI(TAG, "I have a connection and my IP is %s!", str_ip);
+}
+
 
 void app_main(void)
 {
@@ -96,11 +122,15 @@ void app_main(void)
     {
         LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
     }
-    ESP_ERROR_CHECK(nvs_flash_init());
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
+    // ESP_ERROR_CHECK(nvs_flash_init());
+    // ESP_ERROR_CHECK(esp_netif_init());
+    // ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
 
-    wifi_init_sta();
+    // wifi_init_sta();
+    /* start the wifi manager ip address: 10.10.0.1*/
+	wifi_manager_start();
+    /* register a callback as an example to how you can integrate your code with the wifi manager */
+	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
     
     if (RotQueueHandler != NULL)
     {
