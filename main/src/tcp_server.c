@@ -61,12 +61,12 @@ void do_retransmit(const int sock)
             {
                 rx_buffer[len] = 0; // Null-terminate whatever is received and treat it like a string
 
-                sscanf(rx_buffer, "\\P %f %f", &curr_az, &curr_el);           // transform data in to type float
+                sscanf(rx_buffer, "\\P %f %f", &curr_az, &curr_el);  // 接受数据并转义至对应的变量中
                 
                 delta_az = curr_az > prev_az ? (curr_az - prev_az) : (prev_az - curr_az);
                 delta_el = curr_el > prev_el ? (curr_el - prev_el) : (prev_el - curr_el);
 
-                // Exclude the condition EL is negative, that's mean the satllite is on the far side of the Earth
+                // 确定卫星此时是否位于地球的背面
 #if (NOT_TRACKING_FARSIDE)
                 if (curr_el >= 0 && prev_el >= 0)
                 {
@@ -79,7 +79,7 @@ void do_retransmit(const int sock)
                             Tcp_Sentence_p->Azimuth = curr_az;
                             Tcp_Sentence_p->Elevation = curr_el;
                             
-                            TXStatus = xQueueSend(RotQueueHandler, &Tcp_Sentence_p, 0);      // Send a message to a queue
+                            TXStatus = xQueueSend(RotQueueHandler, &Tcp_Sentence_p, 0);  // 向队列发送消息
                             if (TXStatus == pdPASS)
                             {
                                 ESP_LOGI(TAG, "send done");
@@ -89,7 +89,7 @@ void do_retransmit(const int sock)
                             else
                             {
                                 ESP_LOGI(TAG, "send failed");
-                                free(Tcp_Sentence_p);      // Send failed, free the alloced memory
+                                free(Tcp_Sentence_p);  // 发送失败，释放内存
                             }
                         }
                         else
@@ -136,7 +136,7 @@ void tcp_server_task(void *pvParameters)
         ip_protocol = IPPROTO_IPV6;
     }
 #endif
-    // Create a socket?
+    // 创建一个socket，listen_sock为文件描述符
     int listen_sock = socket(addr_family, SOCK_STREAM, ip_protocol);
     if (listen_sock < 0)
     {
@@ -145,6 +145,7 @@ void tcp_server_task(void *pvParameters)
         return;
     }
     int opt = 1;
+    // 设置socket选项，该API类似于基础IO中的fcntl
     setsockopt(listen_sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 #if defined(CONFIG_EXAMPLE_IPV4) && defined(CONFIG_EXAMPLE_IPV6)
     // Note that by default IPV6 binds to both protocols, it is must be disabled
@@ -153,7 +154,7 @@ void tcp_server_task(void *pvParameters)
 #endif
 
     ESP_LOGI(TAG, "Socket created");
-    // Bind
+    // 连接
     int err = bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
     if (err != 0)
     {
@@ -162,8 +163,9 @@ void tcp_server_task(void *pvParameters)
         goto CLEAN_UP;
     }
     ESP_LOGI(TAG, "Socket bound, port %d", PORT);
-    // Listen
+    // 监听
     err = listen(listen_sock, 1);
+    // 监听失败，意味着服务器无法接受客户端连接，这是一个严重的错误，后续代码没有任何意义
     if (err != 0)
     {
         ESP_LOGE(TAG, "Error occurred during listen: errno %d", errno);
@@ -172,12 +174,15 @@ void tcp_server_task(void *pvParameters)
 
     while (1)
     {
-        // esp_task_wdt_reset();   // Feed the twdt
         ESP_LOGI(TAG, "Socket listening");
         
         struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
         socklen_t addr_len = sizeof(source_addr);
-        int sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len); // Accept, recving data
+        int sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);  // 创建一个新的socket，用于和服务器进行数据传输
+        /**
+         * @brief   accept返回失败通常代表严重的系统级错误，可能是由于资源耗尽，网络故障或者其他严重错误，多错误处理应该不继续执行任何接下来
+         *          的代码并且跳出
+         */
         if (sock < 0)
         {
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);

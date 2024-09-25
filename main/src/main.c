@@ -58,14 +58,6 @@ void Led_Init(void)
     gpio_set_direction(gpio_led_num, GPIO_MODE_OUTPUT);     
 }
 
-
-/** 
-*@brief 
-    Led timer callback function.
-    When not connected, blink the led slow.
-    When is connected, always blowing up.
-    When is recviving the Azimuth and the Elevation or the some other thing, blink the led really quick.
-*/
 static void led_timer_callback(TimerHandle_t xTimer)
 {
     LedCounter++;
@@ -100,23 +92,19 @@ void cb_connection_ok(void *pvParameter){
 
 void app_main(void)
 {
-    Led_Init();     // Initialize function
+    Led_Init();     // LED初始化
 
-    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // Create the led control timer.
-    RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // Create message queue
+    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
+    RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
 
     if (LedTimerHandle != NULL)
     {
-        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // Start the timer
+        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // 启动LED定时器
     }
-    // ESP_ERROR_CHECK(nvs_flash_init());
-    // ESP_ERROR_CHECK(esp_netif_init());
-    // ESP_ERROR_CHECK(esp_event_loop_create_default());   // Creat a default event loop
 
-    // wifi_init_sta();
-    /* start the wifi manager ip address: 10.10.0.1*/
+    // wifi manager IP address: 10.10.0.1
 	wifi_manager_start();
-    /* register a callback as an example to how you can integrate your code with the wifi manager */
+    // register a callback as an example to how you can integrate your code with the wifi manager 
 	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
     
     if (RotQueueHandler != NULL)

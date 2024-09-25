@@ -250,12 +250,7 @@ void stepper_motor_encoder_init(void)
     };
 }
 
-/*
-@brief
-    Rotator control task, only output a group of data in the same time.
-    Recv one and output one.
-    Real-Time control.
-*/
+
 void rotator_controller(void *pvParameters)
 {
     Tcp_Sentence *Tcp_Sentence_p;
@@ -266,7 +261,7 @@ void rotator_controller(void *pvParameters)
         if (uxQueueMessagesWaiting(RotQueueHandler) != 0)
         {
             Tcp_Sentence_p = (Tcp_Sentence *) malloc (sizeof(Tcp_Sentence));
-            RXStatus = xQueueReceive(RotQueueHandler, &Tcp_Sentence_p, portMAX_DELAY);      // portMAX_DELAY is equal to 1, means the maximum waiting time
+            RXStatus = xQueueReceive(RotQueueHandler, &Tcp_Sentence_p, portMAX_DELAY);  // 永久等待并阻塞当前线程，直到获取来自tcp线程的观测角数据
             if (RXStatus == pdPASS && Tcp_Sentence_p != NULL)
             {
                 LedStatus = RECVIVING;
