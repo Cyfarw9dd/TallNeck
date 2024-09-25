@@ -85,19 +85,6 @@ static void led_timer_callback(TimerHandle_t xTimer)
 }
 
 /**
- * @brief RTOS task that periodically prints the heap memory available.
- * @note Pure debug information, should not be ever started on production code! This is an example on how you can integrate your code with wifi-manager
- */
-void monitoring_task(void *pvParameter)
-{
-	for(;;){
-		ESP_LOGI(TAG, "free heap: %d",esp_get_free_heap_size());
-		vTaskDelay( pdMS_TO_TICKS(10000) );
-	}
-}
-
-
-/**
  * @brief this is an exemple of a callback that you can setup in your own app to get notified of wifi manager event.
  */
 void cb_connection_ok(void *pvParameter){
