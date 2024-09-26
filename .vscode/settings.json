@@ -19,7 +19,12 @@
     "stdint.h": "c",
     "string.h": "c",
     "protocol_examples_common.h": "c",
-    "gpio.h": "c"
+    "gpio.h": "c",
+    "wifi_sta.h": "c",
+    "esp_task_wdt.h": "c",
+    "stat.h": "c",
+    "unistd.h": "c",
+    "netdb.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

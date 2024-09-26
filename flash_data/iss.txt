@@ -1,0 +1,3 @@
+ISS(ZARYA)
+This file in order to save data with tle type which is from CelesTrack.com
+Also, it is a file system self check
