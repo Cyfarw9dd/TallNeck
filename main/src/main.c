@@ -98,39 +98,27 @@ void app_main(void)
 {
     Led_Init();  // LED初始化
     littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
-    get_littlefs_stat(&littlefs_conf);  // 检查文件系统状态
 
-    char line[128];
-    FILE *iss = fopen("/littlefs/iss.txt", "r");
-    if (NULL == iss)
+    LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
+    RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
+
+    if (LedTimerHandle != NULL)
     {
-        ESP_LOGE(TAG, "'iss.txt' open failed.\n");
-    }
-    while (fgets(line, sizeof(line), iss))
-    {
-        ESP_LOGE(TAG, "Reading from the file system: %s", line);
+        LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // 启动LED定时器
     }
 
-    // LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
-    // RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
-
-    // if (LedTimerHandle != NULL)
-    // {
-    //     LedTimerStarted = xTimerStart(LedTimerHandle, 0);  // 启动LED定时器
-    // }
-
-    // // wifi manager IP address: 10.10.0.1
-	// wifi_manager_start();
-    // // register a callback as an example to how you can integrate your code with the wifi manager 
-	// wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
+    // wifi manager IP address: 10.10.0.1
+	wifi_manager_start();
+    // 回调函数，用于返回IP 
+	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
     
-    // if (RotQueueHandler != NULL)
-    // {
-    //     xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
-    //     xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
+    if (RotQueueHandler != NULL)
+    {
+        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
 
-    //     LedStatus = NOTCONNECTED;
-    // }
+        LedStatus = NOTCONNECTED;
+    }
     
 
 }
