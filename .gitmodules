@@ -1,0 +1,3 @@
+[submodule "components/TALLNECK-wifi-manager"]
+	path = components/TALLNECK-wifi-manager
+	url = https://github.com/Cyfarw9dd/TALLNECK-wifi-manager.git
