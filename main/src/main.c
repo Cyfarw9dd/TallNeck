@@ -157,51 +157,16 @@ void download_tle_task(void *pvParameters)
                  esp_http_client_get_status_code(client),
                  esp_http_client_get_content_length(client));
 
-        FILE* f = fopen(FILE_PATH, "w");
-        if (f == NULL) {
-            ESP_LOGE(TAG, "Failed to open file for writing");
-            esp_http_client_cleanup(client);
-            vTaskDelete(NULL);
-            return;
-        }
-
-        char buffer[128];
-        int data_read;
-        // NOTE: data_read返回0，导致没有任何内容被写入至文件中
-        do
-        {
-            data_read = esp_http_client_read(client, buffer, sizeof(buffer));
-            if (fwrite(buffer, 1, data_read, f) != data_read) 
-            {
-                ESP_LOGE(TAG, "Failed to write data to file");
-                fclose(f);
-                esp_http_client_cleanup(client);
-                vTaskDelete(NULL);
-                return;
-            }
-            // 打印读取的数据
-            printf("%.*s", data_read, buffer);
-
-            if (data_read < 0 || 0 == data_read) 
-            {
-                ESP_LOGE(TAG, "Error occurred during reading: %d", data_read);
-            }
-        } while(data_read > 0);
-
-        fclose(f);
-
         // 在这里对下载的数据进行检验
         FILE *fp = fopen(FILE_PATH, "r");
-        ESP_LOGI(TAG, "Showing the content of the file: \n");
+        ESP_LOGI(TAG, "After downloading the file, the content is:\n");
         char temp_buffer[128];
-
         while (fgets(temp_buffer, sizeof(temp_buffer), fp))
         {
             ESP_LOGW(TAG, "%s", temp_buffer);
         }
         fclose(fp);
-
-        ESP_LOGI(TAG, "File written successfully");
+        ESP_LOGI(TAG, "File checked successfully");
     } 
     else 
     {
@@ -233,6 +198,14 @@ void app_main(void)
 {
     Led_Init();  // LED初始化
     littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
+    ESP_LOGW(TAG, "Before running the callback func, the file content is:\n");
+    char temp_buffer[128];
+    FILE *fp = fopen(FILE_PATH, "r");
+    while (fgets(temp_buffer, sizeof(temp_buffer), fp))
+    {
+        ESP_LOGW(TAG, "%s", temp_buffer);
+    }
+    fclose(fp);
     // esp_err_t err = nvs_flash_erase();  // 用于擦除nvs部分
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
     RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
@@ -247,12 +220,12 @@ void app_main(void)
     // 回调函数，用于返回IP 
 	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
 
-    // if (RotQueueHandler != NULL)
-    // {
-    //     xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
-    //     xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
+    if (RotQueueHandler != NULL)
+    {
+        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
+        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
 
-    //     LedStatus = NOTCONNECTED;
-    // }
+        LedStatus = NOTCONNECTED;
+    }
 
 }
