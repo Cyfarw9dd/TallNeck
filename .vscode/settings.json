@@ -24,7 +24,8 @@
     "esp_task_wdt.h": "c",
     "stat.h": "c",
     "unistd.h": "c",
-    "netdb.h": "c"
+    "netdb.h": "c",
+    "freertos.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }
