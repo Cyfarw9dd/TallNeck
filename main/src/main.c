@@ -39,6 +39,7 @@
 #include "esp_http_client.h"
 #include "http_app.h"
 #include "esp_crt_bundle.h"
+#include "esp_sntp.h"
 
 #include "wifi_manager.h"
 #include "littlefs.h"
@@ -99,12 +100,22 @@ void cb_connection_ok(void *pvParameter)
     xTaskCreate(download_tle_task, "download_tle", 8192, NULL, 5, NULL);
 #endif
 
+    // TODO: sntp同步时间，与当前程序冲突
+    sntp_setoperatingmode(SNTP_OPMODE_POLL);    
+    sntp_setservername(0, "pool.ntp.org");
+    sntp_init();
+
+    // 等待一段时间以后再创建线程
+    vTaskDelay(5000 / portTICK_PERIOD_MS);
+    xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);
+    
 }
 
 void app_main(void)
 {
     Led_Init();  // LED初始化
     littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
+
     // esp_err_t err = nvs_flash_erase();  // 用于擦除nvs部分
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
     RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
@@ -123,7 +134,6 @@ void app_main(void)
     {
         xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
         xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
-        xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);
         LedStatus = NOTCONNECTED;
     }
 
