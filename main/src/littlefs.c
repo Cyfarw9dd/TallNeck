@@ -47,13 +47,5 @@ void get_littlefs_stat(esp_vfs_littlefs_conf_t *conf)
     else 
     {
         ESP_LOGI(TAG, "Partition size: total: %d, used: %d", total, used);
-        // FILE *fp = fopen("/littlefs/iss.txt", "r");
-        // ESP_LOGI(TAG, "Showing the contene of the file: \n");
-        // char temp_buffer[128];
-        // while (fgets(fp, temp_buffer, sizeof(temp_buffer)))
-        // {
-        //     ESP_LOGI(TAG, "%s", temp_buffer);
-        // }
-        // fclose(fp);
     }
 }

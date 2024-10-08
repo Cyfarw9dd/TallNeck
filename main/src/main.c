@@ -52,7 +52,7 @@
 
 char test_buffer[128];
 
-TimerHandle_t LedTimerHandle;
+TimerHandle_t LedTimerHandle; 
 gpio_num_t gpio_led_num = GPIO_NUM_2;       
 int LedCounter = 0;     
 unsigned char LedStatus = NOTCONNECTED;     

@@ -25,7 +25,9 @@
     "stat.h": "c",
     "unistd.h": "c",
     "netdb.h": "c",
-    "freertos.h": "c"
+    "freertos.h": "c",
+    "task.h": "c",
+    "semphr.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }
