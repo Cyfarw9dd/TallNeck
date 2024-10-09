@@ -22,7 +22,7 @@ void orbit_trking_task(void)
 
 	/* Observer's geodetic co-ordinates.      */
 	/* Lat North, Lon East in rads, Alt in km */
-	geodetic_t obs_geodetic = {22.6049 * pi / 180.0, 114.0530 * pi / 180.0, 0.15, 0.0};
+	geodetic_t obs_geodetic = {22.5473 * pi / 180.0, 114.0808 * pi / 180.0, 0.15, 0.0};
 
 	/* Two-line Orbital Elements for the satellite */
 	tle_t tle ;
