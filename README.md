@@ -1,4 +1,4 @@
-# Still working on it...
+# TallNeck: a multi-function rotator
 
 Base on the esp-idf tcp server example, and the client part.
 

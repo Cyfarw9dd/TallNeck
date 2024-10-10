@@ -45,10 +45,14 @@
 #include "littlefs.h"
 #include "get_tle.h"
 #include "sgp4sdp4.h"
+#include "uart.h"
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
 #define CONN_PERIOD             pdMS_TO_TICKS(10000)
 #define RECV_PERIOD             pdMS_TO_TICKS(50)
+
+// 预编译宏
+// #define ORBIT_TRKING            true
 
 char test_buffer[128];
 
@@ -100,15 +104,18 @@ void cb_connection_ok(void *pvParameter)
     xTaskCreate(download_tle_task, "download_tle", 8192, NULL, 5, NULL);
 #endif
 
+#ifdef ORBIT_TRKING
     // TODO: sntp同步时间，与当前程序冲突
     sntp_setoperatingmode(SNTP_OPMODE_POLL);    
     sntp_setservername(0, "pool.ntp.org");
     sntp_init();
 
-    // 等待一段时间以后再创建线程
+    // 等待一段时间以后再创建任务
     vTaskDelay(5000 / portTICK_PERIOD_MS);
+    // 启动轨道追踪任务
     xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);
-    
+#endif
+    xTaskCreate(echo_task, "uart_echo", 2048, NULL, 7, NULL);
 }
 
 void app_main(void)

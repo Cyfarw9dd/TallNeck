@@ -31,7 +31,8 @@
 #include "wifi_manager.h"
 #include "littlefs.h"
 
-#define FILE_URL                "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=tle"
+#define ISS_URL                 "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=tle"
+#define AMATEUR_URL             "https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle"
 #define FILE_PATH               "/littlefs/ISS(ZARYA).txt"
 #define WIFI_CONNECTED_BIT      BIT0
 

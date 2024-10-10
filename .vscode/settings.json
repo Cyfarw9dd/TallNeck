@@ -27,7 +27,9 @@
     "netdb.h": "c",
     "freertos.h": "c",
     "task.h": "c",
-    "semphr.h": "c"
+    "semphr.h": "c",
+    "sgp4sdp4.h": "c",
+    "get_tle.h": "c"
   },
-  "idf.port": "/dev/ttyACM0"
+  "idf.port": "/dev/ttyUSB0"
 }

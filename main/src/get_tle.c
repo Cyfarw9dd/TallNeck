@@ -55,7 +55,7 @@ void download_tle_task(void *pvParameters)
     ESP_LOGI(TAG, "Downloading TLE data from URL");
 
     esp_http_client_config_t config = {
-        .url = FILE_URL,  // 页面URL
+        .url = ISS_URL,  // 页面URL
         /**
          * @brief   如果是普通的HTTP连接，那么是不需要配置证书的，而HTTPS需要
          */
