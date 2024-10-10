@@ -53,6 +53,7 @@
 
 // 预编译宏
 // #define ORBIT_TRKING            true
+#define DOWNLOAD_TLE            true   
 
 char test_buffer[128];
 
@@ -115,7 +116,7 @@ void cb_connection_ok(void *pvParameter)
     // 启动轨道追踪任务
     xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);
 #endif
-    xTaskCreate(echo_task, "uart_echo", 2048, NULL, 7, NULL);
+    // xTaskCreate(echo_task, "uart_echo", 2048, NULL, 7, NULL);
 }
 
 void app_main(void)

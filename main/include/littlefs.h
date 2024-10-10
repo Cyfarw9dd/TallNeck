@@ -10,9 +10,13 @@
 #include "esp_littlefs.h"
 #include "esp_log.h"
 
+#include "get_tle.h"
+
 
 extern esp_vfs_littlefs_conf_t littlefs_conf;
 
 void littlefs_init(esp_vfs_littlefs_conf_t *conf);
 
 void get_littlefs_stat(esp_vfs_littlefs_conf_t *conf);
+
+void get_file_info(void);

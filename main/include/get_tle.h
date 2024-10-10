@@ -33,7 +33,8 @@
 
 #define ISS_URL                 "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=tle"
 #define AMATEUR_URL             "https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle"
-#define FILE_PATH               "/littlefs/ISS(ZARYA).txt"
+#define FLASH_FILE_PATH         "/littlefs/flash_data.txt"
+#define FILE_PATH               "/littlefs/tle_data.txt"
 #define WIFI_CONNECTED_BIT      BIT0
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt);

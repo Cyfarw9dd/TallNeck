@@ -55,7 +55,7 @@ void download_tle_task(void *pvParameters)
     ESP_LOGI(TAG, "Downloading TLE data from URL");
 
     esp_http_client_config_t config = {
-        .url = ISS_URL,  // 页面URL
+        .url = AMATEUR_URL,  // 页面URL
         /**
          * @brief   如果是普通的HTTP连接，那么是不需要配置证书的，而HTTPS需要
          */
@@ -79,14 +79,7 @@ void download_tle_task(void *pvParameters)
                  esp_http_client_get_content_length(client));
 
         // 在这里对下载的数据进行检验
-        FILE *fp = fopen(FILE_PATH, "r");
-        ESP_LOGI(TAG, "After downloading the file, the content is:\n");
-        char temp_buffer[128];
-        while (fgets(temp_buffer, sizeof(temp_buffer), fp))
-        {
-            ESP_LOGW(TAG, "%s", temp_buffer);
-        }
-        fclose(fp);
+        get_file_info();
         ESP_LOGI(TAG, "File checked successfully");
     } 
     else 

@@ -49,3 +49,20 @@ void get_littlefs_stat(esp_vfs_littlefs_conf_t *conf)
         ESP_LOGI(TAG, "Partition size: total: %d, used: %d", total, used);
     }
 }
+
+void get_file_info(void)
+{
+    FILE *fp = fopen(FILE_PATH, "r");
+    if (NULL == fp)
+    {
+        ESP_LOGE(TAG, "Failed to open the TLE file.\n");
+        fclose(fp);
+        return;
+    }
+    char buffer[256];
+    while (fgets(buffer, sizeof(buffer), fp))
+    {
+        printf("%s", buffer);
+    }
+    fclose(fp);
+}

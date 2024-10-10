@@ -29,7 +29,8 @@
     "task.h": "c",
     "semphr.h": "c",
     "sgp4sdp4.h": "c",
-    "get_tle.h": "c"
+    "get_tle.h": "c",
+    "littlefs.h": "c"
   },
   "idf.port": "/dev/ttyUSB0"
 }
