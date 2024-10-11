@@ -24,6 +24,7 @@
 #include <lwip/netdb.h>
 
 #include "driver/gpio.h"
+#include "globals.h"
 
 
 #define NOT_TRACKING_FARSIDE    0

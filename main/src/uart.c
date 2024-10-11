@@ -43,11 +43,27 @@ void echo_task(void *arg)
         int len = uart_read_bytes(ECHO_UART_PORT_NUM, data, (BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
         if (len) {
             data[len] = '\0';
-            if (strcmp(data, "hello") == 0)
+            if (strcmp(data, "reconnect") == 0)
             {
-                ESP_LOGI(TAG, "The input data is equal to the specific string.\n");
+                // xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
             }
-            ESP_LOGI(TAG, "Recv str: %s", (char *) data);
+            else if (strcmp(data, "update tle") == 0 || strcmp(data, "tle") == 0 || strcmp(data, "upt") == 0)
+            {
+                xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "trking") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, ORB_TRKING, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "help") == 0)
+            {
+                printf("update tle\tActivate the TLE data download function.\t\n");
+                printf("trking\tActivate the orbit tracking function.\t\n");
+            }
+            else
+            {
+                ESP_LOGW(TAG, "Try enter the 'help' for further information.\n");
+            }
         }
 
         vTaskDelay(1000 / portTICK_PERIOD_MS);  

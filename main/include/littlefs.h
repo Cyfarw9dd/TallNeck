@@ -11,7 +11,7 @@
 #include "esp_log.h"
 
 #include "get_tle.h"
-
+#include "globals.h"
 
 extern esp_vfs_littlefs_conf_t littlefs_conf;
 

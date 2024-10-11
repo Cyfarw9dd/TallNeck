@@ -10,6 +10,7 @@
 #include "driver/gpio.h"
 #include "driver/rmt_tx.h"
 #include "tcp_server.h"
+#include "globals.h"
 
 ///////////////////////////////Change the following configurations according to your board//////////////////////////////
 

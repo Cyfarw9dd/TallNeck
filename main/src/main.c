@@ -46,6 +46,7 @@
 #include "get_tle.h"
 #include "sgp4sdp4.h"
 #include "uart.h"
+#include "globals.h"
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
 #define CONN_PERIOD             pdMS_TO_TICKS(10000)
@@ -54,6 +55,7 @@
 // 预编译宏
 // #define ORBIT_TRKING            true
 #define DOWNLOAD_TLE            true   
+#define TAG                     "main"
 
 char test_buffer[128];
 
@@ -62,7 +64,12 @@ gpio_num_t gpio_led_num = GPIO_NUM_2;
 int LedCounter = 0;     
 unsigned char LedStatus = NOTCONNECTED;     
 BaseType_t LedTimerStarted;
-static const char *TAG = "main";
+
+TaskHandle_t tle_download_handler;
+TaskHandle_t orbit_trking_handler;
+TaskHandle_t tcp_server_handler;
+TaskHandle_t stepper_motor_handler;
+TaskHandle_t uart_handler;
 
 static void Led_Init(void)
 {
@@ -87,7 +94,6 @@ static void led_timer_callback(TimerHandle_t xTimer)
     }
 }
 
-
 /**
  * @brief this is an exemple of a callback that you can setup in your own app to get notified of wifi manager event.
  */
@@ -100,19 +106,7 @@ void cb_connection_ok(void *pvParameter)
 	esp_ip4addr_ntoa(&param->ip_info.ip, str_ip, IP4ADDR_STRLEN_MAX);
 
 	ESP_LOGI(TAG, "I have a connection and my IP is %s!", str_ip);
-#ifdef DOWNLOAD_TLE
-    xTaskCreate(download_tle_task, "download_tle", 8192, NULL, 5, NULL);  // 在这里触发数据下载任务
-#endif
-
-#ifdef ORBIT_TRKING
-    
-    vTaskDelay(5000 / portTICK_PERIOD_MS);  // 等待一段时间以后再创建任务
-    sntp_netif_sync_time();  // 在进行轨道预测之前先进行时间同步
-    xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);  // 启动轨道追踪任务
-#endif
-    // xTaskCreate(echo_task, "uart_echo", 2048, NULL, 7, NULL);
-    // sync_latest_time();
-    // get_file_info();
+    ESP_LOGI(TAG, "Using the keywords through the uart to activate certain function.\n");
 }
 
 void app_main(void)
@@ -138,8 +132,11 @@ void app_main(void)
 
     if (RotQueueHandler != NULL)
     {
-        xTaskCreate(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, NULL);
-        xTaskCreate(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, NULL);
+        xTaskCreatePinnedToCore(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, &stepper_motor_handler, 1);
+        xTaskCreatePinnedToCore(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, &tcp_server_handler, 0);
+        xTaskCreatePinnedToCore(download_tle_task, "download_tle", 8192, NULL, 7, &tle_download_handler, 0);
+        xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
+        xTaskCreatePinnedToCore(echo_task, "uart_echo", 2048, NULL, 7, &uart_handler, 1);
         LedStatus = NOTCONNECTED;
     }
 
