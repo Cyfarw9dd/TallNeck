@@ -2,6 +2,30 @@
 
 #define TAG         "get_tle"
 
+void sntp_netif_sync_time(void)
+{
+    esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG_MULTIPLE(3,
+                                ESP_SNTP_SERVER_LIST("pool.ntp.org", "time.google.com", "time.windows.com"));
+    esp_err_t ret = esp_netif_sntp_init(&config);
+
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "SNTP intialize failed: %s", esp_err_to_name(ret));
+        return;
+    }
+    ret = esp_netif_sntp_start();
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "SNTP launch failed: %s", esp_err_to_name(ret));
+        return;
+    }
+
+    int retry = 0;
+    const int retry_count = 15;
+    while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) {
+        ESP_LOGI(TAG, "Waiting for the time syncing... (%d/%d)", retry, retry_count);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }  
+}
+
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
     static char *output_buffer;  // 用于存储HTTP请求响应的缓冲区
@@ -78,8 +102,6 @@ void download_tle_task(void *pvParameters)
                  esp_http_client_get_status_code(client),
                  esp_http_client_get_content_length(client));
 
-        // 在这里对下载的数据进行检验
-        get_file_info();
         ESP_LOGI(TAG, "File checked successfully");
     } 
     else 
@@ -88,7 +110,9 @@ void download_tle_task(void *pvParameters)
     }
 
     esp_http_client_cleanup(client);
+    sync_latest_time();
+    get_file_info();  // 对下载的数据进行检验
+
     vTaskDelete(NULL);
 }
-
 

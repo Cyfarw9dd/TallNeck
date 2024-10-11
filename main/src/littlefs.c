@@ -52,17 +52,55 @@ void get_littlefs_stat(esp_vfs_littlefs_conf_t *conf)
 
 void get_file_info(void)
 {
-    FILE *fp = fopen(FILE_PATH, "r");
-    if (NULL == fp)
+    FILE *tle = fopen(FILE_PATH, "r");
+    FILE *time = fopen(LATEST_TIME_PATH, "r");
+    if (NULL == tle)
     {
         ESP_LOGE(TAG, "Failed to open the TLE file.\n");
-        fclose(fp);
+        fclose(tle);
         return;
     }
+    if (NULL == time)
+    {
+        ESP_LOGE(TAG, "Failed to open the TIME file.\n");
+        fclose(tle);
+        fclose(time);
+    }
     char buffer[256];
-    while (fgets(buffer, sizeof(buffer), fp))
+    while (fgets(buffer, sizeof(buffer), tle))
     {
         printf("%s", buffer);
     }
+    while (fgets(buffer, sizeof(buffer), time))
+    {
+        printf("%s", buffer);
+    }
+    fclose(tle);
+    fclose(time);
+}
+
+void sync_latest_time(void)
+{
+    char latest_time[128];
+
+    // 下载结束之后同步当前时间并记录
+    sntp_netif_sync_time();  
+    struct timeval tv;
+    struct tm time;
+
+    gettimeofday(&tv, NULL);
+    localtime_r(&tv.tv_sec, &time);
+    sprintf(latest_time, "%d.%d.%d %d:%d:%d\n", time.tm_year + 1900, time.tm_mon + 1, time.tm_mday, time.tm_hour, time.tm_min, time.tm_sec);
+
+    FILE *fp = fopen(LATEST_TIME_PATH, "w");
+    if (NULL == fp)
+    {
+        ESP_LOGE(TAG, "Failed to open the latest time file.\n");
+        fclose(fp);
+        return;
+    }
+    fprintf(fp, "%s", latest_time);
+    printf("Latest update time: %s\n", latest_time);
+
     fclose(fp);
 }

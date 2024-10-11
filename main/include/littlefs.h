@@ -20,3 +20,5 @@ void littlefs_init(esp_vfs_littlefs_conf_t *conf);
 void get_littlefs_stat(esp_vfs_littlefs_conf_t *conf);
 
 void get_file_info(void);
+
+void sync_latest_time(void);

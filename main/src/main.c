@@ -101,28 +101,26 @@ void cb_connection_ok(void *pvParameter)
 
 	ESP_LOGI(TAG, "I have a connection and my IP is %s!", str_ip);
 #ifdef DOWNLOAD_TLE
-    // 在这里触发数据下载任务
-    xTaskCreate(download_tle_task, "download_tle", 8192, NULL, 5, NULL);
+    xTaskCreate(download_tle_task, "download_tle", 8192, NULL, 5, NULL);  // 在这里触发数据下载任务
 #endif
 
 #ifdef ORBIT_TRKING
-    // TODO: sntp同步时间，与当前程序冲突
-    sntp_setoperatingmode(SNTP_OPMODE_POLL);    
-    sntp_setservername(0, "pool.ntp.org");
-    sntp_init();
-
-    // 等待一段时间以后再创建任务
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    // 启动轨道追踪任务
-    xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);
+    
+    vTaskDelay(5000 / portTICK_PERIOD_MS);  // 等待一段时间以后再创建任务
+    sntp_netif_sync_time();  // 在进行轨道预测之前先进行时间同步
+    xTaskCreate(orbit_trking_task, "orbit_trking", 8192, NULL, 8, NULL);  // 启动轨道追踪任务
 #endif
     // xTaskCreate(echo_task, "uart_echo", 2048, NULL, 7, NULL);
+    // sync_latest_time();
+    // get_file_info();
 }
 
 void app_main(void)
 {
     Led_Init();  // LED初始化
     littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
+    setenv("TZ", "CST-8", 1);  // 将时区设置为中国标准时间
+    tzset();
 
     // esp_err_t err = nvs_flash_erase();  // 用于擦除nvs部分
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
