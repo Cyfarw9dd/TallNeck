@@ -51,14 +51,19 @@ void echo_task(void *arg)
             {
                 xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
             }
-            else if (strcmp(data, "trking") == 0)
+            else if (strcmp(data, "start trking") == 0)
             {
-                xTaskNotify(orbit_trking_handler, ORB_TRKING, eSetValueWithOverwrite);
+                xTaskNotify(orbit_trking_handler, START_ORB_TRKING, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "end trking") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, END_ORB_TRKING, eSetValueWithOverwrite);
             }
             else if (strcmp(data, "help") == 0)
             {
                 printf("update tle\tActivate the TLE data download function.\t\n");
-                printf("trking\tActivate the orbit tracking function.\t\n");
+                printf("start trking\tActivate the orbit tracking function.\t\n");
+                printf("end trking\tDeactivate the orbit tracking function.\t\n");
             }
             else
             {

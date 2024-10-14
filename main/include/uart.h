@@ -16,9 +16,10 @@ typedef enum
 {
     NO_EVENT = 0X00,
     UPDATE_TLE = 0X01,
-    ORB_TRKING = 0x02,
-    LAUNCH_TCP = 0x03,
-    LAUNCH_ROT = 0x04
+    START_ORB_TRKING = 0x02,
+    END_ORB_TRKING = 0X03,
+    LAUNCH_TCP = 0x04,
+    LAUNCH_ROT = 0x05
 }EVENT_BITS;
 
 void echo_task(void *arg);

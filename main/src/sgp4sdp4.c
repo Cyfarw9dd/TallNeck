@@ -115,85 +115,91 @@ void orbit_trking_task(void)
 	{
 		int status = NO_EVENT;
         xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(portMAX_DELAY));
-		if (ORB_TRKING == status)
+		if (START_ORB_TRKING == status)
 		{
-			status = NO_EVENT;
-			/* Get UTC calendar and convert to Julian */
-			UTC_Calendar_Now(&utc, &tv);
-			jul_utc = Julian_Date(&utc, &tv);
+			while (1)
+			{
+				xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(10 / portTICK_PERIOD_MS));
+				if (END_ORB_TRKING == status)
+					break;
 
-			/* Convert satellite's epoch time to Julian  */
-			/* and calculate time since epoch in minutes */
-			jul_epoch = Julian_Date_of_Epoch(tle.epoch);
-			tsince = (jul_utc - jul_epoch) * xmnpda;
+				/* Get UTC calendar and convert to Julian */
+				UTC_Calendar_Now(&utc, &tv);
+				jul_utc = Julian_Date(&utc, &tv);
 
-			/* Copy the ephemeris type in use to ephem string */
-			if( isFlagSet(DEEP_SPACE_EPHEM_FLAG) )
-				strcpy(ephem,"SDP4");
-			else
-				strcpy(ephem,"SGP4");
+				/* Convert satellite's epoch time to Julian  */
+				/* and calculate time since epoch in minutes */
+				jul_epoch = Julian_Date_of_Epoch(tle.epoch);
+				tsince = (jul_utc - jul_epoch) * xmnpda;
 
-			/* Call NORAD routines according to deep-space flag */
-			if( isFlagSet(DEEP_SPACE_EPHEM_FLAG) )
-				SDP4(tsince, &tle, &pos, &vel);
-			else
-				SGP4(tsince, &tle, &pos, &vel);
+				/* Copy the ephemeris type in use to ephem string */
+				if( isFlagSet(DEEP_SPACE_EPHEM_FLAG) )
+					strcpy(ephem,"SDP4");
+				else
+					strcpy(ephem,"SGP4");
 
-			/* Scale position and velocity vectors to km and km/sec */
-			Convert_Sat_State( &pos, &vel );
+				/* Call NORAD routines according to deep-space flag */
+				if( isFlagSet(DEEP_SPACE_EPHEM_FLAG) )
+					SDP4(tsince, &tle, &pos, &vel);
+				else
+					SGP4(tsince, &tle, &pos, &vel);
 
-			/* Calculate velocity of satellite */
-			Magnitude( &vel );
-			sat_vel = vel.w;
+				/* Scale position and velocity vectors to km and km/sec */
+				Convert_Sat_State( &pos, &vel );
 
-			/** All angles in rads. Distance in km. Velocity in km/s **/
-			/* Calculate satellite Azi, Ele, Range and Range-rate */
-			Calculate_Obs(jul_utc, &pos, &vel, &obs_geodetic, &obs_set);
+				/* Calculate velocity of satellite */
+				Magnitude( &vel );
+				sat_vel = vel.w;
 
-			/* Calculate satellite Lat North, Lon East and Alt. */
-			Calculate_LatLonAlt(jul_utc, &pos, &sat_geodetic);
+				/** All angles in rads. Distance in km. Velocity in km/s **/
+				/* Calculate satellite Azi, Ele, Range and Range-rate */
+				Calculate_Obs(jul_utc, &pos, &vel, &obs_geodetic, &obs_set);
 
-			/* Calculate solar position and satellite eclipse depth */
-			/* Also set or clear the satellite eclipsed flag accordingly */
-			Calculate_Solar_Position(jul_utc, &solar_vector);
-			Calculate_Obs(jul_utc,&solar_vector,&zero_vector,&obs_geodetic,&solar_set);
+				/* Calculate satellite Lat North, Lon East and Alt. */
+				Calculate_LatLonAlt(jul_utc, &pos, &sat_geodetic);
 
-			if( Sat_Eclipsed(&pos, &solar_vector, &eclipse_depth) )
-				SetFlag( SAT_ECLIPSED_FLAG );
-			else
-				ClearFlag( SAT_ECLIPSED_FLAG );
+				/* Calculate solar position and satellite eclipse depth */
+				/* Also set or clear the satellite eclipsed flag accordingly */
+				Calculate_Solar_Position(jul_utc, &solar_vector);
+				Calculate_Obs(jul_utc,&solar_vector,&zero_vector,&obs_geodetic,&solar_set);
 
-			/* Copy a satellite eclipse status string in sat_status */
-			if( isFlagSet( SAT_ECLIPSED_FLAG ) )
-				strcpy( sat_status, "Eclipsed" );
-			else
-				strcpy( sat_status, "In Sunlight" );
+				if( Sat_Eclipsed(&pos, &solar_vector, &eclipse_depth) )
+					SetFlag( SAT_ECLIPSED_FLAG );
+				else
+					ClearFlag( SAT_ECLIPSED_FLAG );
 
-			/* Convert and print satellite and solar data */
-			sat_azi = Degrees(obs_set.x);
-			sat_ele = Degrees(obs_set.y);
-			sat_range = obs_set.z;
-			sat_range_rate = obs_set.w;
-			sat_lat = Degrees(sat_geodetic.lat);
-			sat_lon = Degrees(sat_geodetic.lon);
-			sat_alt = sat_geodetic.alt;
+				/* Copy a satellite eclipse status string in sat_status */
+				if( isFlagSet( SAT_ECLIPSED_FLAG ) )
+					strcpy( sat_status, "Eclipsed" );
+				else
+					strcpy( sat_status, "In Sunlight" );
 
-			sun_azi = Degrees(solar_set.x);
-			sun_ele = Degrees(solar_set.y);
+				/* Convert and print satellite and solar data */
+				sat_azi = Degrees(obs_set.x);
+				sat_ele = Degrees(obs_set.y);
+				sat_range = obs_set.z;
+				sat_range_rate = obs_set.w;
+				sat_lat = Degrees(sat_geodetic.lat);
+				sat_lon = Degrees(sat_geodetic.lon);
+				sat_alt = sat_geodetic.alt;
 
-			ESP_LOGI(TAG, "\n Date: %02d/%02d/%04d UTC: %02d:%02d:%02d  Ephemeris: %s"
-				"\n Azi=%6.1f Ele=%6.1f Range=%8.1f Range Rate=%6.2f"
-				"\n Lat=%6.1f Lon=%6.1f  Alt=%8.1f  Vel=%8.3f"
-				"\n Stellite Status: %s - Depth: %2.3f"
-				"\n Sun Azi=%6.1f Sun Ele=%6.1f\n",
-				utc.tm_mday, utc.tm_mon, utc.tm_year,
-				utc.tm_hour, utc.tm_min, utc.tm_sec, ephem,
-				sat_azi, sat_ele, sat_range, sat_range_rate,
-				sat_lat, sat_lon, sat_alt, sat_vel,
-				sat_status, eclipse_depth,
-				sun_azi, sun_ele);
+				sun_azi = Degrees(solar_set.x);
+				sun_ele = Degrees(solar_set.y);
 
-			vTaskDelay(2000 / portTICK_PERIOD_MS);
+				ESP_LOGI(TAG, "\n Date: %02d/%02d/%04d UTC: %02d:%02d:%02d  Ephemeris: %s"
+					"\n Azi=%6.1f Ele=%6.1f Range=%8.1f Range Rate=%6.2f"
+					"\n Lat=%6.1f Lon=%6.1f  Alt=%8.1f  Vel=%8.3f"
+					"\n Stellite Status: %s - Depth: %2.3f"
+					"\n Sun Azi=%6.1f Sun Ele=%6.1f\n",
+					utc.tm_mday, utc.tm_mon, utc.tm_year,
+					utc.tm_hour, utc.tm_min, utc.tm_sec, ephem,
+					sat_azi, sat_ele, sat_range, sat_range_rate,
+					sat_lat, sat_lon, sat_alt, sat_vel,
+					sat_status, eclipse_depth,
+					sun_azi, sun_ele);
+
+				vTaskDelay(2000 / portTICK_PERIOD_MS);
+			}
 		}
 	}  /* End of do */
 	while( 1 );
