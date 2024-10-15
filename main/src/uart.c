@@ -71,7 +71,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "AO-10") != NULL)
+            else if (strstr(data, "AO-10") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -80,7 +80,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "UO-11") != NULL)
+            else if (strstr(data, "UO-11") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -89,7 +89,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "LO-19") != NULL)
+            else if (strstr(data, "LO-19") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -98,7 +98,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "AO-27") != NULL)
+            else if (strstr(data, "AO-27") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -107,7 +107,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "IO-26") != NULL)
+            else if (strstr(data, "IO-26") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -116,7 +116,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "RS-15") != NULL)
+            else if (strstr(data, "RS-15") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -125,7 +125,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "FO-29") != NULL)
+            else if (strstr(data, "FO-29") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -134,7 +134,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "GO-32") != NULL)
+            else if (strstr(data, "GO-32") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -143,7 +143,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "ISS") != NULL)
+            else if (strstr(data, "ISS") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -152,7 +152,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "NO-44") != NULL)
+            else if (strstr(data, "NO-44") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -161,7 +161,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "NO-44") != NULL)
+            else if (strstr(data, "NO-44") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -170,7 +170,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "SO-50") != NULL)
+            else if (strstr(data, "SO-50") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -179,7 +179,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "CO-50") != NULL)
+            else if (strstr(data, "CO-50") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -188,7 +188,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "CO_57") != NULL)
+            else if (strstr(data, "CO-57") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -197,7 +197,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "RS-22") != NULL)
+            else if (strstr(data, "RS-22") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -206,7 +206,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "LILACSAT-2") != NULL)
+            else if (strstr(data, "LILACSAT-2") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);

@@ -147,7 +147,7 @@ void app_main(void)
     xTaskCreatePinnedToCore(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, &tcp_server_handler, 0);
     xTaskCreatePinnedToCore(download_tle_task, "download_tle", 8192, NULL, 7, &tle_download_handler, 0);
     xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
-    xTaskCreatePinnedToCore(echo_task, "uart_echo", 2048, NULL, 7, &uart_handler, 1);
+    xTaskCreatePinnedToCore(echo_task, "uart_echo", 2048, NULL, 8, &uart_handler, 1);
     LedStatus = NOTCONNECTED;
 
 }

@@ -183,11 +183,8 @@ int Input_Tle_Set(FILE *fp, tle_t *tle, char *input_sat)
 
 	while (fgets(sat_name, sizeof(sat_name), fp))
 	{
-		printf("%s", sat_name);
 		if (strstr(sat_name, input_sat) != NULL)
 		{
-			printf("%s", input_sat);
-			printf("%s", sat_name);
 			strncpy(tle->sat_name, sat_name, sizeof(tle->sat_name));
 			tle->sat_name[sizeof(tle->sat_name) - 1] = 0;
 
