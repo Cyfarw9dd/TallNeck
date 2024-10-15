@@ -12,8 +12,11 @@
 #define ECHO_UART_BAUD_RATE     (115200)
 #define ECHO_TASK_STACK_SIZE    (2048)
 
-void echo_task(void *arg)
+void echo_task(void *pvParameter)
 {
+    BaseType_t tx_status;
+    char input_satname[128] = {0};
+
     // UART串口配置
     uart_config_t uart_config = {
         .baud_rate = ECHO_UART_BAUD_RATE,
@@ -54,6 +57,83 @@ void echo_task(void *arg)
             else if (strcmp(data, "start trking") == 0)
             {
                 xTaskNotify(orbit_trking_handler, START_ORB_TRKING, eSetValueWithOverwrite);
+            }
+            /**
+             * @brief   对于业余卫星名的传输，任务通知已不再适合，使用消息队列会更加恰当
+             *          消息队列将会维护一个字符串，该字符串用于存储输入的卫星名，并将该卫星名使用消息队列传输给追踪任务
+             */
+            else if (strcmp(data, "AO-7") == 0)
+            {
+                strncpy(input_satname, data, sizeof(data));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
+            }
+            else if (strcmp(data, "AO-10") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, AO_10, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "UO-11") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, UO_11, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "LO-19") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, LO_19, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "AO-27") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, AO_27, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "IO-26") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, IO_26, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "RS-15") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, RS_15, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "FO-29") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, FO_29, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "GO-32") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, GO_32, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "ISS") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, ISS, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "NO-44") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, NO_44, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "NO-44") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, NO_44, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "SO-50") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, SO_50, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "CO-50") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, CO_50, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "CO_57") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, CO_57, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "RS-22") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, RS_22, eSetValueWithOverwrite);
+            }
+            else if (strcmp(data, "LILACSAT-2") == 0)
+            {
+                xTaskNotify(orbit_trking_handler, LILACSAT_2, eSetValueWithOverwrite);
             }
             else if (strcmp(data, "end trking") == 0)
             {

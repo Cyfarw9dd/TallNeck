@@ -10,6 +10,7 @@
 #include "esp_log.h"
 
 #include "globals.h"
+#include "sgp4sdp4.h"
 
 // 任务通知传递掩码
 typedef enum
@@ -22,5 +23,5 @@ typedef enum
     LAUNCH_ROT = 0x05
 }EVENT_BITS;
 
-void echo_task(void *arg);
+void echo_task(void *pvParameter);
 

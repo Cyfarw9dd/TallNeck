@@ -18,3 +18,5 @@ extern TaskHandle_t tcp_server_handler;
 extern TaskHandle_t stepper_motor_handler;
 extern TaskHandle_t uart_handler;
 
+extern QueueHandle_t SatnameQueueHandler;
+

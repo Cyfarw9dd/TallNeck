@@ -70,6 +70,26 @@ typedef struct
 	ds50;
 } deep_arg_t;
 
+typedef enum
+{
+	AO_7 = 0X01,
+	AO_10 = 0X02,
+	UO_11 = 0X03,
+	LO_19 = 0X04,
+	AO_27 = 0X05,
+	IO_26 = 0X06,
+	RS_15 = 0X07,
+	FO_29 = 0X08,
+	GO_32 = 0X09,
+	ISS = 0X10,
+	NO_44 = 0X11,
+	SO_50 = 0X12,
+	CO_50 = 0X13,
+	CO_57 = 0X14,
+	RS_22 = 0X15,
+	LILACSAT_2 = 0X16,
+}AMATEUR_SAT_NAME;
+
 #ifdef SGP4SDP4_CONSTANTS
 
 /** Table of constant values **/
@@ -156,6 +176,8 @@ typedef struct
 #define VISIBLE_FLAG           0x002000
 #define SAT_ECLIPSED_FLAG      0x004000
 
+#define SAT_NMAE_LENGTH		   128
+
 // 跟踪线程
 void orbit_trking_task(void);
 /* Funtion prototypes produced by cproto */
@@ -173,7 +195,7 @@ void ClearFlag(int flag);
 int Checksum_Good(char *tle_set);
 int Good_Elements(char *tle_set);
 void Convert_Satellite_Data(char *tle_set, tle_t *tle);
-int Input_Tle_Set(char *tle_file, tle_t *tle);
+int Input_Tle_Set(FILE *fp, tle_t *tle, char *input_sat);
 void select_ephemeris(tle_t *tle);
 /* sgp_math.c */
 int Sign(double arg);
