@@ -183,8 +183,11 @@ int Input_Tle_Set(FILE *fp, tle_t *tle, char *input_sat)
 
 	while (fgets(sat_name, sizeof(sat_name), fp))
 	{
-		if (strstr(input_sat, sat_name) != NULL)
+		printf("%s", sat_name);
+		if (strstr(sat_name, input_sat) != NULL)
 		{
+			printf("%s", input_sat);
+			printf("%s", sat_name);
 			strncpy(tle->sat_name, sat_name, sizeof(tle->sat_name));
 			tle->sat_name[sizeof(tle->sat_name) - 1] = 0;
 
@@ -202,7 +205,7 @@ int Input_Tle_Set(FILE *fp, tle_t *tle, char *input_sat)
 
 			/* Check TLE set and abort if not valid */
 			if (!Good_Elements(tle_set))
-				return (-2);
+				return TLE_DATA_ERROR;
 
 			/* Convert the TLE set to orbital elements */
 			Convert_Satellite_Data(tle_set, tle);
@@ -212,7 +215,7 @@ int Input_Tle_Set(FILE *fp, tle_t *tle, char *input_sat)
 	}
 
 	ESP_LOGE(TAG, "Can't find match satellite.\n");
-	return -2; // 找不到匹配的业余卫星，抛出错误并返回
+	return REACH_END_OF_FILE; // 找不到匹配的业余卫星，抛出错误并返回
 } /* End of Input_Tle_Set() */
 
 /*------------------------------------------------------------------*/

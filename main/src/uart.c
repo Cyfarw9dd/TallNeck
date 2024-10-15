@@ -45,101 +45,182 @@ void echo_task(void *pvParameter)
         // 从串口中读取数据
         int len = uart_read_bytes(ECHO_UART_PORT_NUM, data, (BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
         if (len) {
-            data[len] = '\0';
-            if (strcmp(data, "reconnect") == 0)
+            if (strstr(data, "reconnect") != NULL)
             {
                 // xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
             }
-            else if (strcmp(data, "update tle") == 0 || strcmp(data, "tle") == 0 || strcmp(data, "upt") == 0)
+            else if (strstr(data, "update tle") != NULL)
             {
                 xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
             }
-            else if (strcmp(data, "start trking") == 0)
+            else if (strstr(data, "start trking") != NULL)
             {
                 xTaskNotify(orbit_trking_handler, START_ORB_TRKING, eSetValueWithOverwrite);
+                ESP_LOGI(TAG, "Activate the tracking mode.\n");
             }
             /**
              * @brief   对于业余卫星名的传输，任务通知已不再适合，使用消息队列会更加恰当
              *          消息队列将会维护一个字符串，该字符串用于存储输入的卫星名，并将该卫星名使用消息队列传输给追踪任务
              */
-            else if (strcmp(data, "AO-7") == 0)
+            else if (strstr(data, "AO-7") != NULL)
             {
-                strncpy(input_satname, data, sizeof(data));
+                strncpy(input_satname, data, sizeof(data - 1));
                 tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
                 if (tx_status != pdPASS)
                 {
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strcmp(data, "AO-10") == 0)
+            else if (strcmp(data, "AO-10") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, AO_10, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "UO-11") == 0)
+            else if (strcmp(data, "UO-11") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, UO_11, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "LO-19") == 0)
+            else if (strcmp(data, "LO-19") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, LO_19, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "AO-27") == 0)
+            else if (strcmp(data, "AO-27") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, AO_27, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "IO-26") == 0)
+            else if (strcmp(data, "IO-26") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, IO_26, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "RS-15") == 0)
+            else if (strcmp(data, "RS-15") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, RS_15, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "FO-29") == 0)
+            else if (strcmp(data, "FO-29") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, FO_29, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "GO-32") == 0)
+            else if (strcmp(data, "GO-32") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, GO_32, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "ISS") == 0)
+            else if (strcmp(data, "ISS") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, ISS, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "NO-44") == 0)
+            else if (strcmp(data, "NO-44") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, NO_44, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "NO-44") == 0)
+            else if (strcmp(data, "NO-44") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, NO_44, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "SO-50") == 0)
+            else if (strcmp(data, "SO-50") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, SO_50, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "CO-50") == 0)
+            else if (strcmp(data, "CO-50") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, CO_50, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "CO_57") == 0)
+            else if (strcmp(data, "CO_57") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, CO_57, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "RS-22") == 0)
+            else if (strcmp(data, "RS-22") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, RS_22, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "LILACSAT-2") == 0)
+            else if (strcmp(data, "LILACSAT-2") != NULL)
             {
-                xTaskNotify(orbit_trking_handler, LILACSAT_2, eSetValueWithOverwrite);
+                strncpy(input_satname, data, sizeof(data - 1));
+                tx_status = xQueueSend(SatnameQueueHandler, input_satname, 0);
+                if (tx_status != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Satellite input name send failed.\n");
+                }
             }
-            else if (strcmp(data, "end trking") == 0)
+            else if (strstr(data, "end trking") != NULL)
             {
                 xTaskNotify(orbit_trking_handler, END_ORB_TRKING, eSetValueWithOverwrite);
+                ESP_LOGI(TAG, "Deactivate the tracking mode.\n");
             }
-            else if (strcmp(data, "help") == 0)
+            else if (strstr(data, "help") != NULL)
             {
                 printf("update tle\tActivate the TLE data download function.\t\n");
                 printf("start trking\tActivate the orbit tracking function.\t\n");

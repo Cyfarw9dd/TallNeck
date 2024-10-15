@@ -117,6 +117,7 @@ void app_main(void)
     littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
     setenv("TZ", "CST-8", 1);  // 将时区设置为中国标准时间
     tzset();
+    sntp_netif_sync_time_init();  // sntp时间同步初始化
 
     // esp_err_t err = nvs_flash_erase();  // 用于擦除nvs部分
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器

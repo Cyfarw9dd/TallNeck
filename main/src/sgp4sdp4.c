@@ -83,19 +83,7 @@ void orbit_trking_task(void)
 			rx_status = xQueueReceive(SatnameQueueHandler, input_satname, portMAX_DELAY);  // 接收需要跟踪的业余卫星名字
 			if (pdPASS == rx_status)
 			{
-				int ret = esp_netif_sntp_start();  // 启动sntp同步
-				if (ret != ESP_OK) {
-					ESP_LOGE(TAG, "SNTP launch failed: %s", esp_err_to_name(ret));
-					return;
-				}
-				
-				int retry = 0;
-				const int retry_count = 15;  // 最大重试次数
-				while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) 
-				{
-					ESP_LOGI(TAG, "Waiting for the time syncing... (%d/%d)", retry, retry_count);
-					vTaskDelay(1000 / portTICK_PERIOD_MS);
-				}
+				sntp_netif_sync_time();
 				flg = Input_Tle_Set(tle_fp, &tle, input_satname);  // 解析需要的业余卫星tle
 
 				/* Abort if file open fails */
@@ -107,10 +95,15 @@ void orbit_trking_task(void)
 
 				/* Print satellite name and TLE read status */
 				ESP_LOGI(TAG, " %s: ", tle.sat_name);
-				if( flg == -2 )
+				if( REACH_END_OF_FILE == flg )
 				{
-					ESP_LOGE(TAG, "TLE set bad - Exiting!\n");
-					exit(-2);
+					ESP_LOGE(TAG, "The program reach the end of the file\n");
+					exit(REACH_END_OF_FILE);
+				}
+				if ( TLE_DATA_ERROR == flg)
+				{
+					ESP_LOGE(TAG, "The tle data check error\n");
+					exit(TLE_DATA_ERROR);
 				}
 				else
 					ESP_LOGI(TAG, "TLE set good - Happy Tracking!\n");
@@ -140,7 +133,7 @@ void orbit_trking_task(void)
 			
 				while (1)
 				{
-					xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(10 / portTICK_PERIOD_MS));
+					xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(1000 / portTICK_PERIOD_MS));
 					if (END_ORB_TRKING == status)
 						break;
 

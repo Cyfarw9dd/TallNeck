@@ -45,6 +45,9 @@
 #define LATEST_TIME_PATH        "/littlefs/latest_time.txt"  // 保存着上次下载数据的更新时间
 #define WIFI_CONNECTED_BIT      BIT0
 
+
+void sntp_netif_sync_time_init(void);
+
 void sntp_netif_sync_time(void);
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt);

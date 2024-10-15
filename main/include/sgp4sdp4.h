@@ -177,6 +177,8 @@ typedef enum
 #define SAT_ECLIPSED_FLAG      0x004000
 
 #define SAT_NMAE_LENGTH		   128
+#define REACH_END_OF_FILE	   -2
+#define TLE_DATA_ERROR		   -3	
 
 // 跟踪线程
 void orbit_trking_task(void);

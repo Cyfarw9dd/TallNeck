@@ -2,7 +2,7 @@
 
 #define TAG         "get_tle"
 
-void sntp_netif_sync_time(void)
+void sntp_netif_sync_time_init(void)
 {
     esp_sntp_config_t config = ESP_NETIF_SNTP_DEFAULT_CONFIG_MULTIPLE(3,
                                 ESP_SNTP_SERVER_LIST("pool.ntp.org", "time.google.com", "time.windows.com"));
@@ -12,7 +12,11 @@ void sntp_netif_sync_time(void)
         ESP_LOGE(TAG, "SNTP intialize failed: %s", esp_err_to_name(ret));
         return;
     }
-    ret = esp_netif_sntp_start();
+}
+
+void sntp_netif_sync_time(void)
+{
+    esp_err_t ret = esp_netif_sntp_start();
     if (ret != ESP_OK) {
         ESP_LOGE(TAG, "SNTP launch failed: %s", esp_err_to_name(ret));
         return;
