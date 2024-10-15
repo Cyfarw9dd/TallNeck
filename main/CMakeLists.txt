@@ -11,9 +11,7 @@ idf_component_register(SRCS "src/main.c"
                             "src/sgp_time.c"
                             "src/solar.c"
                             "src/uart.c"
-                            "src/state_machine.c"
                     INCLUDE_DIRS "include")
 
 include_directories(${CMAKE_SOURCE_DIR}/build/config)
-# littlefs_create_partition_image(storage ../flash_data FLASH_IN_PROJECT)
 

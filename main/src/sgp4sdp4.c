@@ -18,7 +18,8 @@ FILE *tle_fp;
 
 void orbit_trking_task(void)
 {
-	BaseType_t rx_status;
+	BaseType_t sat_queue_rxstatus;
+	BaseType_t task_notify_status;
 	/* TLE source file */
 	char tle_file[] = FILE_PATH;
 
@@ -77,11 +78,15 @@ void orbit_trking_task(void)
 	do  /* Loop */
 	{
 		int status = NO_EVENT;
-        xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(portMAX_DELAY));  // 接收任务通知，开启跟踪模式
+        task_notify_status = xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(portMAX_DELAY));  // 接收任务通知，开启跟踪模式
+		if (task_notify_status != pdPASS)
+		{
+			ESP_LOGE(TAG, "Failed to receive start tracking notification.\n");
+		}
 		if (START_ORB_TRKING == status)
 		{
-			rx_status = xQueueReceive(SatnameQueueHandler, input_satname, portMAX_DELAY);  // 接收需要跟踪的业余卫星名字
-			if (pdPASS == rx_status)
+			sat_queue_rxstatus = xQueueReceive(SatnameQueueHandler, input_satname, portMAX_DELAY);  // 接收需要跟踪的业余卫星名字
+			if (pdPASS == sat_queue_rxstatus)
 			{
 				sntp_netif_sync_time();
 				flg = Input_Tle_Set(tle_fp, &tle, input_satname);  // 解析需要的业余卫星tle
@@ -133,9 +138,9 @@ void orbit_trking_task(void)
 			
 				while (1)
 				{
-					xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(1000 / portTICK_PERIOD_MS));
+					task_notify_status = xTaskNotifyWait(0x00, 0xFFFFFFFF, &status, pdMS_TO_TICKS(1000 / portTICK_PERIOD_MS));
 					if (END_ORB_TRKING == status)
-						break;
+						goto REFRESH;
 
 					/* Get UTC calendar and convert to Julian */
 					UTC_Calendar_Now(&utc, &tv);
@@ -216,6 +221,8 @@ void orbit_trking_task(void)
 				}
 			}
 		}
+		REFRESH:
+		
 	}  /* End of do */
 	while( 1 );
 
