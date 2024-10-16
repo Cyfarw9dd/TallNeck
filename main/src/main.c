@@ -124,7 +124,7 @@ void app_main(void)
     // esp_err_t err = nvs_flash_erase();  // 用于擦除nvs部分
     LedTimerHandle = xTimerCreate("led_controller", NOTCONN_PERIOD, pdTRUE, 0, led_timer_callback);  // 创建LED定时器
     RotQueueHandler = xQueueCreate(5, sizeof(Tcp_Sentence *));  // 创建用于传输俯仰角数据的消息队列
-    SatnameQueueHandler = xQueueCreate(1, SAT_NMAE_LENGTH);
+    SatnameQueueHandler = xQueueCreate(5, SAT_NMAE_LENGTH);
 
     // 检查定时器和消息队列是否创建完成
     if (NULL == RotQueueHandler)
@@ -144,12 +144,16 @@ void app_main(void)
 	wifi_manager_start();
     // 回调函数，用于返回IP 
 	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
-
+    // 旋转器控制任务，调用rmt生成精确波形，后期考虑移至ISR的回调函数中
     xTaskCreatePinnedToCore(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, &stepper_motor_handler, 1);
+    // TCP server任务
     xTaskCreatePinnedToCore(tcp_server_task, "tcp_server", 4096, (void *)RotQueueHandler, 5, &tcp_server_handler, 0);
+    // TLE下载任务，属于wifi协议栈，位于核心0
     xTaskCreatePinnedToCore(download_tle_task, "download_tle", 8192, NULL, 7, &tle_download_handler, 0);
+    // sgp4sdp4轨道预测任务，位于核心1
     xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
-    xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 1);
+    // uart前台交互任务，位于核心0
+    xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 0);
     LedStatus = NOTCONNECTED;
 
 }
