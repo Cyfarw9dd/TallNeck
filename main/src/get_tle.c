@@ -24,10 +24,19 @@ void sntp_netif_sync_time(void)
 
     int retry = 0;
     const int retry_count = 15;
-    while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) {
+    while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) 
+    {
         ESP_LOGI(TAG, "Waiting for the time syncing... (%d/%d)", retry, retry_count);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }  
+    if (retry < 15)
+    {
+        ESP_LOGI(TAG, "Time sync sucessfully.\n");
+    }
+    else
+    {
+        ESP_LOGE(TAG, "Time sync failed.\n");
+    }
 }
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)

@@ -144,7 +144,7 @@ void echo_task(void *pvParameter)
                     ESP_LOGE(TAG, "Satellite input name send failed.\n");
                 }
             }
-            else if (strstr(data, "ISS") != NULL)
+            else if (strstr(data, "ZARYA") != NULL)
             {
                 strncpy(input_satname, data, sizeof(data - 1));
                 sat_queue_txstatus = xQueueSend(SatnameQueueHandler, input_satname, 0);
@@ -212,11 +212,21 @@ void echo_task(void *pvParameter)
                 xTaskNotify(orbit_trking_handler, END_ORB_TRKING, eSetValueWithOverwrite);
                 ESP_LOGI(TAG, "Deactivate the tracking mode.\n");
             }
+            else if (strstr(data, "file info") != NULL)
+            {
+                get_file_info();
+            }
+            else if (strstr(data, "sync time") != NULL)
+            {
+                sntp_netif_sync_time();
+            }
             else if (strstr(data, "help") != NULL)
             {
                 printf("update tle\tActivate the TLE data download function.\t\n");
                 printf("start tracking\tActivate the orbit tracking function.\t\n");
                 printf("end tracking\tDeactivate the orbit tracking function.\t\n");
+                printf("file info\tShowing the file information.\t\n");
+                printf("sync time\tSyncing time throught the sntp server.\n");
             }
             else
             {

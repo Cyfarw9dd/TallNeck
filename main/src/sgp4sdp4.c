@@ -88,7 +88,6 @@ void orbit_trking_task(void)
 			sat_queue_rxstatus = xQueueReceive(SatnameQueueHandler, input_satname, portMAX_DELAY);  // 接收需要跟踪的业余卫星名字
 			if (pdPASS == sat_queue_rxstatus)
 			{
-				sntp_netif_sync_time();
 				flg = Input_Tle_Set(tle_fp, &tle, input_satname);  // 解析需要的业余卫星tle
 
 				/* Abort if file open fails */
@@ -205,7 +204,19 @@ void orbit_trking_task(void)
 					sun_azi = Degrees(solar_set.x);
 					sun_ele = Degrees(solar_set.y);
 
-					ESP_LOGI(TAG, "\n Date: %02d/%02d/%04d UTC: %02d:%02d:%02d  Ephemeris: %s"
+					ESP_LOGI(tle.sat_name, "\n Date: %02d/%02d/%04d UTC: %02d:%02d:%02d  Ephemeris: %s"
+						"\n Azi=%6.1f\t Ele=%6.1f\t"
+						"\n Alt=%6.1f\t  Vel=%6.3f\t"
+						"\n Stellite Status: %s - Depth: %2.3f",
+						utc.tm_mday, utc.tm_mon, utc.tm_year,
+						utc.tm_hour, utc.tm_min, utc.tm_sec, ephem,
+						sat_azi, sat_ele, sat_alt, sat_vel,
+						sat_status, eclipse_depth);
+					
+					/**
+					 * @brief vanilla ouput
+					 * 
+					 * ESP_LOGI(TAG, "\n Date: %02d/%02d/%04d UTC: %02d:%02d:%02d  Ephemeris: %s"
 						"\n Azi=%6.1f Ele=%6.1f Range=%8.1f Range Rate=%6.2f"
 						"\n Lat=%6.1f Lon=%6.1f  Alt=%8.1f  Vel=%8.3f"
 						"\n Stellite Status: %s - Depth: %2.3f"
@@ -216,13 +227,14 @@ void orbit_trking_task(void)
 						sat_lat, sat_lon, sat_alt, sat_vel,
 						sat_status, eclipse_depth,
 						sun_azi, sun_ele);
+					 */
 
 					vTaskDelay(2000 / portTICK_PERIOD_MS);
 				}
 			}
 		}
 		REFRESH:
-		
+
 	}  /* End of do */
 	while( 1 );
 

@@ -67,10 +67,12 @@ void get_file_info(void)
         fclose(time);
     }
     char buffer[256];
+    printf("TLE file: \n");
     while (fgets(buffer, sizeof(buffer), tle))
     {
         printf("%s", buffer);
     }
+    printf("Latest time file: \n");
     while (fgets(buffer, sizeof(buffer), time))
     {
         printf("%s", buffer);
