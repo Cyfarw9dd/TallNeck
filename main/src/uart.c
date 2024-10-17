@@ -15,6 +15,8 @@
 void echo_task(void *pvParameter)
 {
     BaseType_t sat_queue_txstatus;
+    BaseType_t wifimg_queue_txstatus;
+    queue_message reconnect_msg;
     char input_satname[128] = {0};
 
     // UART串口配置
@@ -220,6 +222,27 @@ void echo_task(void *pvParameter)
             {
                 sntp_netif_sync_time();
             }
+            else if (strstr(data, "recon") != NULL)
+            {
+                ESP_LOGI(TAG, "Initiating reconnection process");
+                // 1. Disconnect from current network
+                queue_message disconnect_msg;
+                disconnect_msg.code = WM_ORDER_DISCONNECT_STA;
+                wifimg_queue_txstatus = xQueueSend(wifi_manager_queue, &disconnect_msg, 0);
+                if (wifimg_queue_txstatus != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Wifi manager disconnect message send failed.\n");
+                }
+                
+                // 2. Start AP mode
+                queue_message start_ap_msg;
+                start_ap_msg.code = WM_ORDER_START_AP;
+                wifimg_queue_txstatus = xQueueSend(wifi_manager_queue, &start_ap_msg, 0);
+                if (wifimg_queue_txstatus != pdPASS)
+                {
+                    ESP_LOGE(TAG, "Wifi manager start AP message send failed.\n");
+                }
+            }
             else if (strstr(data, "help") != NULL)
             {
                 printf("update tle\tActivate the TLE data download function.\t\n");
@@ -227,6 +250,7 @@ void echo_task(void *pvParameter)
                 printf("end tracking\tDeactivate the orbit tracking function.\t\n");
                 printf("file info\tShowing the file information.\t\n");
                 printf("sync time\tSyncing time throught the sntp server.\n");
+                printf("re\tReconnect the wifi, you are able to choose another one\t\n");
             }
             else
             {

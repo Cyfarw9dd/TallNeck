@@ -152,7 +152,7 @@ void app_main(void)
     xTaskCreatePinnedToCore(download_tle_task, "download_tle", 8192, NULL, 7, &tle_download_handler, 0);
     // sgp4sdp4轨道预测任务，位于核心1
     xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
-    // uart前台交互任务，位于核心0
+    // uart前台交互任务，高优先级，位于核心0
     xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 0);
     LedStatus = NOTCONNECTED;
 
