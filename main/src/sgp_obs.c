@@ -12,6 +12,16 @@
 #define SGP4SDP4_CONSTANTS
 #include "sgp4sdp4.h"
 
+#define SPEED_OF_LIGHT 299792458.0 // 光速（米/秒）
+
+double calculate_doppler_shift(double relative_velocity, double transmit_frequency)
+{
+    // 计算多普勒频移
+    // relative_velocity: 卫星相对于观测者的径向速度（米/秒），接近为正，远离为负
+    // transmit_frequency: 卫星发射频率（赫兹）
+    return -1 * (relative_velocity / SPEED_OF_LIGHT) * transmit_frequency;
+}
+
 /* Procedure Calculate_User_PosVel passes the user's geodetic position */
 /* and the time of interest and returns the ECI position and velocity  */
 /* of the observer. The velocity calculation assumes the geodetic      */

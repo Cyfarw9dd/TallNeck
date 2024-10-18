@@ -71,9 +71,6 @@ void orbit_trking_task(void)
 	sat_status[12]; /* Satellite eclipse status */
 
 	char input_satname[128] = {0};
-	// 在这里打开tle文件，修改tle解析函数，将输入参数更改为tle的文件指针
-	if ((tle_fp = fopen(tle_file, "r")) == NULL)
-		exit(1);
 
 	do  /* Loop */
 	{
@@ -83,6 +80,9 @@ void orbit_trking_task(void)
 		{
 			ESP_LOGE(TAG, "Failed to receive start tracking notification.\n");
 		}
+		// 在这里打开tle文件，修改tle解析函数，将输入参数更改为tle的文件指针
+		if ((tle_fp = fopen(tle_file, "r")) == NULL)
+			exit(1);
 		if (START_ORB_TRKING == status)
 		{
 			sat_queue_rxstatus = xQueueReceive(SatnameQueueHandler, input_satname, portMAX_DELAY);  // 接收需要跟踪的业余卫星名字

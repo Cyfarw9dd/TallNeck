@@ -33,5 +33,5 @@
     "littlefs.h": "c",
     "wifi_manager.h": "c"
   },
-  "idf.port": "/dev/ttyUSB0"
+  "idf.port": "/dev/ttyACM0"
 }
