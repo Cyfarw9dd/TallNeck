@@ -7,17 +7,38 @@ static SemaphoreHandle_t lvgl_mux = NULL;
 
 static const sh8601_lcd_init_cmd_t lcd_init_cmds[] = {
 
-    {0x11, (uint8_t []){0x00}, 0, 120},   
+    {0x11, (uint8_t []){0x00}, 0, 120},  // 唤醒显示器   
    // {0x44, (uint8_t []){0x01, 0xD1}, 2, 0},
    // {0x35, (uint8_t []){0x00}, 1, 0},
-    {0x36, (uint8_t []){0xF0}, 1, 0},   
-    {0x3A, (uint8_t []){0x55}, 1, 0},  //16bits-RGB565
-    {0x2A, (uint8_t []){0x00,0x00,0x02,0x17}, 4, 0}, 
-    {0x2B, (uint8_t []){0x00,0x00,0x00,0xEF}, 4, 0},
-    {0x51, (uint8_t []){0x00}, 1, 10},
-    {0x29, (uint8_t []){0x00}, 0, 10},
-    {0x51, (uint8_t []){0xFF}, 1, 0},
+    // {0x36, (uint8_t []){0xF0}, 1, 0},  // 设置显示器的颜色格式    
+    {0x3A, (uint8_t []){0x55}, 1, 0},  // 设置像素格式
+    {0x2A, (uint8_t []){0x00,0x00,0x02,0x17}, 4, 0},  // 设置列地址
+    {0x2B, (uint8_t []){0x00,0x00,0x00,0xEF}, 4, 0},  // 设置页地址
+    {0x51, (uint8_t []){0x00}, 1, 10},  // 写显示亮度
+    {0x29, (uint8_t []){0x00}, 0, 10},  // 打开显示
+    {0x51, (uint8_t []){0xFF}, 1, 0},  // 再次写显示亮度
 };
+
+#if LV_BUILD_EXAMPLES
+// void lv_example_obj_1(void)
+// {
+//     lv_obj_t * obj1;
+//     obj1 = lv_obj_create(lv_screen_active());
+//     lv_obj_set_size(obj1, 100, 50);
+//     lv_obj_align(obj1, LV_ALIGN_CENTER, -60, -30);
+
+//     static lv_style_t style_shadow;
+//     lv_style_init(&style_shadow);
+//     lv_style_set_shadow_width(&style_shadow, 10);
+//     lv_style_set_shadow_spread(&style_shadow, 5);
+//     lv_style_set_shadow_color(&style_shadow, lv_palette_main(LV_PALETTE_BLUE));
+
+//     lv_obj_t * obj2;
+//     obj2 = lv_obj_create(lv_screen_active());
+//     lv_obj_add_style(obj2, &style_shadow, 0);
+//     lv_obj_align(obj2, LV_ALIGN_CENTER, 60, 30);
+// }
+#endif
 
 bool example_notify_lvgl_flush_ready(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t *edata, void *user_ctx)
 {
@@ -190,8 +211,10 @@ void example_lvgl_port_task(void *arg)
 
 void lvgl_display_init(void)
 {
-    static lv_disp_draw_buf_t disp_buf; // contains internal graphic buffer(s) called draw buffer(s)
-    static lv_disp_drv_t disp_drv;      // contains callback functions
+    static lv_disp_draw_buf_t disp_buf; // 定义绘图缓冲区
+    static lv_disp_drv_t disp_drv;      // 定义lvgl显示驱动程序
+
+    // SPI总线配置
     ESP_LOGI(TAG, "Initialize SPI bus");
     const spi_bus_config_t buscfg = SH8601_PANEL_BUS_QSPI_CONFIG(EXAMPLE_PIN_NUM_LCD_PCLK,
                                                                  EXAMPLE_PIN_NUM_LCD_DATA0,
@@ -199,7 +222,8 @@ void lvgl_display_init(void)
                                                                  EXAMPLE_PIN_NUM_LCD_DATA2,
                                                                  EXAMPLE_PIN_NUM_LCD_DATA3,
                                                                  EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES * LCD_BIT_PER_PIXEL / 8);
-    ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &buscfg, SPI_DMA_CH_AUTO));
+
+    ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &buscfg, SPI_DMA_CH_AUTO));  // SPI总线初始化
 
     ESP_LOGI(TAG, "Install panel IO");
     esp_lcd_panel_io_handle_t io_handle = NULL;
@@ -320,15 +344,4 @@ void lvgl_display_init(void)
 #endif
 
     lvgl_running_example();
-}
-
-
-void esp_draw_bitmap(uint16_t clorck,esp_lcd_panel_handle_t panel_handle)
-{
-    uint16_t *buf = (uint16_t *)malloc( EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES * sizeof(uint16_t) );
-    for(uint32_t i = 0; i < EXAMPLE_LCD_H_RES * EXAMPLE_LCD_V_RES; i++)
-    {
-        buf[i] = clorck;
-    }
-    esp_lcd_panel_draw_bitmap(panel_handle, 0, 0, EXAMPLE_LCD_H_RES ,EXAMPLE_LCD_V_RES , buf);
 }

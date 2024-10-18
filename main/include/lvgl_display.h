@@ -33,10 +33,11 @@
 #define EXAMPLE_PIN_NUM_BK_LIGHT          (-1)
 
 // The pixel number in horizontal and vertical
-#define EXAMPLE_LCD_H_RES              536
-#define EXAMPLE_LCD_V_RES              240
+#define EXAMPLE_LCD_H_RES              240
+#define EXAMPLE_LCD_V_RES              536
 
 #define EXAMPLE_USE_TOUCH               1
+#define LV_BUILD_EXAMPLES               1
 
 #if EXAMPLE_USE_TOUCH
 #define EXAMPLE_PIN_NUM_TOUCH_SCL         (GPIO_NUM_39)
