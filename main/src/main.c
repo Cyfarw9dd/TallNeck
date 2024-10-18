@@ -1,11 +1,5 @@
-/* BSD Socket API Example
+#pragma once
 
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,6 +41,8 @@
 #include "sgp4sdp4.h"
 #include "uart.h"
 #include "globals.h"
+#include "lvgl_display.h"
+
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
 #define CONN_PERIOD             pdMS_TO_TICKS(10000)
@@ -144,6 +140,7 @@ void app_main(void)
 	wifi_manager_start();
     // 回调函数，用于返回IP 
 	wifi_manager_set_callback(WM_EVENT_STA_GOT_IP, &cb_connection_ok);
+    lvgl_display_init();
     // 旋转器控制任务，调用rmt生成精确波形，后期考虑移至ISR的回调函数中
     xTaskCreatePinnedToCore(rotator_controller, "rotator_control", 4096, (void *)RotQueueHandler, 3, &stepper_motor_handler, 1);
     // TCP server任务
@@ -154,6 +151,8 @@ void app_main(void)
     xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
     // uart前台交互任务，高优先级，位于核心0
     xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 0);
+    // lvgl例程测试
+    xTaskCreatePinnedToCore(example_lvgl_port_task, "LVGL", EXAMPLE_LVGL_TASK_STACK_SIZE, NULL, EXAMPLE_LVGL_TASK_PRIORITY, NULL, 0);
     LedStatus = NOTCONNECTED;
 
 }

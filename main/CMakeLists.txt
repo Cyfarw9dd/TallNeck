@@ -11,6 +11,7 @@ idf_component_register(SRCS "src/main.c"
                             "src/sgp_time.c"
                             "src/solar.c"
                             "src/uart.c"
+                            "src/lvgl_display.c"
                     INCLUDE_DIRS "include")
 
 include_directories(${CMAKE_SOURCE_DIR}/build/config)

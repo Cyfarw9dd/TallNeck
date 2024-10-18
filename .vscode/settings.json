@@ -31,7 +31,12 @@
     "sgp4sdp4.h": "c",
     "get_tle.h": "c",
     "littlefs.h": "c",
-    "wifi_manager.h": "c"
+    "wifi_manager.h": "c",
+    "lvgl.h": "c",
+    "lv_demos.h": "c",
+    "esp_lcd_sh8601.h": "c",
+    "esp_lcd_touch_ft5x06.h": "c",
+    "lvgl_display.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }
