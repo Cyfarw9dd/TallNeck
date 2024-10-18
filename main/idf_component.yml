@@ -2,6 +2,18 @@
 dependencies:
   espressif/mdns: "*"
   joltwallet/littlefs: "~=1.14.2"
+  
+  esp_lcd_touch_ft5x06:
+    version: "*"
+    public: true
+
+  esp_lcd_sh8601:
+    version: "*"
+    public: true
+
+  lvgl/lvgl:
+    version: "^8"
+    public: true
   ## Required IDF version
   idf:
     version: ">=4.1.0"
