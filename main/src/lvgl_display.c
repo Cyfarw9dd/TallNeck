@@ -23,7 +23,8 @@ static void btn_event_cb(lv_event_t * e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * btn = lv_event_get_target(e);
-    if(code == LV_EVENT_CLICKED) {
+    if(code == LV_EVENT_CLICKED) 
+    {
         static uint8_t cnt = 0;
         cnt++;
 
@@ -74,7 +75,8 @@ void example_lvgl_flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
     *to++ = color_map[0].ch.green;
     *to++ = temp;
     // Normal dealing for other pixels
-    for (int i = 1; i < pixel_num; i++) {
+    for (int i = 1; i < pixel_num; i++) 
+    {
         *to++ = color_map[i].ch.red;
         *to++ = color_map[i].ch.green;
         *to++ = color_map[i].ch.blue;
@@ -143,12 +145,15 @@ void example_lvgl_touch_cb(lv_indev_drv_t *drv, lv_indev_data_t *data)
     esp_lcd_touch_read_data(tp);
     /* Read data from touch controller */
     bool tp_pressed = esp_lcd_touch_get_coordinates(tp, &tp_x, &tp_y, NULL, &tp_cnt, 1);
-    if (tp_pressed && tp_cnt > 0) {
+    if (tp_pressed && tp_cnt > 0) 
+    {
         data->point.x = tp_x ;
         data->point.y = tp_y ;
         data->state = LV_INDEV_STATE_PRESSED;
         ESP_LOGD(TAG, "Touch position: %d,%d", tp_x, tp_y);
-    } else {
+    } 
+    else 
+    {
         data->state = LV_INDEV_STATE_RELEASED;
     }
 }
@@ -180,7 +185,8 @@ void lvgl_running_example(void)
     assert(lvgl_mux);
     ESP_LOGI(TAG, "Display LVGL demos");
     // Lock the mutex due to the LVGL APIs are not thread-safe
-    if (example_lvgl_lock(-1)) {
+    if (example_lvgl_lock(-1)) 
+    {
         // 例程测试
 
         //setup_ui(&guider_ui);
@@ -200,16 +206,21 @@ void example_lvgl_port_task(void *arg)
 {
     ESP_LOGI(TAG, "Starting LVGL task");
     uint32_t task_delay_ms = EXAMPLE_LVGL_TASK_MAX_DELAY_MS;
-    while (1) {
+    while (1) 
+    {
         // Lock the mutex due to the LVGL APIs are not thread-safe
-        if (example_lvgl_lock(-1)) {
+        if (example_lvgl_lock(-1)) 
+        {
             task_delay_ms = lv_timer_handler();
             // Release the mutex
             example_lvgl_unlock();
         }
-        if (task_delay_ms > EXAMPLE_LVGL_TASK_MAX_DELAY_MS) {
+        if (task_delay_ms > EXAMPLE_LVGL_TASK_MAX_DELAY_MS) 
+        {
             task_delay_ms = EXAMPLE_LVGL_TASK_MAX_DELAY_MS;
-        } else if (task_delay_ms < EXAMPLE_LVGL_TASK_MIN_DELAY_MS) {
+        } 
+        else if (task_delay_ms < EXAMPLE_LVGL_TASK_MIN_DELAY_MS) 
+        {
             task_delay_ms = EXAMPLE_LVGL_TASK_MIN_DELAY_MS;
         }
         vTaskDelay(pdMS_TO_TICKS(task_delay_ms));
@@ -239,7 +250,8 @@ void lvgl_display_init(void)
                                                                                 example_notify_lvgl_flush_ready,
                                                                                 &disp_drv);
 
-    sh8601_vendor_config_t vendor_config = {
+    sh8601_vendor_config_t vendor_config = 
+    {
         .init_cmds = lcd_init_cmds,
         .init_cmds_size = sizeof(lcd_init_cmds) / sizeof(lcd_init_cmds[0]),
         .flags = {
@@ -250,7 +262,8 @@ void lvgl_display_init(void)
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_HOST, &io_config, &io_handle));
 
     esp_lcd_panel_handle_t panel_handle = NULL;
-    const esp_lcd_panel_dev_config_t panel_config = {
+    const esp_lcd_panel_dev_config_t panel_config = 
+    {
         .reset_gpio_num = EXAMPLE_PIN_NUM_LCD_RST,
         .rgb_ele_order = LCD_RGB_ELEMENT_ORDER_RGB,
         .bits_per_pixel = LCD_BIT_PER_PIXEL,
@@ -266,7 +279,8 @@ void lvgl_display_init(void)
 
 #if EXAMPLE_USE_TOUCH
     ESP_LOGI(TAG, "Initialize I2C bus");
-    const i2c_config_t i2c_conf = {
+    const i2c_config_t i2c_conf = 
+    {
         .mode = I2C_MODE_MASTER,
         .sda_io_num = EXAMPLE_PIN_NUM_TOUCH_SDA,
         .sda_pullup_en = GPIO_PULLUP_ENABLE,
@@ -282,7 +296,8 @@ void lvgl_display_init(void)
     // Attach the TOUCH to the I2C bus
     ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c((esp_lcd_i2c_bus_handle_t)TOUCH_HOST, &tp_io_config, &tp_io_handle));
 
-    const esp_lcd_touch_config_t tp_cfg = {
+    const esp_lcd_touch_config_t tp_cfg = 
+    {
         .x_max = EXAMPLE_LCD_H_RES-1,
         .y_max = EXAMPLE_LCD_V_RES-1,
         .rst_gpio_num = EXAMPLE_PIN_NUM_TOUCH_RST,
@@ -333,7 +348,8 @@ void lvgl_display_init(void)
 
     ESP_LOGI(TAG, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
-    const esp_timer_create_args_t lvgl_tick_timer_args = {
+    const esp_timer_create_args_t lvgl_tick_timer_args = 
+    {
         .callback = &example_increase_lvgl_tick,
         .name = "lvgl_tick"
     };
