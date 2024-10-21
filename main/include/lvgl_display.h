@@ -53,6 +53,10 @@
 #define EXAMPLE_LVGL_TASK_STACK_SIZE   (4 * 1024)
 #define EXAMPLE_LVGL_TASK_PRIORITY     2
 
+static void btn_event_cb(lv_event_t * e);
+
+void process_examples(void);
+
 bool example_notify_lvgl_flush_ready(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t *edata, void *user_ctx);
 
 void example_lvgl_flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);

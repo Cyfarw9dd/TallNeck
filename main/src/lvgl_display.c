@@ -19,25 +19,33 @@ static const sh8601_lcd_init_cmd_t lcd_init_cmds[] = {
     {0x51, (uint8_t []){0xFF}, 1, 0},  // 再次写显示亮度
 };
 
+static void btn_event_cb(lv_event_t * e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t * btn = lv_event_get_target(e);
+    if(code == LV_EVENT_CLICKED) {
+        static uint8_t cnt = 0;
+        cnt++;
+
+        /*Get the first child of the button which is the label and change its text*/
+        lv_obj_t * label = lv_obj_get_child(btn, 0);
+        lv_label_set_text_fmt(label, "Button: %d", cnt);
+        ESP_LOGI(TAG, "The button have been pressed.\n");
+    }
+}
+
 #if LV_BUILD_EXAMPLES
-// void lv_example_obj_1(void)
-// {
-//     lv_obj_t * obj1;
-//     obj1 = lv_obj_create(lv_screen_active());
-//     lv_obj_set_size(obj1, 100, 50);
-//     lv_obj_align(obj1, LV_ALIGN_CENTER, -60, -30);
+void process_examples(void)
+{
+    lv_obj_t * btn = lv_btn_create(lv_scr_act());     /*Add a button the current screen*/
+    lv_obj_set_pos(btn, 10, 10);                            /*Set its position*/
+    lv_obj_set_size(btn, 120, 50);                          /*Set its size*/
+    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);           /*Assign a callback to the button*/
 
-//     static lv_style_t style_shadow;
-//     lv_style_init(&style_shadow);
-//     lv_style_set_shadow_width(&style_shadow, 10);
-//     lv_style_set_shadow_spread(&style_shadow, 5);
-//     lv_style_set_shadow_color(&style_shadow, lv_palette_main(LV_PALETTE_BLUE));
-
-//     lv_obj_t * obj2;
-//     obj2 = lv_obj_create(lv_screen_active());
-//     lv_obj_add_style(obj2, &style_shadow, 0);
-//     lv_obj_align(obj2, LV_ALIGN_CENTER, 60, 30);
-// }
+    lv_obj_t * label = lv_label_create(btn);          /*Add a label to the button*/
+    lv_label_set_text(label, "Button");                     /*Set the labels text*/
+    lv_obj_center(label);
+}
 #endif
 
 bool example_notify_lvgl_flush_ready(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t *edata, void *user_ctx)
@@ -179,10 +187,10 @@ void lvgl_running_example(void)
    	    //events_init(&guider_ui);
         //user_bsp_Init(&guider_ui);
         //lv_demo_widgets();      /* A widgets example */
-        lv_demo_music();        /* A modern, smartphone-like music player demo. */
+        // lv_demo_music();        /* A modern, smartphone-like music player demo. */
         //lv_demo_stress();       /* A stress test for LVGL. */
         // lv_demo_benchmark();    /* A demo to measure the performance of LVGL or to compare different settings. */
-
+        process_examples();
         // Release the mutex
         example_lvgl_unlock();
     }
@@ -320,6 +328,7 @@ void lvgl_display_init(void)
     disp_drv.draw_buf = &disp_buf;
     disp_drv.user_data = panel_handle;
     lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
+    lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转180度
     // lv_disp_set_rotation(disp, LV_DISP_ROT_90); // 旋转90度
 
     ESP_LOGI(TAG, "Install LVGL tick timer");
