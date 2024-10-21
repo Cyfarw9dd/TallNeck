@@ -237,55 +237,51 @@ void setup_scr_scrLoader(lv_ui *ui);
 void setup_scr_scrPrintFini(lv_ui *ui);
 void setup_scr_scrScanFini(lv_ui *ui);
 
-LV_IMG_DECLARE(_btn_bg_4_111x105);
-LV_IMG_DECLARE(_setup_alpha_35x35);
+LV_IMG_DECLARE(_btn_bg_4_50x236);
+LV_IMG_DECLARE(_setup_alpha_20x20);
 
-LV_IMG_DECLARE(_btn_bg_3_111x105);
-LV_IMG_DECLARE(_print_alpha_35x35);
+LV_IMG_DECLARE(_btn_bg_3_50x236);
+LV_IMG_DECLARE(_print_alpha_20x20);
 
-LV_IMG_DECLARE(_btn_bg_1_111x105);
-LV_IMG_DECLARE(_copy_alpha_41x35);
+LV_IMG_DECLARE(_btn_bg_1_50x236);
+LV_IMG_DECLARE(_copy_alpha_18x78);
 
-LV_IMG_DECLARE(_btn_bg_2_111x105);
-LV_IMG_DECLARE(_scan_alpha_41x35);
-LV_IMG_DECLARE(_wifi_alpha_36x22);
-LV_IMG_DECLARE(_tel_alpha_31x21);
-LV_IMG_DECLARE(_eco_alpha_32x19);
-LV_IMG_DECLARE(_pc_alpha_33x21);
-LV_IMG_DECLARE(_example_alpha_346x171);
-LV_IMG_DECLARE(_bright_alpha_17x17);
-LV_IMG_DECLARE(_hue_alpha_15x15);
-LV_IMG_DECLARE(_example_alpha_269x133);
-LV_IMG_DECLARE(_example_alpha_346x171);
-LV_IMG_DECLARE(_bright_alpha_17x17);
-LV_IMG_DECLARE(_hue_alpha_15x15);
+LV_IMG_DECLARE(_btn_bg_2_50x236);
+LV_IMG_DECLARE(_scan_alpha_18x78);
+LV_IMG_DECLARE(_wifi_alpha_16x49);
+LV_IMG_DECLARE(_tel_alpha_14x47);
+LV_IMG_DECLARE(_eco_alpha_14x43);
+LV_IMG_DECLARE(_pc_alpha_15x47);
+LV_IMG_DECLARE(_example_alpha_155x382);
+LV_IMG_DECLARE(_bright_alpha_10x10);
+LV_IMG_DECLARE(_hue_alpha_9x9);
+LV_IMG_DECLARE(_example_alpha_120x297);
+LV_IMG_DECLARE(_example_alpha_155x382);
+LV_IMG_DECLARE(_bright_alpha_10x10);
+LV_IMG_DECLARE(_hue_alpha_9x9);
 
-LV_IMG_DECLARE(_btn_bg_4_111x105);
-LV_IMG_DECLARE(_internet_alpha_35x35);
+LV_IMG_DECLARE(_btn_bg_4_50x236);
+LV_IMG_DECLARE(_internet_alpha_20x20);
 
-LV_IMG_DECLARE(_btn_bg_3_111x105);
-LV_IMG_DECLARE(_mobile_alpha_39x35);
+LV_IMG_DECLARE(_btn_bg_3_50x236);
+LV_IMG_DECLARE(_mobile_alpha_17x78);
 
-LV_IMG_DECLARE(_btn_bg_2_111x105);
-LV_IMG_DECLARE(_usb_alpha_45x35);
-LV_IMG_DECLARE(_printer2_alpha_97x75);
-LV_IMG_DECLARE(_wave_alpha_23x29);
-LV_IMG_DECLARE(_phone_alpha_61x61);
-LV_IMG_DECLARE(_printer2_alpha_93x68);
-LV_IMG_DECLARE(_no_internet_alpha_44x32);
-LV_IMG_DECLARE(_cloud_alpha_82x45);
-LV_IMG_DECLARE(_printer2_alpha_93x68);
-LV_IMG_DECLARE(_no_internet_alpha_44x32);
-LV_IMG_DECLARE(_cloud_alpha_82x45);
-LV_IMG_DECLARE(_ready_alpha_97x97);
-LV_IMG_DECLARE(_ready_alpha_97x97);
+LV_IMG_DECLARE(_btn_bg_2_50x236);
+LV_IMG_DECLARE(_usb_alpha_20x78);
+LV_IMG_DECLARE(_printer2_alpha_43x167);
+LV_IMG_DECLARE(_wave_alpha_10x65);
+LV_IMG_DECLARE(_phone_alpha_27x137);
+LV_IMG_DECLARE(_printer2_alpha_42x153);
+LV_IMG_DECLARE(_no_internet_alpha_20x72);
+LV_IMG_DECLARE(_cloud_alpha_37x100);
+LV_IMG_DECLARE(_printer2_alpha_42x153);
+LV_IMG_DECLARE(_no_internet_alpha_20x72);
+LV_IMG_DECLARE(_cloud_alpha_37x100);
+LV_IMG_DECLARE(_ready_alpha_55x55);
+LV_IMG_DECLARE(_ready_alpha_55x55);
 
-LV_FONT_DECLARE(lv_font_montserratMedium_15)
-LV_FONT_DECLARE(lv_font_montserratMedium_14)
-LV_FONT_DECLARE(lv_font_montserratMedium_12)
-LV_FONT_DECLARE(lv_font_montserratMedium_17)
 LV_FONT_DECLARE(lv_font_montserratMedium_10)
-LV_FONT_DECLARE(lv_font_montserratMedium_22)
+LV_FONT_DECLARE(lv_font_montserratMedium_12)
 
 
 #ifdef __cplusplus

@@ -15,7 +15,6 @@ idf_component_register(
         "generated/setup_scr_scrScanFini.c"
         "generated/setup_scr_scrSetup.c"
         "generated/widgets_init.c"
-        "generated/gui.c"
         "custom/custom.c"
         "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c"
     INCLUDE_DIRS

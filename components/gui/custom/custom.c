@@ -34,15 +34,9 @@
  * Create a demo application
  */
 
-void hello(void)
-{
-    printf("hello world.\n");
-}
-
 void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
-    printf("hello world.\n");
 }
 
 void load_scrPrintFini_cb()

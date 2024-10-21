@@ -40,7 +40,6 @@
 #include "uart.h"
 #include "globals.h"
 #include "lvgl_display.h"
-#include "gui.h"
 
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)

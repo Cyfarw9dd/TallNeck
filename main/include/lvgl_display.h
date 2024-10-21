@@ -13,6 +13,11 @@
 #include "esp_timer.h"
 #include "esp_log.h"
 
+#include "gui_guider.h"
+#include "widgets_init.h"
+#include "events_init.h"
+#include "custom.h"
+
 #define LCD_HOST                SPI2_HOST
 #define TOUCH_HOST              I2C_NUM_0
 #if CONFIG_LV_COLOR_DEPTH == 32
@@ -78,3 +83,5 @@ void example_lvgl_port_task(void *arg);
 void lvgl_running_example(void);
 
 void lvgl_display_init(void);
+
+void gui_task(void);

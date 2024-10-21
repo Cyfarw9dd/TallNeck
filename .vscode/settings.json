@@ -40,7 +40,8 @@
     "custom.h": "c",
     "param.h": "c",
     "globals.h": "c",
-    "gui.h": "c"
+    "gui.h": "c",
+    "esp_log.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

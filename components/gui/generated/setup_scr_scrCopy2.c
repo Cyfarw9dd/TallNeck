@@ -20,7 +20,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 {
 	//Write codes scrCopy2
 	ui->scrCopy2 = lv_obj_create(NULL);
-	lv_obj_set_size(ui->scrCopy2, 536, 240);
+	lv_obj_set_size(ui->scrCopy2, 240, 536);
 	lv_obj_set_scrollbar_mode(ui->scrCopy2, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrCopy2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -31,7 +31,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	//Write codes scrCopy2_contBG
 	ui->scrCopy2_contBG = lv_obj_create(ui->scrCopy2);
 	lv_obj_set_pos(ui->scrCopy2_contBG, 0, 0);
-	lv_obj_set_size(ui->scrCopy2_contBG, 536, 52);
+	lv_obj_set_size(ui->scrCopy2_contBG, 240, 118);
 	lv_obj_set_scrollbar_mode(ui->scrCopy2_contBG, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrCopy2_contBG, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -54,16 +54,16 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_align(ui->scrCopy2_btnBack_label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_set_style_pad_all(ui->scrCopy2_btnBack, 0, LV_STATE_DEFAULT);
 	lv_obj_set_width(ui->scrCopy2_btnBack_label, LV_PCT(100));
-	lv_obj_set_pos(ui->scrCopy2_btnBack, 27, 15);
-	lv_obj_set_size(ui->scrCopy2_btnBack, 39, 28);
+	lv_obj_set_pos(ui->scrCopy2_btnBack, 12, 33);
+	lv_obj_set_size(ui->scrCopy2_btnBack, 17, 63);
 
 	//Write style for scrCopy2_btnBack, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_btnBack, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_btnBack, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_btnBack, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_btnBack, 9, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_btnBack, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_btnBack, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_btnBack, &lv_font_montserratMedium_22, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_btnBack, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_btnBack, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrCopy2_btnBack, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -71,14 +71,14 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	ui->scrCopy2_labelTitle = lv_label_create(ui->scrCopy2);
 	lv_label_set_text(ui->scrCopy2_labelTitle, "SCANNING IMAGE");
 	lv_label_set_long_mode(ui->scrCopy2_labelTitle, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrCopy2_labelTitle, 150, 20);
-	lv_obj_set_size(ui->scrCopy2_labelTitle, 234, 28);
+	lv_obj_set_pos(ui->scrCopy2_labelTitle, 67, 45);
+	lv_obj_set_size(ui->scrCopy2_labelTitle, 105, 63);
 
 	//Write style for scrCopy2_labelTitle, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrCopy2_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_labelTitle, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_labelTitle, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_labelTitle, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_labelTitle, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrCopy2_labelTitle, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrCopy2_labelTitle, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -93,11 +93,11 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	//Write codes scrCopy2_imgScanned
 	ui->scrCopy2_imgScanned = lv_img_create(ui->scrCopy2);
 	lv_obj_add_flag(ui->scrCopy2_imgScanned, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->scrCopy2_imgScanned, &_example_alpha_269x133);
+	lv_img_set_src(ui->scrCopy2_imgScanned, &_example_alpha_120x297);
 	lv_img_set_pivot(ui->scrCopy2_imgScanned, 0,0);
 	lv_img_set_angle(ui->scrCopy2_imgScanned, 0);
-	lv_obj_set_pos(ui->scrCopy2_imgScanned, 26, 52);
-	lv_obj_set_size(ui->scrCopy2_imgScanned, 269, 133);
+	lv_obj_set_pos(ui->scrCopy2_imgScanned, 12, 118);
+	lv_obj_set_size(ui->scrCopy2_imgScanned, 120, 297);
 
 	//Write style for scrCopy2_imgScanned, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_img_recolor_opa(ui->scrCopy2_imgScanned, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -113,30 +113,30 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_align(ui->scrCopy2_btnNext_label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_set_style_pad_all(ui->scrCopy2_btnNext, 0, LV_STATE_DEFAULT);
 	lv_obj_set_width(ui->scrCopy2_btnNext_label, LV_PCT(100));
-	lv_obj_set_pos(ui->scrCopy2_btnNext, 326, 193);
-	lv_obj_set_size(ui->scrCopy2_btnNext, 183, 33);
+	lv_obj_set_pos(ui->scrCopy2_btnNext, 146, 431);
+	lv_obj_set_size(ui->scrCopy2_btnNext, 82, 74);
 
 	//Write style for scrCopy2_btnNext, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_btnNext, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_btnNext, lv_color_hex(0x28b620), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_btnNext, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_btnNext, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_btnNext, 21, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_btnNext, 37, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_btnNext, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_btnNext, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_btnNext, &lv_font_montserratMedium_15, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_btnNext, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_btnNext, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrCopy2_btnNext, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes scrCopy2_contPanel
 	ui->scrCopy2_contPanel = lv_obj_create(ui->scrCopy2);
-	lv_obj_set_pos(ui->scrCopy2_contPanel, 326, 52);
-	lv_obj_set_size(ui->scrCopy2_contPanel, 183, 125);
+	lv_obj_set_pos(ui->scrCopy2_contPanel, 146, 118);
+	lv_obj_set_size(ui->scrCopy2_contPanel, 82, 279);
 	lv_obj_set_scrollbar_mode(ui->scrCopy2_contPanel, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrCopy2_contPanel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_contPanel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_contPanel, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_contPanel, 15, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_contPanel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_contPanel, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_contPanel, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -150,14 +150,14 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	ui->scrCopy2_labelCopies = lv_label_create(ui->scrCopy2_contPanel);
 	lv_label_set_text(ui->scrCopy2_labelCopies, "Copies");
 	lv_label_set_long_mode(ui->scrCopy2_labelCopies, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrCopy2_labelCopies, 35, 6);
-	lv_obj_set_size(ui->scrCopy2_labelCopies, 111, 28);
+	lv_obj_set_pos(ui->scrCopy2_labelCopies, 16, 13);
+	lv_obj_set_size(ui->scrCopy2_labelCopies, 50, 63);
 
 	//Write style for scrCopy2_labelCopies, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_labelCopies, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrCopy2_labelCopies, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_labelCopies, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_labelCopies, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_labelCopies, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_labelCopies, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrCopy2_labelCopies, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrCopy2_labelCopies, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -173,17 +173,17 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	ui->scrCopy2_labelCounter = lv_label_create(ui->scrCopy2_contPanel);
 	lv_label_set_text(ui->scrCopy2_labelCounter, "1");
 	lv_label_set_long_mode(ui->scrCopy2_labelCounter, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrCopy2_labelCounter, 53, 30);
-	lv_obj_set_size(ui->scrCopy2_labelCounter, 71, 26);
+	lv_obj_set_pos(ui->scrCopy2_labelCounter, 24, 68);
+	lv_obj_set_size(ui->scrCopy2_labelCounter, 32, 59);
 
 	//Write style for scrCopy2_labelCounter, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_labelCounter, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_opa(ui->scrCopy2_labelCounter, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_color(ui->scrCopy2_labelCounter, lv_color_hex(0x909090), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_side(ui->scrCopy2_labelCounter, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_labelCounter, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_labelCounter, 9, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_labelCounter, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_labelCounter, &lv_font_montserratMedium_22, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_labelCounter, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_labelCounter, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrCopy2_labelCounter, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrCopy2_labelCounter, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -203,18 +203,18 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_align(ui->scrCopy2_btnPlus_label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_set_style_pad_all(ui->scrCopy2_btnPlus, 0, LV_STATE_DEFAULT);
 	lv_obj_set_width(ui->scrCopy2_btnPlus_label, LV_PCT(100));
-	lv_obj_set_pos(ui->scrCopy2_btnPlus, 136, 30);
-	lv_obj_set_size(ui->scrCopy2_btnPlus, 39, 26);
+	lv_obj_set_pos(ui->scrCopy2_btnPlus, 61, 68);
+	lv_obj_set_size(ui->scrCopy2_btnPlus, 17, 59);
 
 	//Write style for scrCopy2_btnPlus, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_btnPlus, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_btnPlus, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_btnPlus, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_btnPlus, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_btnPlus, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_btnPlus, 9, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_btnPlus, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_btnPlus, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_btnPlus, &lv_font_montserratMedium_22, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_btnPlus, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_btnPlus, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrCopy2_btnPlus, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -226,18 +226,18 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_align(ui->scrCopy2_btnMinus_label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_set_style_pad_all(ui->scrCopy2_btnMinus, 0, LV_STATE_DEFAULT);
 	lv_obj_set_width(ui->scrCopy2_btnMinus_label, LV_PCT(100));
-	lv_obj_set_pos(ui->scrCopy2_btnMinus, 6, 30);
-	lv_obj_set_size(ui->scrCopy2_btnMinus, 39, 26);
+	lv_obj_set_pos(ui->scrCopy2_btnMinus, 3, 68);
+	lv_obj_set_size(ui->scrCopy2_btnMinus, 17, 59);
 
 	//Write style for scrCopy2_btnMinus, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_btnMinus, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_btnMinus, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_btnMinus, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_btnMinus, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_btnMinus, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_btnMinus, 9, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_btnMinus, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_btnMinus, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_btnMinus, &lv_font_montserratMedium_22, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_btnMinus, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_btnMinus, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrCopy2_btnMinus, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -245,14 +245,14 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	ui->scrCopy2_labelColor = lv_label_create(ui->scrCopy2_contPanel);
 	lv_label_set_text(ui->scrCopy2_labelColor, "Color");
 	lv_label_set_long_mode(ui->scrCopy2_labelColor, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrCopy2_labelColor, 5, 74);
-	lv_obj_set_size(ui->scrCopy2_labelColor, 69, 22);
+	lv_obj_set_pos(ui->scrCopy2_labelColor, 2, 165);
+	lv_obj_set_size(ui->scrCopy2_labelColor, 31, 51);
 
 	//Write style for scrCopy2_labelColor, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_labelColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrCopy2_labelColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_labelColor, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_labelColor, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_labelColor, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_labelColor, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrCopy2_labelColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrCopy2_labelColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -268,14 +268,14 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	ui->scrCopy2_labelVertical = lv_label_create(ui->scrCopy2_contPanel);
 	lv_label_set_text(ui->scrCopy2_labelVertical, "Vertical\n");
 	lv_label_set_long_mode(ui->scrCopy2_labelVertical, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrCopy2_labelVertical, 83, 75);
-	lv_obj_set_size(ui->scrCopy2_labelVertical, 96, 22);
+	lv_obj_set_pos(ui->scrCopy2_labelVertical, 37, 167);
+	lv_obj_set_size(ui->scrCopy2_labelVertical, 43, 51);
 
 	//Write style for scrCopy2_labelVertical, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_labelVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrCopy2_labelVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrCopy2_labelVertical, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_labelVertical, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_labelVertical, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_labelVertical, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrCopy2_labelVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrCopy2_labelVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -289,15 +289,15 @@ void setup_scr_scrCopy2(lv_ui *ui)
 
 	//Write codes scrCopy2_swColor
 	ui->scrCopy2_swColor = lv_switch_create(ui->scrCopy2_contPanel);
-	lv_obj_set_pos(ui->scrCopy2_swColor, 14, 97);
-	lv_obj_set_size(ui->scrCopy2_swColor, 49, 19);
+	lv_obj_set_pos(ui->scrCopy2_swColor, 6, 218);
+	lv_obj_set_size(ui->scrCopy2_swColor, 22, 22);
 
 	//Write style for scrCopy2_swColor, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_swColor, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_swColor, lv_color_hex(0xe6e2e6), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_swColor, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_swColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_swColor, 12, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_swColor, 21, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_swColor, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write style for scrCopy2_swColor, Part: LV_PART_INDICATOR, State: LV_STATE_CHECKED.
@@ -311,19 +311,19 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_set_style_bg_color(ui->scrCopy2_swColor, lv_color_hex(0xffffff), LV_PART_KNOB|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_swColor, LV_GRAD_DIR_NONE, LV_PART_KNOB|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_swColor, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_swColor, 111, LV_PART_KNOB|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_swColor, 197, LV_PART_KNOB|LV_STATE_DEFAULT);
 
 	//Write codes scrCopy2_swVertical
 	ui->scrCopy2_swVertical = lv_switch_create(ui->scrCopy2_contPanel);
-	lv_obj_set_pos(ui->scrCopy2_swVertical, 109, 97);
-	lv_obj_set_size(ui->scrCopy2_swVertical, 49, 19);
+	lv_obj_set_pos(ui->scrCopy2_swVertical, 49, 218);
+	lv_obj_set_size(ui->scrCopy2_swVertical, 22, 22);
 
 	//Write style for scrCopy2_swVertical, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrCopy2_swVertical, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_swVertical, lv_color_hex(0xe6e2e6), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_swVertical, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_swVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_swVertical, 12, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_swVertical, 21, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrCopy2_swVertical, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write style for scrCopy2_swVertical, Part: LV_PART_INDICATOR, State: LV_STATE_CHECKED.
@@ -337,17 +337,17 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_set_style_bg_color(ui->scrCopy2_swVertical, lv_color_hex(0xffffff), LV_PART_KNOB|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_swVertical, LV_GRAD_DIR_NONE, LV_PART_KNOB|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_swVertical, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_swVertical, 111, LV_PART_KNOB|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_swVertical, 197, LV_PART_KNOB|LV_STATE_DEFAULT);
 
 	//Write codes scrCopy2_contDDLpanel
 	ui->scrCopy2_contDDLpanel = lv_obj_create(ui->scrCopy2);
-	lv_obj_set_pos(ui->scrCopy2_contDDLpanel, 26, 193);
-	lv_obj_set_size(ui->scrCopy2_contDDLpanel, 269, 39);
+	lv_obj_set_pos(ui->scrCopy2_contDDLpanel, 12, 431);
+	lv_obj_set_size(ui->scrCopy2_contDDLpanel, 120, 88);
 	lv_obj_set_scrollbar_mode(ui->scrCopy2_contDDLpanel, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrCopy2_contDDLpanel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrCopy2_contDDLpanel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_contDDLpanel, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_contDDLpanel, 15, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_contDDLpanel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_contDDLpanel, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_contDDLpanel, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -360,18 +360,18 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	//Write codes scrCopy2_ddlistMode
 	ui->scrCopy2_ddlistMode = lv_dropdown_create(ui->scrCopy2_contDDLpanel);
 	lv_dropdown_set_options(ui->scrCopy2_ddlistMode, "Best\nNormal\nDraft");
-	lv_obj_set_pos(ui->scrCopy2_ddlistMode, 8, 7);
-	lv_obj_set_size(ui->scrCopy2_ddlistMode, 120, 26);
+	lv_obj_set_pos(ui->scrCopy2_ddlistMode, 4, 17);
+	lv_obj_set_size(ui->scrCopy2_ddlistMode, 54, 59);
 
 	//Write style for scrCopy2_ddlistMode, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistMode, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistMode, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistMode, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 7, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistMode, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistMode, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -379,13 +379,13 @@ void setup_scr_scrCopy2(lv_ui *ui)
 
 	//Write style for scrCopy2_ddlistMode, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistMode, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistMode, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistMode, 8, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 3, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 5, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistMode, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistMode, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_CHECKED);
@@ -393,13 +393,13 @@ void setup_scr_scrCopy2(lv_ui *ui)
 
 	//Write style for scrCopy2_ddlistMode, Part: LV_PART_MAIN, State: LV_STATE_FOCUSED.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistMode, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_FOCUSED);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistMode, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistMode, 0, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistMode, 8, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_FOCUSED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 3, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 5, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistMode, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistMode, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_FOCUSED);
@@ -416,7 +416,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistMode, 8, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistMode, 6, LV_PART_MAIN|LV_STATE_DISABLED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 3, LV_PART_MAIN|LV_STATE_DISABLED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistMode, 5, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistMode, 255, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistMode, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistMode, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DISABLED);
@@ -439,7 +439,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	
 	lv_style_set_max_height(&style_scrCopy2_ddlistMode_extra_list_main_default, 90);
 	lv_style_set_text_color(&style_scrCopy2_ddlistMode_extra_list_main_default, lv_color_hex(0x2f3243));
-	lv_style_set_text_font(&style_scrCopy2_ddlistMode_extra_list_main_default, &lv_font_montserratMedium_12);
+	lv_style_set_text_font(&style_scrCopy2_ddlistMode_extra_list_main_default, &lv_font_montserratMedium_10);
 	lv_style_set_text_opa(&style_scrCopy2_ddlistMode_extra_list_main_default, 255);
 	lv_style_set_border_width(&style_scrCopy2_ddlistMode_extra_list_main_default, 0);
 	lv_style_set_radius(&style_scrCopy2_ddlistMode_extra_list_main_default, 0);
@@ -452,7 +452,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	static lv_style_t style_scrCopy2_ddlistMode_extra_list_scrollbar_default;
 	ui_init_style(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default);
 	
-	lv_style_set_radius(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default, 3);
+	lv_style_set_radius(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default, 5);
 	lv_style_set_bg_opa(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default, 255);
 	lv_style_set_bg_color(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default, lv_color_hex(0xffffff));
 	lv_style_set_bg_grad_dir(&style_scrCopy2_ddlistMode_extra_list_scrollbar_default, LV_GRAD_DIR_NONE);
@@ -461,18 +461,18 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	//Write codes scrCopy2_ddlistDPI
 	ui->scrCopy2_ddlistDPI = lv_dropdown_create(ui->scrCopy2_contDDLpanel);
 	lv_dropdown_set_options(ui->scrCopy2_ddlistDPI, "72 DPI\n96 DPI\n150 DPI\n300 DPI\n600 DPI\n900 DPI\n1200 DPI");
-	lv_obj_set_pos(ui->scrCopy2_ddlistDPI, 139, 7);
-	lv_obj_set_size(ui->scrCopy2_ddlistDPI, 120, 26);
+	lv_obj_set_pos(ui->scrCopy2_ddlistDPI, 62, 17);
+	lv_obj_set_size(ui->scrCopy2_ddlistDPI, 54, 59);
 
 	//Write style for scrCopy2_ddlistDPI, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistDPI, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistDPI, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 7, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistDPI, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -480,13 +480,13 @@ void setup_scr_scrCopy2(lv_ui *ui)
 
 	//Write style for scrCopy2_ddlistDPI, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistDPI, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistDPI, 8, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_CHECKED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 3, LV_PART_MAIN|LV_STATE_CHECKED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 5, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_CHECKED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistDPI, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_CHECKED);
@@ -494,13 +494,13 @@ void setup_scr_scrCopy2(lv_ui *ui)
 
 	//Write style for scrCopy2_ddlistDPI, Part: LV_PART_MAIN, State: LV_STATE_FOCUSED.
 	lv_obj_set_style_text_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_FOCUSED);
-	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_set_style_text_font(ui->scrCopy2_ddlistDPI, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_text_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_border_width(ui->scrCopy2_ddlistDPI, 0, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistDPI, 8, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_FOCUSED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 3, LV_PART_MAIN|LV_STATE_FOCUSED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 5, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_FOCUSED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistDPI, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_FOCUSED);
@@ -517,7 +517,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	lv_obj_set_style_pad_top(ui->scrCopy2_ddlistDPI, 8, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_pad_left(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_pad_right(ui->scrCopy2_ddlistDPI, 6, LV_PART_MAIN|LV_STATE_DISABLED);
-	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 3, LV_PART_MAIN|LV_STATE_DISABLED);
+	lv_obj_set_style_radius(ui->scrCopy2_ddlistDPI, 5, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_opa(ui->scrCopy2_ddlistDPI, 255, LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_color(ui->scrCopy2_ddlistDPI, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DISABLED);
 	lv_obj_set_style_bg_grad_dir(ui->scrCopy2_ddlistDPI, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DISABLED);
@@ -540,7 +540,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	
 	lv_style_set_max_height(&style_scrCopy2_ddlistDPI_extra_list_main_default, 90);
 	lv_style_set_text_color(&style_scrCopy2_ddlistDPI_extra_list_main_default, lv_color_hex(0x2f3243));
-	lv_style_set_text_font(&style_scrCopy2_ddlistDPI_extra_list_main_default, &lv_font_montserratMedium_12);
+	lv_style_set_text_font(&style_scrCopy2_ddlistDPI_extra_list_main_default, &lv_font_montserratMedium_10);
 	lv_style_set_text_opa(&style_scrCopy2_ddlistDPI_extra_list_main_default, 255);
 	lv_style_set_border_width(&style_scrCopy2_ddlistDPI_extra_list_main_default, 0);
 	lv_style_set_radius(&style_scrCopy2_ddlistDPI_extra_list_main_default, 0);
@@ -553,7 +553,7 @@ void setup_scr_scrCopy2(lv_ui *ui)
 	static lv_style_t style_scrCopy2_ddlistDPI_extra_list_scrollbar_default;
 	ui_init_style(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default);
 	
-	lv_style_set_radius(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default, 3);
+	lv_style_set_radius(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default, 5);
 	lv_style_set_bg_opa(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default, 255);
 	lv_style_set_bg_color(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default, lv_color_hex(0xffffff));
 	lv_style_set_bg_grad_dir(&style_scrCopy2_ddlistDPI_extra_list_scrollbar_default, LV_GRAD_DIR_NONE);

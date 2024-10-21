@@ -20,7 +20,7 @@ void setup_scr_scrLoader(lv_ui *ui)
 {
 	//Write codes scrLoader
 	ui->scrLoader = lv_obj_create(NULL);
-	lv_obj_set_size(ui->scrLoader, 536, 240);
+	lv_obj_set_size(ui->scrLoader, 240, 536);
 	lv_obj_set_scrollbar_mode(ui->scrLoader, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrLoader, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -31,7 +31,7 @@ void setup_scr_scrLoader(lv_ui *ui)
 	//Write codes scrLoader_contBG
 	ui->scrLoader_contBG = lv_obj_create(ui->scrLoader);
 	lv_obj_set_pos(ui->scrLoader_contBG, 0, 0);
-	lv_obj_set_size(ui->scrLoader_contBG, 536, 240);
+	lv_obj_set_size(ui->scrLoader_contBG, 240, 536);
 	lv_obj_set_scrollbar_mode(ui->scrLoader_contBG, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrLoader_contBG, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -53,8 +53,8 @@ void setup_scr_scrLoader(lv_ui *ui)
 	lv_arc_set_bg_angles(ui->scrLoader_arcLoader, 0, 360);
 	lv_arc_set_value(ui->scrLoader_arcLoader, 70);
 	lv_arc_set_rotation(ui->scrLoader_arcLoader, 270);
-	lv_obj_set_pos(ui->scrLoader_arcLoader, 189, 49);
-	lv_obj_set_size(ui->scrLoader_arcLoader, 123, 123);
+	lv_obj_set_pos(ui->scrLoader_arcLoader, 85, 110);
+	lv_obj_set_size(ui->scrLoader_arcLoader, 70, 70);
 
 	//Write style for scrLoader_arcLoader, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrLoader_arcLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -62,7 +62,7 @@ void setup_scr_scrLoader(lv_ui *ui)
 	lv_obj_set_style_arc_width(ui->scrLoader_arcLoader, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_arc_opa(ui->scrLoader_arcLoader, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_arc_color(ui->scrLoader_arcLoader, lv_color_hex(0x2f3243), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrLoader_arcLoader, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrLoader_arcLoader, 11, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_top(ui->scrLoader_arcLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_bottom(ui->scrLoader_arcLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_left(ui->scrLoader_arcLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -78,18 +78,18 @@ void setup_scr_scrLoader(lv_ui *ui)
 	lv_obj_set_style_bg_opa(ui->scrLoader_arcLoader, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
 	lv_obj_set_style_pad_all(ui->scrLoader_arcLoader, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
 
-	// //Write codes scrLoader_tpLoader
+	//Write codes scrLoader_tpLoader
 	// ui->scrLoader_tpLoader = lv_textprogress_create(ui->scrLoader);
 	// lv_textprogress_set_range_value(ui->scrLoader_tpLoader, 0, 100, 0, 0);
 	// lv_textprogress_set_decimal(ui->scrLoader_tpLoader, 0);
 	// lv_textprogress_set_value(ui->scrLoader_tpLoader, 0);
-	// lv_obj_set_pos(ui->scrLoader_tpLoader, 212, 97);
-	// lv_obj_set_size(ui->scrLoader_tpLoader, 111, 28);
+	// lv_obj_set_pos(ui->scrLoader_tpLoader, 95, 216);
+	// lv_obj_set_size(ui->scrLoader_tpLoader, 50, 63);
 
 	//Write style for scrLoader_tpLoader, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_radius(ui->scrLoader_tpLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrLoader_tpLoader, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrLoader_tpLoader, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrLoader_tpLoader, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrLoader_tpLoader, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrLoader_tpLoader, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrLoader_tpLoader, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -103,14 +103,14 @@ void setup_scr_scrLoader(lv_ui *ui)
 	ui->scrLoader_labelPrompt = lv_label_create(ui->scrLoader);
 	lv_label_set_text(ui->scrLoader_labelPrompt, "Printing, please waiting...");
 	lv_label_set_long_mode(ui->scrLoader_labelPrompt, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrLoader_labelPrompt, 81, 202);
-	lv_obj_set_size(ui->scrLoader_labelPrompt, 374, 28);
+	lv_obj_set_pos(ui->scrLoader_labelPrompt, 36, 451);
+	lv_obj_set_size(ui->scrLoader_labelPrompt, 167, 63);
 
 	//Write style for scrLoader_labelPrompt, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrLoader_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrLoader_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrLoader_labelPrompt, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrLoader_labelPrompt, &lv_font_montserratMedium_17, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrLoader_labelPrompt, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrLoader_labelPrompt, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrLoader_labelPrompt, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrLoader_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

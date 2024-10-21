@@ -20,7 +20,7 @@ void setup_scr_scrSetup(lv_ui *ui)
 {
 	//Write codes scrSetup
 	ui->scrSetup = lv_obj_create(NULL);
-	lv_obj_set_size(ui->scrSetup, 536, 240);
+	lv_obj_set_size(ui->scrSetup, 240, 536);
 	lv_obj_set_scrollbar_mode(ui->scrSetup, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrSetup, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -31,7 +31,7 @@ void setup_scr_scrSetup(lv_ui *ui)
 	//Write codes scrSetup_contBG
 	ui->scrSetup_contBG = lv_obj_create(ui->scrSetup);
 	lv_obj_set_pos(ui->scrSetup_contBG, 0, 0);
-	lv_obj_set_size(ui->scrSetup_contBG, 536, 240);
+	lv_obj_set_size(ui->scrSetup_contBG, 240, 536);
 	lv_obj_set_scrollbar_mode(ui->scrSetup_contBG, LV_SCROLLBAR_MODE_OFF);
 
 	//Write style for scrSetup_contBG, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -49,11 +49,11 @@ void setup_scr_scrSetup(lv_ui *ui)
 	//Write codes scrSetup_imgPrinter
 	ui->scrSetup_imgPrinter = lv_img_create(ui->scrSetup_contBG);
 	lv_obj_add_flag(ui->scrSetup_imgPrinter, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->scrSetup_imgPrinter, &_printer2_alpha_93x68);
+	lv_img_set_src(ui->scrSetup_imgPrinter, &_printer2_alpha_42x153);
 	lv_img_set_pivot(ui->scrSetup_imgPrinter, 55,55);
 	lv_img_set_angle(ui->scrSetup_imgPrinter, 0);
-	lv_obj_set_pos(ui->scrSetup_imgPrinter, 138, 68);
-	lv_obj_set_size(ui->scrSetup_imgPrinter, 93, 68);
+	lv_obj_set_pos(ui->scrSetup_imgPrinter, 62, 153);
+	lv_obj_set_size(ui->scrSetup_imgPrinter, 42, 153);
 
 	//Write style for scrSetup_imgPrinter, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_img_recolor_opa(ui->scrSetup_imgPrinter, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -64,11 +64,11 @@ void setup_scr_scrSetup(lv_ui *ui)
 	//Write codes scrSetup_imgWave
 	ui->scrSetup_imgWave = lv_img_create(ui->scrSetup_contBG);
 	lv_obj_add_flag(ui->scrSetup_imgWave, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->scrSetup_imgWave, &_no_internet_alpha_44x32);
+	lv_img_set_src(ui->scrSetup_imgWave, &_no_internet_alpha_20x72);
 	lv_img_set_pivot(ui->scrSetup_imgWave, 50,50);
 	lv_img_set_angle(ui->scrSetup_imgWave, 0);
-	lv_obj_set_pos(ui->scrSetup_imgWave, 246, 60);
-	lv_obj_set_size(ui->scrSetup_imgWave, 44, 32);
+	lv_obj_set_pos(ui->scrSetup_imgWave, 110, 134);
+	lv_obj_set_size(ui->scrSetup_imgWave, 20, 72);
 
 	//Write style for scrSetup_imgWave, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_img_recolor_opa(ui->scrSetup_imgWave, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -79,11 +79,11 @@ void setup_scr_scrSetup(lv_ui *ui)
 	//Write codes scrSetup_imgCloud
 	ui->scrSetup_imgCloud = lv_img_create(ui->scrSetup_contBG);
 	lv_obj_add_flag(ui->scrSetup_imgCloud, LV_OBJ_FLAG_CLICKABLE);
-	lv_img_set_src(ui->scrSetup_imgCloud, &_cloud_alpha_82x45);
+	lv_img_set_src(ui->scrSetup_imgCloud, &_cloud_alpha_37x100);
 	lv_img_set_pivot(ui->scrSetup_imgCloud, 50,50);
 	lv_img_set_angle(ui->scrSetup_imgCloud, 0);
-	lv_obj_set_pos(ui->scrSetup_imgCloud, 309, 32);
-	lv_obj_set_size(ui->scrSetup_imgCloud, 82, 45);
+	lv_obj_set_pos(ui->scrSetup_imgCloud, 138, 72);
+	lv_obj_set_size(ui->scrSetup_imgCloud, 37, 100);
 
 	//Write style for scrSetup_imgCloud, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_img_recolor_opa(ui->scrSetup_imgCloud, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -95,14 +95,14 @@ void setup_scr_scrSetup(lv_ui *ui)
 	ui->scrSetup_labelPrompt = lv_label_create(ui->scrSetup_contBG);
 	lv_label_set_text(ui->scrSetup_labelPrompt, "You have no permission to change the settings");
 	lv_label_set_long_mode(ui->scrSetup_labelPrompt, LV_LABEL_LONG_WRAP);
-	lv_obj_set_pos(ui->scrSetup_labelPrompt, 33, 161);
-	lv_obj_set_size(ui->scrSetup_labelPrompt, 469, 28);
+	lv_obj_set_pos(ui->scrSetup_labelPrompt, 15, 360);
+	lv_obj_set_size(ui->scrSetup_labelPrompt, 210, 63);
 
 	//Write style for scrSetup_labelPrompt, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_border_width(ui->scrSetup_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_radius(ui->scrSetup_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrSetup_labelPrompt, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrSetup_labelPrompt, &lv_font_montserratMedium_14, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrSetup_labelPrompt, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrSetup_labelPrompt, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_letter_space(ui->scrSetup_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_line_space(ui->scrSetup_labelPrompt, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -122,8 +122,8 @@ void setup_scr_scrSetup(lv_ui *ui)
 	lv_obj_align(ui->scrSetup_btnBack_label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_set_style_pad_all(ui->scrSetup_btnBack, 0, LV_STATE_DEFAULT);
 	lv_obj_set_width(ui->scrSetup_btnBack_label, LV_PCT(100));
-	lv_obj_set_pos(ui->scrSetup_btnBack, 201, 188);
-	lv_obj_set_size(ui->scrSetup_btnBack, 134, 34);
+	lv_obj_set_pos(ui->scrSetup_btnBack, 90, 421);
+	lv_obj_set_size(ui->scrSetup_btnBack, 60, 76);
 
 	//Write style for scrSetup_btnBack, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
 	lv_obj_set_style_bg_opa(ui->scrSetup_btnBack, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -131,10 +131,10 @@ void setup_scr_scrSetup(lv_ui *ui)
 	lv_obj_set_style_border_opa(ui->scrSetup_btnBack, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_color(ui->scrSetup_btnBack, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_border_side(ui->scrSetup_btnBack, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_radius(ui->scrSetup_btnBack, 21, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_radius(ui->scrSetup_btnBack, 37, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_shadow_width(ui->scrSetup_btnBack, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(ui->scrSetup_btnBack, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-	lv_obj_set_style_text_font(ui->scrSetup_btnBack, &lv_font_montserratMedium_14, LV_PART_MAIN|LV_STATE_DEFAULT);
+	lv_obj_set_style_text_font(ui->scrSetup_btnBack, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_opa(ui->scrSetup_btnBack, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 	lv_obj_set_style_text_align(ui->scrSetup_btnBack, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 

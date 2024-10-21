@@ -15,8 +15,6 @@ extern "C" {
 
 #include "gui_guider.h"
 
-void hello(void);
-
 void custom_init(lv_ui *ui);
 
 void load_scrPrintFini_cb();

@@ -326,8 +326,7 @@ void lvgl_display_init(void)
     disp_drv.draw_buf = &disp_buf;
     disp_drv.user_data = panel_handle;
     lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
-    // lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转180度
-    lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转90度
+    lv_disp_set_rotation(disp, LV_DISP_ROT_180); 
 
     ESP_LOGI(TAG, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
@@ -352,5 +351,33 @@ void lvgl_display_init(void)
 #endif
 
     lvgl_running_example();
+}
+
+void gui_task(void)
+{
+    ESP_LOGI(TAG, "Starting LVGL task");
+    uint32_t task_delay_ms = EXAMPLE_LVGL_TASK_MAX_DELAY_MS;
+    events_init(&guider_ui);  
+    setup_ui(&guider_ui);
+
+    while (1) 
+    {
+        // Lock the mutex due to the LVGL APIs are not thread-safe
+        if (example_lvgl_lock(-1)) 
+        {
+            task_delay_ms = lv_timer_handler();
+            // Release the mutex
+            example_lvgl_unlock();
+        }
+        if (task_delay_ms > EXAMPLE_LVGL_TASK_MAX_DELAY_MS) 
+        {
+            task_delay_ms = EXAMPLE_LVGL_TASK_MAX_DELAY_MS;
+        } 
+        else if (task_delay_ms < EXAMPLE_LVGL_TASK_MIN_DELAY_MS) 
+        {
+            task_delay_ms = EXAMPLE_LVGL_TASK_MIN_DELAY_MS;
+        }
+        vTaskDelay(pdMS_TO_TICKS(task_delay_ms));
+    }
 }
 
