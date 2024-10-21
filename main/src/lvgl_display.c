@@ -368,5 +368,6 @@ void lvgl_display_init(void)
     lv_indev_drv_register(&indev_drv);
 #endif
 
-    lvgl_running_example();
+    // lvgl_running_example();
 }
+

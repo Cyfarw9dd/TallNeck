@@ -1,5 +1,3 @@
-#pragma once
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +40,7 @@
 #include "uart.h"
 #include "globals.h"
 #include "lvgl_display.h"
+#include "gui.h"
 
 
 #define NOTCONN_PERIOD          pdMS_TO_TICKS(500)
@@ -66,6 +65,7 @@ TaskHandle_t orbit_trking_handler;
 TaskHandle_t tcp_server_handler;
 TaskHandle_t stepper_motor_handler;
 TaskHandle_t uart_handler;
+TaskHandle_t gui_handler;
 
 QueueHandle_t SatnameQueueHandler;
 
@@ -152,7 +152,9 @@ void app_main(void)
     // uart前台交互任务，高优先级，位于核心0
     xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 0);
     // lvgl例程测试
-    xTaskCreatePinnedToCore(example_lvgl_port_task, "LVGL", EXAMPLE_LVGL_TASK_STACK_SIZE, NULL, EXAMPLE_LVGL_TASK_PRIORITY, NULL, 0);
+    // xTaskCreatePinnedToCore(example_lvgl_port_task, "LVGL", EXAMPLE_LVGL_TASK_STACK_SIZE, NULL, EXAMPLE_LVGL_TASK_PRIORITY, NULL, 0);
+    // gui任务，高优先级，位于核心0
+    xTaskCreatePinnedToCore(gui_task, "gui_task", 8192, NULL, 9, NULL, 0);
     LedStatus = NOTCONNECTED;
 
 }

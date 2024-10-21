@@ -17,6 +17,7 @@ extern TaskHandle_t orbit_trking_handler;
 extern TaskHandle_t tcp_server_handler;
 extern TaskHandle_t stepper_motor_handler;
 extern TaskHandle_t uart_handler;
+extern TaskHandle_t gui_handler;
 
 extern QueueHandle_t SatnameQueueHandler;
 

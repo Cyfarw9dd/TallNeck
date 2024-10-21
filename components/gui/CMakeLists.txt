@@ -15,13 +15,18 @@ idf_component_register(
         "generated/setup_scr_scrScanFini.c"
         "generated/setup_scr_scrSetup.c"
         "generated/widgets_init.c"
+        "generated/gui.c"
         "custom/custom.c"
+        "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c"
     INCLUDE_DIRS
         "."
         "generated"
         "custom"
+        "${CMAKE_SOURCE_DIR}/main/include"
     REQUIRES
         lvgl
+        esp_lcd_sh8601
+        esp_lcd_touch_ft5x06
 )
 
 # 添加图像源文件

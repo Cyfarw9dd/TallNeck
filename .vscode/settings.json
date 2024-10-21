@@ -36,7 +36,11 @@
     "lv_demos.h": "c",
     "esp_lcd_sh8601.h": "c",
     "esp_lcd_touch_ft5x06.h": "c",
-    "lvgl_display.h": "c"
+    "lvgl_display.h": "c",
+    "custom.h": "c",
+    "param.h": "c",
+    "globals.h": "c",
+    "gui.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

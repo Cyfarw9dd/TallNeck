@@ -1,3 +1,5 @@
+#pragma once
+
 #include "globals.h"
 #include "lvgl.h"
 #include "lv_demos.h"
