@@ -40,7 +40,7 @@ lenbuf = []
 block_size = JPEG_SPLIT_HEIGHT;
 spilts = math.ceil(height/block_size)
 
-c_code = '''//LVGL SJPG C ARRAY\n#include "lvgl.h"\n\nconst uint8_t ''' + OUTPUT_FILE_NAME + '''_map[] = {\n'''
+c_code = '''//LVGL SJPG C ARRAY\n#include "lvgl/lvgl.h"\n\nconst uint8_t ''' + OUTPUT_FILE_NAME + '''_map[] = {\n'''
 
 sjpeg_data = bytearray()
 sjpeg = bytearray()

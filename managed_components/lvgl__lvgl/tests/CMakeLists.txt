@@ -341,7 +341,7 @@ add_library(test_common
 target_include_directories(test_common PUBLIC ${TEST_INCLUDE_DIRS})
 target_compile_options(test_common PUBLIC ${LVGL_TESTFILE_COMPILE_OPTIONS})
 
-# Some examples `#include "lvgl.h"` - which is a path which is not
+# Some examples `#include "lvgl/lvgl.h"` - which is a path which is not
 # in this source repository. If this repo is in a directory names 'lvgl'
 # then we can add our parent directory to the include path.
 # TODO: This is not good practice and should be fixed.
