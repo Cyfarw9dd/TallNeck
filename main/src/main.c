@@ -154,7 +154,7 @@ void app_main(void)
     // lvgl例程测试
     // xTaskCreatePinnedToCore(example_lvgl_port_task, "LVGL", EXAMPLE_LVGL_TASK_STACK_SIZE, NULL, EXAMPLE_LVGL_TASK_PRIORITY, NULL, 0);
     // gui任务，高优先级，位于核心0
-    xTaskCreatePinnedToCore(gui_task, "gui_task", 8192, NULL, 9, NULL, 0);
+    xTaskCreatePinnedToCore(gui_task, "gui_task", 8192, NULL, 9, &gui_handler, 0);
     LedStatus = NOTCONNECTED;
 
 }

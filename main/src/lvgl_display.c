@@ -183,23 +183,6 @@ void lvgl_running_example(void)
 {
     lvgl_mux = xSemaphoreCreateMutex();
     assert(lvgl_mux);
-    ESP_LOGI(TAG, "Display LVGL demos");
-    // Lock the mutex due to the LVGL APIs are not thread-safe
-    if (example_lvgl_lock(-1)) 
-    {
-        // 例程测试
-
-        //setup_ui(&guider_ui);
-   	    //events_init(&guider_ui);
-        //user_bsp_Init(&guider_ui);
-        //lv_demo_widgets();      /* A widgets example */
-        // lv_demo_music();        /* A modern, smartphone-like music player demo. */
-        //lv_demo_stress();       /* A stress test for LVGL. */
-        // lv_demo_benchmark();    /* A demo to measure the performance of LVGL or to compare different settings. */
-        process_examples();
-        // Release the mutex
-        example_lvgl_unlock();
-    }
 }
 
 void example_lvgl_port_task(void *arg)
@@ -343,8 +326,8 @@ void lvgl_display_init(void)
     disp_drv.draw_buf = &disp_buf;
     disp_drv.user_data = panel_handle;
     lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
-    lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转180度
-    // lv_disp_set_rotation(disp, LV_DISP_ROT_90); // 旋转90度
+    // lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转180度
+    lv_disp_set_rotation(disp, LV_DISP_ROT_180); // 旋转90度
 
     ESP_LOGI(TAG, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
@@ -368,6 +351,6 @@ void lvgl_display_init(void)
     lv_indev_drv_register(&indev_drv);
 #endif
 
-    // lvgl_running_example();
+    lvgl_running_example();
 }
 
