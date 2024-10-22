@@ -5,7 +5,10 @@ file(GLOB_RECURSE ALL_SOURCES
 )
 
 # 添加 lvgl_display.c
-list(APPEND ALL_SOURCES "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c")
+list(APPEND ALL_SOURCES "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c"
+                        "${CMAKE_SOURCE_DIR}/main/src/sgp4sdp4.c"
+                        "${CMAKE_SOURCE_DIR}/main/src/get_tle.c"
+                        "${CMAKE_SOURCE_DIR}/main/src/littlefs.c")
 
 idf_component_register(
     SRCS ${ALL_SOURCES}
@@ -18,6 +21,13 @@ idf_component_register(
         lvgl
         esp_lcd_sh8601
         esp_lcd_touch_ft5x06
+        esp_event
+        esp_wifi
+        nvs_flash
+        littlefs
+        esp_http_client
+        esp_http_server
+        mbedtls
 )
 
 # 添加图像源文件

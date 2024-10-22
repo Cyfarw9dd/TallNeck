@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include "lvgl.h"
 
+#include "globals.h"
+#include "get_tle.h"
+#include "sgp4sdp4.h"
+
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
 #endif
@@ -40,9 +44,69 @@ static void screen_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_list_1_item0_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_list_1_item1_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        sntp_netif_sync_time();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_list_1_item2_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        get_file_info();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_list_1_item3_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        xTaskNotify(tle_download_handler, UPDATE_TLE, eSetValueWithOverwrite);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen, screen_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_list_1_item0, screen_list_1_item0_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_list_1_item1, screen_list_1_item1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_list_1_item2, screen_list_1_item2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_list_1_item3, screen_list_1_item3_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_1_event_handler (lv_event_t *e)
@@ -69,24 +133,9 @@ static void screen_1_event_handler (lv_event_t *e)
     }
 }
 
-static void screen_1_list_1_item0_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:
-    {
-
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1, screen_1_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_list_1_item0, screen_1_list_1_item0_event_handler, LV_EVENT_ALL, ui);
 }
 
 

@@ -42,7 +42,13 @@
     "globals.h": "c",
     "gui.h": "c",
     "esp_log.h": "c",
-    "gui_guider.h": "c"
+    "gui_guider.h": "c",
+    "uart.h": "c",
+    "esp_sntp.h": "c",
+    "esp_littlefs.h": "c",
+    "future": "c",
+    "system_error": "c",
+    "regex": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

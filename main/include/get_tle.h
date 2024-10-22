@@ -27,15 +27,14 @@
 #include "esp_task_wdt.h"
 #include "esp_littlefs.h"
 #include "esp_http_client.h"
-#include "http_app.h"
+#include "esp_http_server.h"
 #include "esp_crt_bundle.h"
 #include "esp_sntp.h"
 #include "esp_netif_sntp.h"
 
-#include "wifi_manager.h"
 #include "littlefs.h"
 #include "globals.h"
-#include "uart.h"
+// #include "uart.h"
 
 #define ISS_URL                 "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=tle"
 #define AMATEUR_URL             "https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle"

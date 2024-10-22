@@ -21,24 +21,17 @@ typedef struct
 	lv_obj_t *screen;
 	bool screen_del;
 	lv_obj_t *screen_cont_1;
+	lv_obj_t *screen_list_1;
+	lv_obj_t *screen_list_1_item0;
+	lv_obj_t *screen_list_1_item1;
+	lv_obj_t *screen_list_1_item2;
+	lv_obj_t *screen_list_1_item3;
 	lv_obj_t *screen_cont_2;
 	lv_obj_t *screen_img_1;
 	lv_obj_t *screen_label_1;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_cont_1;
-	lv_obj_t *screen_1_list_1;
-	lv_obj_t *screen_1_list_1_item0;
-	lv_obj_t *screen_1_list_1_item1;
-	lv_obj_t *screen_1_list_1_item2;
-	lv_obj_t *screen_1_list_1_item3;
-	lv_obj_t *screen_1_list_1_item4;
-	lv_obj_t *screen_1_list_1_item5;
-	lv_obj_t *screen_1_list_1_item6;
-	lv_obj_t *screen_1_list_1_item7;
-	lv_obj_t *screen_1_list_1_item8;
-	lv_obj_t *screen_1_list_1_item9;
-	lv_obj_t *screen_1_list_1_item10;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -63,11 +56,15 @@ extern lv_ui guider_ui;
 
 void setup_scr_screen(lv_ui *ui);
 void setup_scr_screen_1(lv_ui *ui);
+LV_IMG_DECLARE(_orbit_alpha_60x60);
+LV_IMG_DECLARE(_time_alpha_60x60);
+LV_IMG_DECLARE(_file_search_alpha_60x60);
+LV_IMG_DECLARE(_download_alpha_60x60);
 LV_IMG_DECLARE(_sat_alpha_64x64);
 
-LV_FONT_DECLARE(lv_font_montserratMedium_24)
-LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
+LV_FONT_DECLARE(lv_font_NotoSans_VariableFont_wdth_wght_24)
+LV_FONT_DECLARE(lv_font_montserratMedium_16)
 
 
 #ifdef __cplusplus
