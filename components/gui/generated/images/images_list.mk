@@ -1,1 +1,0 @@
-GEN_CSRCS += _orbit_alpha_60x60.c _time_alpha_60x60.c _file_search_alpha_60x60.c _download_alpha_60x60.c _sat_alpha_64x64.c
