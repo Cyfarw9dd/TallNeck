@@ -41,7 +41,8 @@
     "param.h": "c",
     "globals.h": "c",
     "gui.h": "c",
-    "esp_log.h": "c"
+    "esp_log.h": "c",
+    "gui_guider.h": "c"
   },
   "idf.port": "/dev/ttyACM0"
 }

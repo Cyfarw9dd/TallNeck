@@ -1,22 +1,14 @@
+# 收集所有的 .c 文件
+file(GLOB_RECURSE ALL_SOURCES 
+    "generated/*.c"
+    "custom/*.c"
+)
+
+# 添加 lvgl_display.c
+list(APPEND ALL_SOURCES "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c")
+
 idf_component_register(
-    SRCS
-        "generated/gui_guider.c"
-        "generated/events_init.c"
-        "generated/setup_scr_scrCopy.c"
-        "generated/setup_scr_scrCopy2.c"
-        "generated/setup_scr_scrHome.c"
-        "generated/setup_scr_scrLoader.c"
-        "generated/setup_scr_scrPrintFini.c"
-        "generated/setup_scr_scrPrintInternet.c"
-        "generated/setup_scr_scrPrintMenu.c"
-        "generated/setup_scr_scrPrintMobile.c"
-        "generated/setup_scr_scrPrintUSB.c"
-        "generated/setup_scr_scrScan.c"
-        "generated/setup_scr_scrScanFini.c"
-        "generated/setup_scr_scrSetup.c"
-        "generated/widgets_init.c"
-        "custom/custom.c"
-        "${CMAKE_SOURCE_DIR}/main/src/lvgl_display.c"
+    SRCS ${ALL_SOURCES}
     INCLUDE_DIRS
         "."
         "generated"

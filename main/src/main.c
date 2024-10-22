@@ -150,8 +150,6 @@ void app_main(void)
     xTaskCreatePinnedToCore(orbit_trking_task, "orbit_trking", 8192, NULL, 5, &orbit_trking_handler, 1);
     // uart前台交互任务，高优先级，位于核心0
     xTaskCreatePinnedToCore(echo_task, "uart_echo", 4096, NULL, 8, &uart_handler, 0);
-    // lvgl例程测试
-    // xTaskCreatePinnedToCore(example_lvgl_port_task, "LVGL", EXAMPLE_LVGL_TASK_STACK_SIZE, NULL, EXAMPLE_LVGL_TASK_PRIORITY, NULL, 0);
     // gui任务，高优先级，位于核心0
     xTaskCreatePinnedToCore(gui_task, "gui_task", 8192, NULL, 9, &gui_handler, 0);
     LedStatus = NOTCONNECTED;
