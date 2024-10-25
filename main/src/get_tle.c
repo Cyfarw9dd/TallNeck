@@ -8,7 +8,8 @@ void sntp_netif_sync_time_init(void)
                                 ESP_SNTP_SERVER_LIST("pool.ntp.org", "time.google.com", "time.windows.com"));
     esp_err_t ret = esp_netif_sntp_init(&config);
 
-    if (ret != ESP_OK) {
+    if (ret != ESP_OK) 
+    {
         ESP_LOGE(TAG, "SNTP intialize failed: %s", esp_err_to_name(ret));
         return;
     }
@@ -17,7 +18,8 @@ void sntp_netif_sync_time_init(void)
 void sntp_netif_sync_time(void)
 {
     esp_err_t ret = esp_netif_sntp_start();
-    if (ret != ESP_OK) {
+    if (ret != ESP_OK) 
+    {
         ESP_LOGE(TAG, "SNTP launch failed: %s", esp_err_to_name(ret));
         return;
     }
@@ -43,18 +45,25 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
     static char *output_buffer;  // 用于存储HTTP请求响应的缓冲区
     static int output_len;       // 存储已读取的字节数
-    switch(evt->event_id) {
+    switch(evt->event_id) 
+    {
         // HTTP_EVENT_ON_DATA事件在接收到HTTP响应的数据时触发，它可能会被多次触发，每次接受到一部分数据的时候都会执行
         case HTTP_EVENT_ON_DATA:
-            if (!esp_http_client_is_chunked_response(evt->client)) {
+            if (!esp_http_client_is_chunked_response(evt->client)) 
+            {
                 // 如果配置了user_data缓冲区，将响应复制到缓冲区
-                if (evt->user_data) {
+                if (evt->user_data) 
+                {
                     memcpy(evt->user_data + output_len, evt->data, evt->data_len);
-                } else {
-                    if (output_buffer == NULL) {
+                } 
+                else 
+                {
+                    if (output_buffer == NULL) 
+                    {
                         output_buffer = (char *) malloc(esp_http_client_get_content_length(evt->client));
                         output_len = 0;
-                        if (output_buffer == NULL) {
+                        if (output_buffer == NULL) 
+                        {
                             ESP_LOGE(TAG, "Failed to allocate memory for output buffer");
                             return ESP_FAIL;
                         }
@@ -66,12 +75,16 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
             break;
         // HTTP_EVENT_ON_FINISH事件
         case HTTP_EVENT_ON_FINISH:
-            if (output_buffer != NULL) {
+            if (output_buffer != NULL) 
+            {
                 // 在这里处理完整的响应数据，例如写入文件
                 FILE* f = fopen(FILE_PATH, "w");
-                if (f == NULL) {
+                if (f == NULL) 
+                {
                     ESP_LOGE(TAG, "Failed to open file for writing");
-                } else {
+                } 
+                else 
+                {
                     ESP_LOGI(TAG, "Writing data to the file.\n");
                     fprintf(f, "%s", output_buffer);
                     fclose(f);

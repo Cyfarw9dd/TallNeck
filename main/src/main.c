@@ -111,7 +111,7 @@ void cb_connection_ok(void *pvParameter)
 void app_main(void)
 {
     Led_Init();  // LED初始化
-    littlefs_init(&littlefs_conf);  // LittleFS 文件系统初始化
+    littlefs_init(&littlefs_conf);  // LittleFS文件系统初始化
     setenv("TZ", "CST-8", 1);  // 将时区设置为中国标准时间
     tzset();
     sntp_netif_sync_time_init();  // sntp时间同步初始化
