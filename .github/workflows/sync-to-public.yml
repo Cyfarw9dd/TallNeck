@@ -1,11 +1,10 @@
 name: Sync Repos
 
 on:
-  # 可以选择触发方式
   push:
-    branches: [ master ]    # 替换为你的主分支名称，如果是 master 就改为 master
+    branches: [ master ]
   schedule:
-    - cron: "0 * * * *"  # 每小时同步一次，可以根据需要调整
+    - cron: "0 * * * *"
 
 jobs:
   repo-sync:
@@ -14,14 +13,14 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@v3
         with:
-          repository: Cyfarw9dd/TallNeck-private    # 替换为你的私有仓库名
+          repository: Cyfarw9dd/TallNeck-private
           token: ${{ secrets.TOKEN }}
 
       - name: Sync to destination repo
         uses: repo-sync/github-sync@v2
         with:
-          source_repo: Cyfarw9dd/TallNeck-private    # 替换为你的私有仓库名
-          source_branch: master    # 替换为你的源分支名
-          destination_repo: Cyfarw9dd/TallNeck    # 替换为你的公共仓库名
-          destination_branch: master    # 替换为你的目标分支名
+          source_repo: "Cyfarw9dd/TallNeck-private"
+          source_branch: "master"
+          target_repo: "Cyfarw9dd/TallNeck"    # 将 destination_repo 改为 target_repo
+          target_branch: "master"               # 将 destination_branch 改为 target_branch
           github_token: ${{ secrets.TOKEN }}
