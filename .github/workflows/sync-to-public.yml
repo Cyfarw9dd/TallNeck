@@ -22,6 +22,6 @@ jobs:
         with:
           source_repo: Cyfarw9dd/TallNeck-private    # 替换为你的私有仓库名
           source_branch: master    # 替换为你的源分支名
-          destination_repo: your-Cyfarw9dd/TallNeck    # 替换为你的公共仓库名
+          destination_repo: Cyfarw9dd/TallNeck    # 替换为你的公共仓库名
           destination_branch: master    # 替换为你的目标分支名
           github_token: ${{ secrets.TOKEN }}
