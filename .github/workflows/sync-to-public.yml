@@ -1,31 +1,27 @@
-name: Sync to Public Repository
+name: Sync Repos
 
 on:
+  # 可以选择触发方式
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ master ]    # 替换为你的主分支名称，如果是 master 就改为 master
+  schedule:
+    - cron: "0 * * * *"  # 每小时同步一次，可以根据需要调整
 
 jobs:
-  sync:
+  repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout private repository
-        uses: actions/checkout@v4
+      - name: Checkout source repo
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 确保获取完整的git历史
+          repository: Cyfarw9dd/TallNeck-private    # 替换为你的私有仓库名
+          token: ${{ secrets.TOKEN }}
 
-      - name: Push to public repository
-        env:
-          GITHUB_TOKEN: ${{ secrets.SYNC_TOKEN }}  # 使用你的PAT
-        run: |
-          # 删除敏感文件（如果有）
-          rm -rf .github/workflows/
-          rm -rf sensitive-files/
-          
-          # 配置git
-          git config --global user.name 'Cyfarwydd'
-          git config --global user.email 'Cyfarw9dd@outlook.com'
-          
-          # 添加远程仓库并推送
-          git remote add public https://${GITHUB_TOKEN}@github.com/Cyfarw9dd/TallNeck.git
-          git push public main:main --force
+      - name: Sync to destination repo
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: Cyfarw9dd/TallNeck-private    # 替换为你的私有仓库名
+          source_branch: master    # 替换为你的源分支名
+          destination_repo: your-Cyfarw9dd/TallNeck    # 替换为你的公共仓库名
+          destination_branch: master    # 替换为你的目标分支名
+          github_token: ${{ secrets.TOKEN }}
