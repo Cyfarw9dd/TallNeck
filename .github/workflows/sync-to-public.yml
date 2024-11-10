@@ -21,6 +21,5 @@ jobs:
         with:
           source_repo: "Cyfarw9dd/TallNeck-private"
           source_branch: "master"
-          target_repo: "Cyfarw9dd/TallNeck"    # 将 destination_repo 改为 target_repo
-          target_branch: "master"               # 将 destination_branch 改为 target_branch
+          destination_branch: "master"    # 使用 destination_branch 而不是 target_branch
           github_token: ${{ secrets.TOKEN }}
