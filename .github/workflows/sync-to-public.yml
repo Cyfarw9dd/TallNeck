@@ -20,10 +20,9 @@ jobs:
       - name: Sync repositories
         uses: wei/git-sync@v3
         with:
-          source_repo: "Cyfarw9dd/TallNeck-private"
+          source_repo: "https://github.com/Cyfarw9dd/TallNeck-private.git"
           source_branch: "master"
-          destination_repo: "Cyfarw9dd/TallNeck"
+          destination_repo: "https://github.com/Cyfarw9dd/TallNeck.git"
           destination_branch: "master"
-          # 使用 GITHUB_TOKEN 环境变量
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          # 使用 github_token 而不是 TOKEN
+          github_token: ${{ secrets.TOKEN }}
