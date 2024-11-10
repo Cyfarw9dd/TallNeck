@@ -15,7 +15,7 @@ jobs:
         with:
           repository: Cyfarw9dd/TallNeck-private
           token: ${{ secrets.TOKEN }}
-          fetch-depth: 0  # 获取所有历史记录
+          fetch-depth: 0
 
       - name: Sync repositories
         uses: wei/git-sync@v3
@@ -24,4 +24,6 @@ jobs:
           source_branch: "master"
           destination_repo: "Cyfarw9dd/TallNeck"
           destination_branch: "master"
-          github_token: ${{ secrets.TOKEN }}
+          # 使用 GITHUB_TOKEN 环境变量
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
