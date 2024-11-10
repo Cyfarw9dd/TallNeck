@@ -7,7 +7,7 @@ on:
     - cron: "0 * * * *"
 
 jobs:
-  repo-sync:
+  git-sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source repo
@@ -15,11 +15,13 @@ jobs:
         with:
           repository: Cyfarw9dd/TallNeck-private
           token: ${{ secrets.TOKEN }}
+          fetch-depth: 0  # 获取所有历史记录
 
-      - name: Sync to destination repo
-        uses: repo-sync/github-sync@v2
+      - name: Sync repositories
+        uses: wei/git-sync@v3
         with:
           source_repo: "Cyfarw9dd/TallNeck-private"
           source_branch: "master"
-          destination_branch: "master"    # 使用 destination_branch 而不是 target_branch
+          destination_repo: "Cyfarw9dd/TallNeck"
+          destination_branch: "master"
           github_token: ${{ secrets.TOKEN }}
