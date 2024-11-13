@@ -6,4 +6,3 @@ sdkconfig.old
 *.log
 *.bin
 *.elf
-.github/
